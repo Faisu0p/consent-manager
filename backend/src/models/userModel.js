@@ -1,5 +1,5 @@
 import sql from "mssql";
-import connectDB from "../config/db.js"; // Import the connection pool
+import connectDB from "../config/db.js";
 
 const userModel = {
     async createUser(username, email, hashedPassword) {
@@ -29,18 +29,8 @@ const userModel = {
             .query("INSERT INTO user_roles (user_id, role_id) VALUES (@user_id, @role_id)");
     },
 
-    // async findUserByEmail(email) {
-    //     const pool = await connectDB();
-    //     const result = await pool
-    //         .request()
-    //         .input("email", sql.VarChar, email)
-    //         .query("SELECT * FROM users WHERE email = @email");
-    //     return result.recordset[0]; // Return user data if found
-    // }
-
-    // Corrected findUserByEmail function
     async findUserByEmail(email) {
-        const pool = await connectDB(); // Establish the connection here
+        const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
 
         const result = await pool
@@ -54,7 +44,7 @@ const userModel = {
                 WHERE u.email = @email
             `);
 
-        return result.recordset[0]; // Return the first record
+        return result.recordset[0];
     }
     
 };
