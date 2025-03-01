@@ -1,5 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
+import authMiddleware from "../middleware/authMiddleware.js";
 import userController from "../controllers/userController.js";
 
 const router = express.Router();
@@ -25,5 +26,9 @@ router.post(
     ],
     userController.loginUser
 );
+
+// Only Admins can access this route
+router.post("/create", authMiddleware(["Admin"]), userController.createUser);
+
 
 export default router;

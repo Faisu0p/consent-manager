@@ -29,14 +29,34 @@ const userModel = {
             .query("INSERT INTO user_roles (user_id, role_id) VALUES (@user_id, @role_id)");
     },
 
+    // async findUserByEmail(email) {
+    //     const pool = await connectDB();
+    //     const result = await pool
+    //         .request()
+    //         .input("email", sql.VarChar, email)
+    //         .query("SELECT * FROM users WHERE email = @email");
+    //     return result.recordset[0]; // Return user data if found
+    // }
+
+    // Corrected findUserByEmail function
     async findUserByEmail(email) {
-        const pool = await connectDB();
+        const pool = await connectDB(); // Establish the connection here
+        if (!pool) throw new Error("Database connection failed");
+
         const result = await pool
             .request()
             .input("email", sql.VarChar, email)
-            .query("SELECT * FROM users WHERE email = @email");
-        return result.recordset[0]; // Return user data if found
+            .query(`
+                SELECT u.id, u.email, u.password_hash, r.role_name 
+                FROM users u 
+                JOIN user_roles ur ON u.id = ur.user_id 
+                JOIN roles r ON ur.role_id = r.id 
+                WHERE u.email = @email
+            `);
+
+        return result.recordset[0]; // Return the first record
     }
+    
 };
 
 export default userModel;
