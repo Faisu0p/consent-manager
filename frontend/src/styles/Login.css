@@ -745,6 +745,17 @@ html, body {
   }
 }
 
+@media screen and (min-width: 963px) {
+  .login-page {
+    justify-content: center;
+  }
+  
+  .login-illustration, 
+  .login-form-container {
+    width: 482px; /* Fixed width for large screens */
+  }
+}
+
 /* Extra large screens */
 @media screen and (min-width: 1400px) {
   .login-page {
