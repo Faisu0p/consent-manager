@@ -1,5 +1,5 @@
 import React from "react";
-import "./User.css"; // Import CSS file for styling
+import "../styles/User.css"; // Import CSS file for styling
 
 const User = () => {
   return (

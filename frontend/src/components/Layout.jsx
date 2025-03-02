@@ -1,7 +1,7 @@
 import Header from "./Header";
 import SidebarComponent from "./Sidebar";
 import { Outlet } from "react-router-dom";
-import "./Layout.css"; // Import CSS for styling
+import "../styles/Layout.css"; // Import CSS for styling
 
 const Layout = () => {
   return (

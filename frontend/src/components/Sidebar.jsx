@@ -3,7 +3,7 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { FiUsers, FiSettings, FiLogOut, FiBarChart2, FiFileText } from "react-icons/fi";
 import { MdManageAccounts, MdDashboard } from "react-icons/md";
-import "./Sidebar.css";
+import "../styles/Sidebar.css";
 
 const SidebarComponent = () => {
   const [collapsed, setCollapsed] = useState(false);

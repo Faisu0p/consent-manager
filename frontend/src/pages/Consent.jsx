@@ -1,5 +1,5 @@
 import React from "react";
-import "./Consent.css"; // Import CSS file for styling
+import "../styles/Consent.css"; // Import CSS file for styling
 
 const Consent = () => {
   return (
