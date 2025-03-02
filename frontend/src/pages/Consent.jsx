@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
+import "./Consent.css"; // Import CSS file for styling
 
 const Consent = () => {
   return (
-    <div>
+    <div className="consent-container">
       <h1>Welcome to Consent Manager Consent</h1>
     </div>
   );

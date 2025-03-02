@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
+import "./Dashboard.css"; // Import CSS for styling
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="dashboard-container">
       <h1>Welcome to Consent Manager Dashboard</h1>
     </div>
   );
