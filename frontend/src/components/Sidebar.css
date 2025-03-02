@@ -1,0 +1,21 @@
+/* Sidebar Container */
+.sidebar-container {
+  width: 250px;
+  height: calc(100vh - 60px); /* Full height minus the header */
+  background-color: #1e1e2d;
+  color: white;
+  padding: 10px;
+}
+
+
+/* Collapse Button */
+.collapse-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: #444;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}

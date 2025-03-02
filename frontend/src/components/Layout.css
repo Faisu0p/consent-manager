@@ -1,0 +1,22 @@
+/* Layout container stacks everything vertically */
+.layout-container {
+  display: flex;
+  flex-direction: column; /* Header on top, Sidebar + Content below */
+  height: 100vh;
+}
+
+/* The main section (Sidebar & Content) starts after the header */
+.main-section {
+  display: flex;
+  flex: 1; /* Takes up remaining height */
+  margin-top: 60px; /* Pushes below the fixed header */
+  overflow: hidden;
+}
+
+/* Main Content (Takes remaining space after sidebar) */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background: #f4f4f4;
+  overflow-y: auto; /* Allows scrolling */
+}

@@ -1,0 +1,50 @@
+.header-component {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+    position: fixed; /* Optional: Makes header stick to the top */
+    top: 0;
+    left: 0;
+  }
+  
+  .header-component-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-component-logo-icon {
+    color: #4a90e2;
+    margin-right: 10px;
+  }
+  
+  .header-component-app-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .header-component-search {
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .header-component-icons {
+    display: flex;
+    gap: 15px;
+    cursor: pointer;
+  }
+  
+  .header-component-icons svg {
+    color: #555;
+    transition: color 0.3s;
+  }
+  
+  .header-component-icons svg:hover {
+    color: #1d72b8;
+  }
+  

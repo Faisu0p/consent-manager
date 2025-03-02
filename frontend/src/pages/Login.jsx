@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Rocket, Eye, EyeOff, Facebook, Twitter, Github, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api'; // Add this import
+import api from '../services/api';
 import '../styles/Login.css';
+import login_background from '../assets/images/login-background.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate(); // Add navigation hook
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -44,46 +45,46 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="cm-login-page">
       {/* Left side with illustration */}
-      <div className="login-illustration">
-        <div className="logo">
-          <Rocket className="logo-icon" />
-          <span className="logo-text">Consent Manager</span>
+      <div className="cm-login-illustration">
+        <div className="cm-login-logo">
+          <Rocket className="cm-login-logo-icon" />
+          <span className="cm-login-logo-text">Consent Manager</span>
         </div>
         
-        <div className="illustration-container">
+        <div className="cm-login-illustration-container">
           <img 
-            src="https://demos.themeselection.com/sneat-mui-nextjs-admin-template/demo-1/images/illustrations/characters-with-objects/7.png" 
+            src={login_background} 
             alt="Login illustration" 
-            className="illustration-image"
+            className="cm-login-illustration-image"
           />
         </div>
         
         {/* Decorative elements */}
-        <div className="decorative-shape shape-1"></div>
-        <div className="decorative-shape shape-2"></div>
-        <div className="decorative-shape shape-3"></div>
+        <div className="cm-login-decorative-shape cm-login-shape-1"></div>
+        <div className="cm-login-decorative-shape cm-login-shape-2"></div>
+        <div className="cm-login-decorative-shape cm-login-shape-3"></div>
       </div>
       
       {/* Right side with login form */}
-      <div className="login-form-container">
-        <div className="login-form-wrapper">
-          <div className="login-header">
-            <h2 className="login-title">Welcome to Consent Manager! 👋</h2>
-            <p className="login-subtitle">Please sign-in to your account and start the adventure</p>
+      <div className="cm-login-form-container">
+        <div className="cm-login-form-wrapper">
+          <div className="cm-login-header">
+            <h2 className="cm-login-title">Welcome to Consent Manager! 👋</h2>
+            <p className="cm-login-subtitle">Please sign-in to your account and start the adventure</p>
           </div>
           
           {errorMessage && (
-            <div className="error-message">
+            <div className="cm-login-error-message">
               {errorMessage}
             </div>
           )}
           
-          <form onSubmit={handleLogin} className="login-form">
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">Email or Username</label>
-              <div className="input-wrapper">
+          <form onSubmit={handleLogin} className="cm-login-form">
+            <div className="cm-login-form-group">
+              <label htmlFor="email" className="cm-login-form-label">Email or Username</label>
+              <div className="cm-login-input-wrapper">
                 <input
                   id="email"
                   name="email"
@@ -92,15 +93,15 @@ const Login = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="form-input"
+                  className="cm-login-form-input"
                   placeholder="Enter your email or username"
                 />
               </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">Password</label>
-              <div className="input-wrapper password-input">
+            <div className="cm-login-form-group">
+              <label htmlFor="password" className="cm-login-form-label">Password</label>
+              <div className="cm-login-input-wrapper cm-login-password-input">
                 <input
                   id="password"
                   name="password"
@@ -109,78 +110,78 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-input"
+                  className="cm-login-form-input"
                   placeholder="············"
                 />
                 <button
                   type="button"
-                  className="password-toggle"
+                  className="cm-login-password-toggle"
                   onClick={togglePasswordVisibility}
                 >
                   {showPassword ? (
-                    <EyeOff className="icon" />
+                    <EyeOff className="cm-login-icon" />
                   ) : (
-                    <Eye className="icon" />
+                    <Eye className="cm-login-icon" />
                   )}
                 </button>
               </div>
             </div>
 
-            <div className="form-options">
-              <div className="remember-me">
+            <div className="cm-login-form-options">
+              <div className="cm-login-remember-me">
                 <input
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="checkbox"
+                  className="cm-login-checkbox"
                 />
-                <label htmlFor="remember-me" className="checkbox-label">
+                <label htmlFor="remember-me" className="cm-login-checkbox-label">
                   Remember me
                 </label>
               </div>
 
-              <div className="forgot-password">
-                <a href="#" className="forgot-link">
+              <div className="cm-login-forgot-password">
+                <a href="#" className="cm-login-forgot-link">
                   Forgot password?
                 </a>
               </div>
             </div>
 
-            <div className="form-submit">
+            <div className="cm-login-form-submit">
               <button
                 type="submit"
-                className="login-button"
+                className="cm-login-button"
               >
                 Login
               </button>
             </div>
           </form>
           
-          <div className="login-footer">
-            <div className="divider">
-              <span className="divider-text">or</span>
+          <div className="cm-login-footer">
+            <div className="cm-login-divider">
+              <span className="cm-login-divider-text">or</span>
             </div>
 
-            <div className="social-login">
-              <a href="#" className="social-icon">
+            <div className="cm-login-social-login">
+              <a href="#" className="cm-login-social-icon">
                 <Facebook />
               </a>
-              <a href="#" className="social-icon">
+              <a href="#" className="cm-login-social-icon">
                 <Twitter />
               </a>
-              <a href="#" className="social-icon">
+              <a href="#" className="cm-login-social-icon">
                 <Mail />
               </a>
-              <a href="#" className="social-icon">
+              <a href="#" className="cm-login-social-icon">
                 <Github />
               </a>
             </div>
             
-            <div className="signup-prompt">
-              <span className="signup-text">New on our platform? </span>
-              <a href="#" className="signup-link">
+            <div className="cm-login-signup-prompt">
+              <span className="cm-login-signup-text">New on our platform? </span>
+              <a href="#" className="cm-login-signup-link">
                 Create an account
               </a>
             </div>

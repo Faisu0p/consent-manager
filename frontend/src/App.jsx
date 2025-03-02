@@ -1,12 +1,22 @@
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';   // Import Login component
-import Dashboard from './pages/Dashboard'; // Import Dashboard component
+import Layout from './components/Layout';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import User from './pages/User';
+import Consent from './pages/Consent';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />  {/* Login page route */}
-      <Route path="/dashboard" element={<Dashboard />} /> {/* Dashboard page route */}
+      {/* Login page without Layout */}
+      <Route path="/" element={<Login />} />
+
+      {/* Protected pages wrapped in Layout */}
+      <Route element={<Layout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/users" element={<User />} />
+        <Route path="/consents" element={<Consent />} />
+      </Route>
     </Routes>
   );
 }
