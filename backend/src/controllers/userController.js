@@ -5,7 +5,7 @@ import userModel from "../models/userModel.js";
 
 const userController = {
 
-    // Register user
+    // Register Admin
     async registerUser(req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -51,11 +51,9 @@ const userController = {
                 return res.status(401).json({ error: "Invalid credentials" });
             }
     
-            console.log("User Role from DB:", user.role_name); // Debugging
-    
             // Generate JWT token including user role
             const token = jwt.sign(
-                { userId: user.id, role: user.role_name }, // ✅ Ensure role is included
+                { userId: user.id, role: user.role_name },
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
@@ -98,8 +96,9 @@ const userController = {
         }
     },
 
+    // Delete user (Only Admins can access)
     async deleteUser(req, res) {
-        const userId = parseInt(req.params.userId, 10); // Convert to integer
+        const userId = parseInt(req.params.userId, 10);
         
         try {
             // Check if user exists
@@ -117,11 +116,7 @@ const userController = {
             res.status(500).json({ error: "Server error" });
         }
     }
-    
-    
-    
-    
-    
+     
 };
 
 export default userController;

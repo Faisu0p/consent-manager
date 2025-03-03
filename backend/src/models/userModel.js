@@ -2,6 +2,8 @@ import sql from "mssql";
 import connectDB from "../config/db.js";
 
 const userModel = {
+
+    // Create a new user
     async createUser(username, email, hashedPassword) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -18,6 +20,8 @@ const userModel = {
         return result.recordset[0].id;
     },
 
+
+    // Delete a user
     async deleteUser(userId) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -34,8 +38,9 @@ const userModel = {
             .input("user_id", sql.Int, userId)
             .query("DELETE FROM users WHERE id = @user_id");
     },
-    
 
+    
+    // Assign a role to a user
     async assignRole(userId, roleId) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -47,6 +52,8 @@ const userModel = {
             .query("INSERT INTO user_roles (user_id, role_id) VALUES (@user_id, @role_id)");
     },
 
+
+    // Find a user by email
     async findUserByEmail(email) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -65,6 +72,8 @@ const userModel = {
         return result.recordset[0];
     },
 
+
+    // Find a user by ID
     async findUserById(userId) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -74,11 +83,8 @@ const userModel = {
             .input("user_id", sql.Int, userId)
             .query("SELECT id FROM users WHERE id = @user_id");
     
-        console.log("findUserById result:", result.recordset); // Debugging
-    
         return result.recordset[0] || null;
     }
-    
     
     
 };

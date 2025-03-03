@@ -5,7 +5,7 @@ import userController from "../controllers/userController.js";
 
 const router = express.Router();
 
-// Register User Route
+// Register Admin Route
 router.post(
     "/register",
     [

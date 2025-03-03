@@ -7,6 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes for users
 app.use('/api/users', userRoute);
 
 const PORT = process.env.PORT || 5000;
