@@ -1,0 +1,224 @@
+.user-management-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.user-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2196F3;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 4px 4px 0 0;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.user-management-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.user-management-header-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.user-management-btn {
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.user-management-btn-export {
+    background-color: white;
+    color: #333;
+}
+
+.user-management-btn-add {
+    background-color: white;
+    color: #333;
+}
+
+.user-management-btn i {
+    margin-right: 5px;
+}
+
+.user-management-icon-export:before {
+    content: "📥";
+}
+
+.user-management-icon-add:before {
+    content: "+";
+}
+
+.user-management-icon-edit:before {
+    content: "⚙️";
+}
+
+.user-management-icon-delete:before {
+    content: "❌";
+}
+
+.user-management-table-container {
+    background-color: white;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
+
+.user-management-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensure table doesn't get too compressed */
+}
+
+.user-management-table th, 
+.user-management-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    color: #333; /* Changed text color from white to dark gray */
+}
+
+.user-management-table th {
+    background-color: #f8f9fa;
+    color: #333; /* Darkened header text color */
+    font-weight: 500;
+}
+
+.user-management-table tbody tr:hover {
+    background-color: #f7f7f7;
+}
+
+.user-management-user-cell {
+    display: flex;
+    align-items: center;
+}
+
+.user-management-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.user-management-user-name {
+    font-weight: 500;
+}
+
+.user-management-status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+}
+
+.user-management-status-active {
+    background-color: #28a745;
+}
+
+.user-management-status-suspended {
+    background-color: #dc3545;
+}
+
+.user-management-status-inactive {
+    background-color: #ffc107;
+    color: #333; /* Dark text for yellow background */
+}
+
+.user-management-action-cell {
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.user-management-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.user-management-action-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.user-management-edit-btn {
+    color: #2196F3;
+}
+
+.user-management-delete-btn {
+    color: #dc3545;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .user-management-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .user-management-header-buttons {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .user-management-table th, 
+    .user-management-table td {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+    
+    .user-management-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .user-management-container {
+        padding: 10px;
+    }
+    
+    .user-management-header h1 {
+        font-size: 22px;
+    }
+    
+    .user-management-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
