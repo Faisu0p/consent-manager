@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserManagement.css';
+import '../styles/UserManagement.css';
 
 const UserManagement = () => {
   const users = [
