@@ -115,7 +115,20 @@ const userController = {
             console.error(err);
             res.status(500).json({ error: "Server error" });
         }
+    },
+
+
+    // Get all users (Only Admins can access)
+    async getAllUsers(req, res) {
+        try {
+            const users = await userModel.getAllUsers();
+            res.json(users);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
     }
+
      
 };
 

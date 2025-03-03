@@ -34,4 +34,8 @@ router.post("/create", authMiddleware(["Admin"]), userController.createUser);
 router.delete("/delete/:userId", authMiddleware(["Admin"]), userController.deleteUser);
 
 
+// Get All Users (Accessible to all authenticated users)
+router.get("/all-users", authMiddleware(), userController.getAllUsers);
+
+
 export default router;

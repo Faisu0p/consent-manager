@@ -84,8 +84,26 @@ const userModel = {
             .query("SELECT id FROM users WHERE id = @user_id");
     
         return result.recordset[0] || null;
+    },
+
+
+    // Fetch details of all users (id, username, email, created_at, role_name)
+    async getAllUsers() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool
+            .request()
+            .query(`
+                SELECT u.id, u.username, u.email, u.created_at, r.role_name 
+                FROM users u
+                LEFT JOIN user_roles ur ON u.id = ur.user_id
+                LEFT JOIN roles r ON ur.role_id = r.id
+            `);
+
+        return result.recordset;
     }
-    
+
     
 };
 
