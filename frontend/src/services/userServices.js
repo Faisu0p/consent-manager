@@ -20,3 +20,13 @@ export const deleteUser = async (userId) => {
   }
 };
 
+export const createUser = async (userData) => {
+  try {
+    const response = await api.post('/users/create', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+};
+
