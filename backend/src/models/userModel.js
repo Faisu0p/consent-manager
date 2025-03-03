@@ -18,6 +18,24 @@ const userModel = {
         return result.recordset[0].id;
     },
 
+    async deleteUser(userId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        // Delete user roles first (to maintain foreign key integrity)
+        await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .query("DELETE FROM user_roles WHERE user_id = @user_id");
+    
+        // Delete user
+        await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .query("DELETE FROM users WHERE id = @user_id");
+    },
+    
+
     async assignRole(userId, roleId) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -45,7 +63,23 @@ const userModel = {
             `);
 
         return result.recordset[0];
+    },
+
+    async findUserById(userId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        const result = await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .query("SELECT id FROM users WHERE id = @user_id");
+    
+        console.log("findUserById result:", result.recordset); // Debugging
+    
+        return result.recordset[0] || null;
     }
+    
+    
     
 };
 

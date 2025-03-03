@@ -30,5 +30,8 @@ router.post(
 // Only Admins can access this route
 router.post("/create", authMiddleware(["Admin"]), userController.createUser);
 
+// Only Admins can access this route
+router.delete("/delete/:userId", authMiddleware(["Admin"]), userController.deleteUser);
+
 
 export default router;

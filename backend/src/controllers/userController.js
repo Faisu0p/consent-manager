@@ -96,7 +96,32 @@ const userController = {
             console.error(err);
             res.status(500).json({ error: "Server error" });
         }
+    },
+
+    async deleteUser(req, res) {
+        const userId = parseInt(req.params.userId, 10); // Convert to integer
+        
+        try {
+            // Check if user exists
+            const user = await userModel.findUserById(userId);
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+    
+            // Delete the user
+            await userModel.deleteUser(userId);
+    
+            res.json({ message: "User deleted successfully" });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
     }
+    
+    
+    
+    
+    
 };
 
 export default userController;
