@@ -5,12 +5,12 @@ import '../styles/UserManagement.css';
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
 
+  // Fetch users on component mount
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await getAllUsers();
   
-        // Map API response to match frontend format
         const formattedUsers = data.map(user => ({
           id: user.id,
           name: user.username,
@@ -30,10 +30,12 @@ const UserManagement = () => {
   }, []);
   
 
+  // For Avatar initials
   const getInitials = (name) => {
     return name.split(' ').map(n => n[0]).join('');
   };
 
+  // For Status badge
   const getStatusClass = (status) => {
     switch (status) {
       case 'Active': return 'user-management-status-active';
@@ -43,14 +45,15 @@ const UserManagement = () => {
     }
   };
 
+  // Delete user
   const handleDeleteUser = async (userId) => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
-      return; // If user cancels, do nothing
+      return;
     }
   
     try {
       await deleteUser(userId); // Call the delete API
-      setUsers(users.filter(user => user.id !== userId)); // Update state to remove the deleted user
+      setUsers(users.filter(user => user.id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);
       alert("Failed to delete user. Please try again.");
