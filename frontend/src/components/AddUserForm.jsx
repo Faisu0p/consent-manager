@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/AddUserForm.css";
 
+// List of roles
 const roles = [
   { id: 1, name: "Admin" },
   { id: 2, name: "Executive" },
@@ -36,7 +37,6 @@ const AddUserForm = ({ onClose, onSubmit, successMessage }) => {
       <div className="add-user-form-container">
         <h2>Add New User</h2>
 
-        {/* Show success message */}
         {successMessage && <div className="add-user-form-success">{successMessage}</div>}
 
         <form

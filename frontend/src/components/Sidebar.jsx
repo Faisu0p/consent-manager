@@ -19,7 +19,6 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
         </Menu>
       </Sidebar>
 
-      {/* Collapse Button */}
       <button className="collapse-btn" onClick={toggleSidebar}>
         {isCollapsed ? "→" : "←"}
       </button>

@@ -17,7 +17,7 @@ const UserManagement = () => {
         name: user.username,
         email: user.email,
         dateCreated: new Date(user.created_at).toLocaleDateString(),
-        role: user.role_name || user.role, // Fallback for different API response formats
+        role: user.role_name || user.role,
         status: user.status,
       }));
       setUsers(formattedUsers);
@@ -31,12 +31,8 @@ const UserManagement = () => {
   }, []);
 
   // For Avatar initials
-  // const getInitials = (name) => {
-  //   return name.split(' ').map(n => n[0]).join('');
-  // };
-
   const getInitials = (name = "") => {
-    if (!name) return "?"; // Fallback for missing names
+    if (!name) return "?"; 
     return name.split(" ").map(n => n[0]).join("").toUpperCase();
   };
   
@@ -80,7 +76,7 @@ const UserManagement = () => {
 
     try {
       await deleteUser(userId);
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId)); // Use functional update
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);
       alert("Failed to delete user. Please try again.");
