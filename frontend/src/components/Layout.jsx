@@ -1,19 +1,22 @@
+import { useState } from "react";
 import Header from "./Header";
-import SidebarComponent from "./Sidebar";
+import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import "../styles/Layout.css"; // Import CSS for styling
 
 const Layout = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false); // State for sidebar
+
   return (
     <div className="layout-container">
-      {/* Fixed Header */}
       <Header />
-
-      {/* Sidebar + Main Content */}
       <div className="main-section">
-        <SidebarComponent />
-        <main className="main-content">
-          <Outlet /> {/* Renders Dashboard, Users, etc. */}
+        {/* Pass collapsed state and toggle function to Sidebar */}
+        <Sidebar isCollapsed={isCollapsed} toggleSidebar={() => setIsCollapsed(!isCollapsed)} />
+
+        {/* Apply collapsed class dynamically */}
+        <main className={`main-content ${isCollapsed ? "collapsed" : ""}`}>
+          <Outlet />
         </main>
       </div>
     </div>
