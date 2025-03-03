@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllUsers } from '../services/userServices';
+import { getAllUsers, deleteUser } from '../services/userServices';
 import '../styles/UserManagement.css';
 
 const UserManagement = () => {
@@ -42,6 +42,21 @@ const UserManagement = () => {
       default: return '';
     }
   };
+
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm("Are you sure you want to delete this user?")) {
+      return; // If user cancels, do nothing
+    }
+  
+    try {
+      await deleteUser(userId); // Call the delete API
+      setUsers(users.filter(user => user.id !== userId)); // Update state to remove the deleted user
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert("Failed to delete user. Please try again.");
+    }
+  };
+  
 
   return (
     <div className="user-management-container">
@@ -91,7 +106,11 @@ const UserManagement = () => {
                     <button className="user-management-action-btn user-management-edit-btn" title="Edit">
                       <i className="user-management-icon-edit"></i>
                     </button>
-                    <button className="user-management-action-btn user-management-delete-btn" title="Delete">
+                    <button 
+                      className="user-management-action-btn user-management-delete-btn" 
+                      title="Delete" 
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
                       <i className="user-management-icon-delete"></i>
                     </button>
                   </td>

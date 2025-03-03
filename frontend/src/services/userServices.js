@@ -10,3 +10,13 @@ export const getAllUsers = async () => {
   }
 };
 
+export const deleteUser = async (userId) => {
+  try {
+    const response = await api.delete(`/users/delete/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
+};
+
