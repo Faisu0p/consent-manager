@@ -13,10 +13,10 @@ const UserManagement = () => {
         // Map API response to match frontend format
         const formattedUsers = data.map(user => ({
           id: user.id,
-          name: user.username, // Convert 'username' to 'name'
+          name: user.username,
           email: user.email,
-          dateCreated: new Date(user.created_at).toLocaleDateString(), // Format date
-          role: user.role_name, // Convert 'role_name' to 'role'
+          dateCreated: new Date(user.created_at).toLocaleDateString(),
+          role: user.role_name,
           status: user.status
         }));
   
