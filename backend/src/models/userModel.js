@@ -92,16 +92,18 @@ const userModel = {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
 
-        const result = await pool
-            .request()
-            .query(`
-                SELECT u.id, u.username, u.email, u.created_at, r.role_name 
-                FROM users u
-                LEFT JOIN user_roles ur ON u.id = ur.user_id
-                LEFT JOIN roles r ON ur.role_id = r.id
-            `);
+        const result = await pool.query(`
+            SELECT u.id, u.username, u.email, u.created_at, r.role_name 
+            FROM users u
+            JOIN user_roles ur ON u.id = ur.user_id
+            JOIN roles r ON ur.role_id = r.id
+        `);
 
-        return result.recordset;
+        // Add "status" field to each user (temporarily hardcoded to "Active")
+        return result.recordset.map(user => ({
+            ...user,
+            status: "Active" 
+        }));
     }
 
     
