@@ -4,7 +4,7 @@ import "../styles/Settings.css";
 const Settings = () => {
   return (
     <div className="settings-container">
-      <h1>Welcome to SettingsWelcome to SettingsWelcome to SettingsWelcome to SettingsWelcome to SettingsWelcome to SettingsWelcome to SettingsWelcome to SettingsWelcome to Settings</h1>
+      <h1>....................................................Welcome to Settings....................................................................</h1>
     </div>
   );
 };

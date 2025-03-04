@@ -4,7 +4,7 @@ import "../styles/Report.css";
 const Report = () => {
   return (
     <div className="report-container">
-      <h1>Welcome to Report & AnalyticsWelcome to Report & AnalyticsWelcome to Report & AnalyticsWelcome to Report & AnalyticsWelcome to Report & Analytics</h1>
+      <h1>........................................................Welcome to Report & Analytics..............................................</h1>
     </div>
   );
 };

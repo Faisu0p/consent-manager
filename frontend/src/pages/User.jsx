@@ -7,7 +7,7 @@ const User = () => {
   return (
     <div className="user-container">
       <div className="user-container-section">
-        <h2>User ManagementUser ManagementUser ManagementUser ManagementUser ManagementUser ManagementUser ManagementUser Management</h2>
+        <h2>...........................................................................Welcome to User Management..........................................................................</h2>
         <UserManagement />
       </div>
 

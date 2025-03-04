@@ -34,7 +34,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-content">
-        <h1>Welcome to Consent Manager DashboardWelcome to Consent Manager DashboardWelcome to Consent Manager DashboardWelcome to Consent Manager DashboardWelcome to Consent Manager Dashboard</h1>
+        <h1>............................................Welcome to Consent Manager Dashboard...................................</h1>
 
         {loading && <p className="dashboard-loading">Loading users...</p>}
         {error && <p className="dashboard-error">{error}</p>}

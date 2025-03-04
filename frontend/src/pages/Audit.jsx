@@ -4,7 +4,7 @@ import "../styles/Audit.css";
 const Audit = () => {
   return (
     <div className="audit-container">
-      <h1>Welcome to Audit LogsWelcome to Audit LogsWelcome to Audit LogsWelcome to Audit LogsWelcome to Audit LogsWelcome to Audit Logs</h1>
+      <h1>........................................................Welcome to Audit Logs............................................................</h1>
     </div>
   );
 };
