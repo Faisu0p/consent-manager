@@ -4,7 +4,7 @@ import "../styles/Consent.css"; // Import CSS file for styling
 const Consent = () => {
   return (
     <div className="consent-container">
-      <h1>Welcome to Consent Manager Consent</h1>
+      <h1>Welcome to Consent Manager</h1>
     </div>
   );
 };

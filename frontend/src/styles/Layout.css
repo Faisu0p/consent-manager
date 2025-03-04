@@ -11,14 +11,15 @@
   flex-grow: 1;
 }
 
-/* Main Content (Shifts when sidebar collapses) */
+/* Instead of margin-left, use width calculation */
 .main-content {
   flex-grow: 1;
-  margin-left: 250px; /* Default width when sidebar is expanded */
-  transition: margin-left 0.3s ease;
+  width: calc(100vw - 250px); /* Subtract sidebar width from total width */
+  transition: width 0.3s ease;
 }
 
-/* When sidebar is collapsed */
+/* Adjust when sidebar is collapsed */
 .main-content.collapsed {
-  margin-left: 80px;
+  width: calc(100vw - 80px);
 }
+

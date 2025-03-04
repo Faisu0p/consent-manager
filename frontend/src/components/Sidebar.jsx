@@ -13,6 +13,7 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
           <MenuItem icon={<MdManageAccounts />} component={<Link to="/consents" />}>Consent Management</MenuItem>
           <MenuItem icon={<FiUsers />} component={<Link to="/users" />}>Users</MenuItem>
           <MenuItem icon={<FiFileText />} component={<Link to="/audit-logs" />}>Audit Logs</MenuItem>
+          <MenuItem icon={<FiFileText />} component={<Link to="/customization" />}>Customization</MenuItem>
           <MenuItem icon={<FiBarChart2 />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
           <MenuItem icon={<FiSettings />} component={<Link to="/settings" />}>Settings</MenuItem>
           <MenuItem icon={<FiLogOut />} component={<Link to="/logout" />}>Logout</MenuItem>

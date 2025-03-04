@@ -1,0 +1,16 @@
+.settings-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the screen */
+    width: 100vw; /* Full width of the screen */
+    background-color: white;
+    text-align: center;
+  }
+  
+  .settings-container h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  
