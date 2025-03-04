@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Dashboard.css";
-import UserGrid from "../components/UserTile"; // Import UserGrid
-import { getAllUsers } from "../services/userServices"; // Import API function
+import UserGrid from "../components/UserTile";
+import { getAllUsers } from "../services/userServices";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -16,8 +16,8 @@ const Dashboard = () => {
         // Map API response to match expected format
         const formattedUsers = data.map((user) => ({
           id: user.id,
-          name: user.username, // Use `username` instead of `name`
-          role: user.role_name, // Use `role_name` instead of `role`
+          name: user.username,
+          role: user.role_name,
         }));
 
         setUsers(formattedUsers);
@@ -35,7 +35,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h1>Welcome to Consent Manager Dashboard</h1>
 
-      {loading && <p>Loading users...</p>}
+      {loading && <p className="loading">Loading users...</p>}
       {error && <p className="error">{error}</p>}
       {!loading && !error && <UserGrid users={users} />}
     </div>
