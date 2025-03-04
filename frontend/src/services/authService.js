@@ -13,12 +13,9 @@ export const login = async (email, password) => {
 // Logout API request
 export const logout = async () => {
   try {
-    await api.post('users/logout'); // Call logout API
-    localStorage.removeItem('authToken'); // Remove token from storage
+    await api.post('users/logout');
+    localStorage.removeItem('authToken');
   } catch (error) {
     console.error('Logout failed:', error);
   }
 };
-
-
-// Any other auth-related functions can go here (e.g., register, forgot password)

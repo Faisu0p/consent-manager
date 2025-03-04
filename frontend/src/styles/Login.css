@@ -389,7 +389,7 @@ html, body {
 }
 
 /* Dark mode commented out */
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   .cm-login-form-container {
     background-color: #111827;
   }
@@ -422,4 +422,4 @@ html, body {
   .cm-login-signup-text {
     color: #9ca3af;
   }
-} */
+}

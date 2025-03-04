@@ -1,11 +1,13 @@
-  .user-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full height of the screen */
-    width: 100vw; /* Full width of the screen */
-    background-color: white;
-    text-align: center;
-  }
-  
-  
+.user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100vw;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: white;
+  text-align: center;
+  margin-top: 50px;
+}
