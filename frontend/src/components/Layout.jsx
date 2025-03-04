@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import "../styles/Layout.css"; // Import CSS for styling
 
 const Layout = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false); // State for sidebar
+  const [isCollapsed, setIsCollapsed] = useState(true); // State for sidebar
 
   return (
     <div className="layout-container">
