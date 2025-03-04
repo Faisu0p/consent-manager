@@ -1,0 +1,70 @@
+.banner-template-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: #000; /* Ensuring text inside is visible */
+}
+
+.banner-template-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000; /* Ensuring title is visible */
+}
+
+.banner-template-tabs {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.banner-template-tabs button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-bottom: 3px solid transparent;
+    transition: 0.3s;
+    color: #000; /* Ensuring button text is visible */
+}
+
+.banner-template-tabs .active {
+    border-bottom: 3px solid #007bff;
+    font-weight: bold;
+    color: #007bff; /* Highlighting active tab */
+}
+
+.banner-template-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.banner-template-form input,
+.banner-template-form textarea {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #000; /* Ensuring input text is visible */
+    background: #fff;
+}
+
+.banner-template-form button {
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.banner-template-form button:hover {
+    background: #0056b3;
+}
