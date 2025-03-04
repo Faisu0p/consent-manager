@@ -104,6 +104,19 @@ const userModel = {
             ...user,
             status: "Active" 
         }));
+    },
+
+
+    // Log access event (login/logout)
+    async logAccessEvent(userId, action) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .input("action", sql.VarChar, action) // "login" or "logout"
+            .query("INSERT INTO access_logs (user_id, action, timestamp) VALUES (@user_id, @action, GETDATE())");
     }
 
     

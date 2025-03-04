@@ -57,6 +57,10 @@ const userController = {
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
+
+            // Log login event
+            await userModel.logAccessEvent(user.id, "login");
+
     
             res.json({ message: "Login successful", token });
         } catch (err) {
@@ -95,6 +99,23 @@ const userController = {
             res.status(500).json({ error: "Server error" });
         }
     },
+
+
+    // Logout user
+    async logoutUser(req, res) {
+        try {
+            const userId = req.user.userId; 
+
+            // Log logout event
+            await userModel.logAccessEvent(userId, "logout");
+
+            res.json({ message: "Logout successful" });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    },
+
 
     // Delete user (Only Admins can access)
     async deleteUser(req, res) {

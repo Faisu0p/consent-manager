@@ -27,6 +27,10 @@ router.post(
     userController.loginUser
 );
 
+// Logout User Route
+router.post("/logout", authMiddleware(), userController.logoutUser);
+
+
 // Only Admins can access this route
 router.post("/create", authMiddleware(["Admin"]), userController.createUser);
 
