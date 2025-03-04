@@ -1,13 +1,34 @@
 .user-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  width: 100vw;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: white;
+  align-items: stretch;
+  margin-top: 70px;
+}
+
+.user-container h2 {
+  font-size: 1.8rem;
+  color: #222;
   text-align: center;
-  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.user-section {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.access-logs-table {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
