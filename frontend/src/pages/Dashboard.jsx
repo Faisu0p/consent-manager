@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Dashboard.css";
+import "../styles/Dashboard.css"; // Use common styles
 import UserGrid from "../components/UserTile";
 import { getAllUsers } from "../services/userServices";
 
@@ -33,11 +33,13 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1>Welcome to Consent Manager Dashboard</h1>
+      <div className="dashboard-content">
+        <h1>Welcome to Consent Manager DashboardWelcome to Consent Manager DashboardWelcome to Consent Manager DashboardWelcome to Consent Manager DashboardWelcome to Consent Manager Dashboard</h1>
 
-      {loading && <p className="loading">Loading users...</p>}
-      {error && <p className="error">{error}</p>}
-      {!loading && !error && <UserGrid users={users} />}
+        {loading && <p className="dashboard-loading">Loading users...</p>}
+        {error && <p className="dashboard-error">{error}</p>}
+        {!loading && !error && <UserGrid users={users} />}
+      </div>
     </div>
   );
 };

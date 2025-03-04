@@ -1,34 +1,59 @@
 /* Sidebar Container */
-.sidebar-container {
+.sidebar-component {
   position: fixed;
-  top: 60px; /* Below header */
+  top: 60px;
   left: 0;
   height: calc(100vh - 60px);
-  background-color: #1e1e2d;
+  background-color: #1f2937;
   color: white;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Adjust width dynamically when collapsed */
-.sidebar-container.collapsed {
+/* Expanded Sidebar */
+.sidebar-component:not(.collapsed) {
+  width: 250px;
+}
+
+/* Collapsed Sidebar */
+.sidebar-component.collapsed {
   width: 80px;
 }
 
-/* Collapse Button - Inside Sidebar */
-.collapse-btn {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #444;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
+/* Sidebar Menu */
+.sidebar-component .pro-sidebar {
+  background-color: #1f2937; 
+  height: 100%;
 }
 
-.collapse-btn:hover {
-  background-color: #666;
+.sidebar-component .pro-menu-item {
+  color: #e5e7eb; 
+  padding: 12px 20px;
+  transition: background 0.3s ease-in-out;
+  font-weight: 500;
+}
+
+.sidebar-component .pro-menu-item:hover {
+  background-color: #374151;
+}
+
+/* Collapse Button */
+.sidebar-component-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: -18px;
+  transform: translateY(-50%);
+  background-color: #374151;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.sidebar-component-toggle-btn:hover {
+  background-color: #4b5563;
 }

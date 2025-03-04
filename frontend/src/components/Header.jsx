@@ -4,21 +4,18 @@ import "../styles/Header.css";
 const Header = () => {
   return (
     <header className="header-component">
-      {/* Logo Section */}
       <div className="header-component-logo">
         <Rocket size={32} className="header-component-logo-icon" />
         <span className="header-component-app-name">Consent Manager</span>
       </div>
 
-      {/* Search Section */}
       <div className="header-component-search">
-        <Search size={20} className="search-icon" />
+        <Search size={20} className="header-component-search-icon" />
       </div>
 
-      {/* Icons Section */}
       <div className="header-component-icons">
-        <Bell size={24} className="icon" />
-        <User size={24} className="icon" />
+        <Bell size={24} className="header-component-icon" />
+        <User size={24} className="header-component-icon" />
       </div>
     </header>
   );

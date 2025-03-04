@@ -1,34 +1,23 @@
+/* Make sure the page covers full available space */
 .user-container {
-  max-width: 1200px;
-  margin: 20px auto;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+  background-color: white;
   padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  justify-content: start;
   align-items: stretch;
-  margin-top: 70px;
+  color: #333;
 }
 
-.user-container h2 {
-  font-size: 1.8rem;
-  color: #222;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.user-section {
+/* Section inside the page */
+.user-container-section {
   background: white;
-  padding: 15px;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-}
-
-.access-logs-table {
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

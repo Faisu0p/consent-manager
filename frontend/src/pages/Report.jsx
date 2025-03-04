@@ -1,10 +1,10 @@
 import React from "react";
-import "../styles/Report.css"; // Import CSS file for styling
+import "../styles/Report.css";
 
 const Report = () => {
   return (
     <div className="report-container">
-      <h1>Welcome to Report & Analytics</h1>
+      <h1>Welcome to Report & AnalyticsWelcome to Report & AnalyticsWelcome to Report & AnalyticsWelcome to Report & AnalyticsWelcome to Report & Analytics</h1>
     </div>
   );
 };

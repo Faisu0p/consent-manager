@@ -10,10 +10,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  height: 60px;
+  z-index: 1100;
 }
 
-/* Logo Section */
+/* Logo */
 .header-component-logo {
   display: flex;
   align-items: center;
@@ -30,7 +31,7 @@
   color: #333;
 }
 
-/* Search Section */
+/* Search */
 .header-component-search {
   display: flex;
   align-items: center;
@@ -46,23 +47,19 @@
   background: #d6d6d6;
 }
 
-.search-icon {
-  color: #555;
-}
-
-/* Icons Section */
+/* Icons */
 .header-component-icons {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.icon {
+.header-component-icon {
   color: #555;
   transition: color 0.3s;
   cursor: pointer;
 }
 
-.icon:hover {
+.header-component-icon:hover {
   color: #1d72b8;
 }

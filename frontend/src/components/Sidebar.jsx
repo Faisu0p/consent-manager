@@ -7,18 +7,16 @@ import { logout } from "../services/authService";
 import "../styles/Sidebar.css";
 
 const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
-
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
-    navigate("/"); // Redirect to login page after logout
+    navigate("/");
   };
 
-
   return (
-    <div className={`sidebar-container ${isCollapsed ? "collapsed" : ""}`}>
-      <Sidebar collapsed={isCollapsed} width={isCollapsed ? "80px" : "250px"}>
+    <div className={`sidebar-component ${isCollapsed ? "collapsed" : ""}`}>
+      <Sidebar collapsed={isCollapsed}>
         <Menu>
           <MenuItem icon={<MdDashboard />} component={<Link to="/dashboard" />}>Dashboard</MenuItem>
           <MenuItem icon={<MdManageAccounts />} component={<Link to="/consents" />}>Consent Management</MenuItem>
@@ -28,12 +26,11 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
           <MenuItem icon={<FiBarChart2 />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
           <MenuItem icon={<FiSettings />} component={<Link to="/settings" />}>Settings</MenuItem>
           <MenuItem icon={<FiLogOut />} onClick={handleLogout}>Logout</MenuItem>
-
         </Menu>
       </Sidebar>
 
-      <button className="collapse-btn" onClick={toggleSidebar}>
-        {isCollapsed ? "→" : "←"}
+      <button className="sidebar-component-toggle-btn" onClick={toggleSidebar}>
+        {isCollapsed ? "☰" : "✖"}
       </button>
     </div>
   );

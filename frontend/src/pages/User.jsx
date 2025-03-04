@@ -6,12 +6,12 @@ import AccessLogsTable from "../components/AccessLogsTable";
 const User = () => {
   return (
     <div className="user-container">
-      <div className="user-section">
-        <h2>User Management</h2>
+      <div className="user-container-section">
+        <h2>User ManagementUser ManagementUser ManagementUser ManagementUser ManagementUser ManagementUser ManagementUser Management</h2>
         <UserManagement />
       </div>
-      
-      <div className="access-logs-table">
+
+      <div className="user-container-section">
         <h2>Access Logs</h2>
         <AccessLogsTable />
       </div>
