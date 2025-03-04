@@ -384,7 +384,7 @@ html, body {
   
   .cm-login-illustration, 
   .cm-login-form-container {
-    width: 700px; /* Fixed width for large screens */
+    width: 800px; /* Fixed width for large screens */
   }
 }
 
