@@ -26,8 +26,8 @@ const BannerPreview = ({ bannerData, activeTab }) => {
       {activeTab === "portal" && (
         <div className="portal-preview">
           <h2>{bannerData.template_id || "Template ID"}</h2>
-          <p>{bannerData.upper_text || "Upper text here."}</p>
-          <p>{bannerData.lower_text || "Lower text here."}</p>
+          <p>{bannerData.upper_text || "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}</p>
+          <p>{bannerData.lower_text || "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing"}</p>
         </div>
       )}
 
