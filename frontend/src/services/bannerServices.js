@@ -12,6 +12,17 @@ const bannerService = {
     }
   },
 
+
+  // Create a new Consent Portal entry
+  createConsentPortal: async (data) => {
+    try {
+      const response = await api.post("/consent-portal/create", data);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
   // Create a new consent category
   createConsentCategory: async (data) => {
     try {
@@ -46,6 +57,16 @@ const bannerService = {
   getAllBannerTemplates: async () => {
     try {
       const response = await api.get("/banner-templates/all-templates");
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  // Get Consent Portal entry by templateId
+  getConsentPortalByTemplateId: async (templateId) => {
+    try {
+      const response = await api.get(`/consent-portal/${templateId}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
