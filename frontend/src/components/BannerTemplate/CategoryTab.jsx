@@ -1,33 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 
-const CategoryTab = () => {
-    const [form, setForm] = useState({
-        templateId: "",
-        name: "",
-        description: "",
-        isRequired: false
-    });
-
+const CategoryTab = ({ bannerData, setBannerData }) => {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+        setBannerData({ ...bannerData, [name]: type === "checkbox" ? checked : value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setCategories([...categories, { ...form, id: Date.now() }]);
-        setForm({ templateId: "", name: "", description: "", isRequired: false });
+        setBannerData({
+            ...bannerData,
+            categories: [...bannerData.categories, { 
+                id: Date.now(), 
+                categoryTemplateId: bannerData.categoryTemplateId,
+                categoryName: bannerData.categoryName,
+                categoryDescription: bannerData.categoryDescription,
+                categoryIsRequired: bannerData.categoryIsRequired
+            }]
+        });
+
+        // Reset only category fields in `bannerData`
+        setBannerData({ 
+            ...bannerData, 
+            categoryTemplateId: "", 
+            categoryName: "", 
+            categoryDescription: "", 
+            categoryIsRequired: false 
+        });
     };
 
     return (
         <div>
             <h3>Create Consent Category</h3>
             <form onSubmit={handleSubmit} className="banner-template-form">
-                <input type="number" name="templateId" placeholder="Template ID" value={form.templateId} onChange={handleChange} required />
-                <input type="text" name="name" placeholder="Category Name" value={form.name} onChange={handleChange} required />
-                <textarea name="description" placeholder="Category Description" value={form.description} onChange={handleChange} required />
+                <input type="number" name="categoryTemplateId" placeholder="Template ID" value={bannerData.categoryTemplateId} onChange={handleChange} required />
+                <input type="text" name="categoryName" placeholder="Category Name" value={bannerData.categoryName} onChange={handleChange} required />
+                <textarea name="categoryDescription" placeholder="Category Description" value={bannerData.categoryDescription} onChange={handleChange} required />
                 <label>
-                    <input type="checkbox" name="isRequired" checked={form.isRequired} onChange={handleChange} />
+                    <input type="checkbox" name="categoryIsRequired" checked={bannerData.categoryIsRequired} onChange={handleChange} />
                     Required Category
                 </label>
                 <button type="submit">Create Category</button>

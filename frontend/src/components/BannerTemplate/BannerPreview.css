@@ -1,0 +1,30 @@
+.banner-preview {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    color: #333;
+}
+
+.banner-preview h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.banner-preview table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.banner-preview td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.banner-preview td:first-child {
+    font-weight: bold;
+    width: 40%;
+}

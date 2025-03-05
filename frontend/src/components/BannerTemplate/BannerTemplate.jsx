@@ -6,7 +6,7 @@ import SubcategoryTab from "./SubcategoryTab";
 import PartnerTab from "./PartnerTab";
 import "./BannerTemplate.css";
 
-const BannerTemplate = () => {
+const BannerTemplate = ({ bannerData, setBannerData }) => {
     const [activeTab, setActiveTab] = useState("templates");
 
     return (
@@ -21,11 +21,11 @@ const BannerTemplate = () => {
             </div>
 
             <div className="banner-template-content">
-                {activeTab === "templates" && <TemplateTab />}
-                {activeTab === "portal" && <PortalTab />}
-                {activeTab === "categories" && <CategoryTab />}
-                {activeTab === "subcategories" && <SubcategoryTab />}
-                {activeTab === "partners" && <PartnerTab />}
+                {activeTab === "templates" && <TemplateTab bannerData={bannerData} setBannerData={setBannerData} />}
+                {activeTab === "portal" && <PortalTab bannerData={bannerData} setBannerData={setBannerData} />}
+                {activeTab === "categories" && <CategoryTab bannerData={bannerData} setBannerData={setBannerData} />}
+                {activeTab === "subcategories" && <SubcategoryTab bannerData={bannerData} setBannerData={setBannerData} />}
+                {activeTab === "partners" && <PartnerTab bannerData={bannerData} setBannerData={setBannerData} />}
             </div>
         </div>
     );

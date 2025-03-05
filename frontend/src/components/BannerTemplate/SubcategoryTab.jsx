@@ -1,29 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 
-const SubcategoryTab = () => {
-    const [form, setForm] = useState({
-        categoryId: "",
-        name: "",
-        description: ""
-    });
-
+const SubcategoryTab = ({ bannerData, setBannerData }) => {
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setBannerData({ ...bannerData, [name]: value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubcategories([...subcategories, { ...form, id: Date.now() }]);
-        setForm({ categoryId: "", name: "", description: "" });
+        setBannerData({
+            ...bannerData,
+            subcategories: [...bannerData.subcategories, {
+                id: Date.now(),
+                subcategoryCategoryId: bannerData.subcategoryCategoryId,
+                subcategoryName: bannerData.subcategoryName,
+                subcategoryDescription: bannerData.subcategoryDescription
+            }]
+        });
+
+        // Reset only subcategory fields in `bannerData`
+        setBannerData({
+            ...bannerData,
+            subcategoryCategoryId: "",
+            subcategoryName: "",
+            subcategoryDescription: ""
+        });
     };
 
     return (
         <div>
             <h3>Create Consent Subcategory</h3>
             <form onSubmit={handleSubmit} className="banner-template-form">
-                <input type="number" name="categoryId" placeholder="Category ID" value={form.categoryId} onChange={handleChange} required />
-                <input type="text" name="name" placeholder="Subcategory Name" value={form.name} onChange={handleChange} required />
-                <textarea name="description" placeholder="Subcategory Description" value={form.description} onChange={handleChange} required />
+                <input type="number" name="subcategoryCategoryId" placeholder="Category ID" value={bannerData.subcategoryCategoryId} onChange={handleChange} required />
+                <input type="text" name="subcategoryName" placeholder="Subcategory Name" value={bannerData.subcategoryName} onChange={handleChange} required />
+                <textarea name="subcategoryDescription" placeholder="Subcategory Description" value={bannerData.subcategoryDescription} onChange={handleChange} required />
                 <button type="submit">Create Subcategory</button>
             </form>
         </div>

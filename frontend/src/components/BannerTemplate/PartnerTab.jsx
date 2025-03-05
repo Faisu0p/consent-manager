@@ -1,31 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 
-const PartnerTab = () => {
-    const [form, setForm] = useState({
-        templateId: "",
-        name: "",
-        isBlocked: false
-    });
-
+const PartnerTab = ({ bannerData, setBannerData }) => {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+        setBannerData({ ...bannerData, [name]: type === "checkbox" ? checked : value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPartners([...partners, { ...form, id: Date.now() }]);
-        setForm({ templateId: "", name: "", isBlocked: false });
+        setBannerData({
+            ...bannerData,
+            partners: [...bannerData.partners, {
+                id: Date.now(),
+                partnerTemplateId: bannerData.partnerTemplateId,
+                partnerName: bannerData.partnerName,
+                isBlocked: bannerData.isBlocked
+            }]
+        });
+
+        // Reset only partner-related fields in `bannerData`
+        setBannerData({
+            ...bannerData,
+            partnerTemplateId: "",
+            partnerName: "",
+            isBlocked: false
+        });
     };
 
     return (
         <div>
             <h3>Create Partner</h3>
             <form onSubmit={handleSubmit} className="banner-template-form">
-                <input type="number" name="templateId" placeholder="Template ID" value={form.templateId} onChange={handleChange} required />
-                <input type="text" name="name" placeholder="Partner Name" value={form.name} onChange={handleChange} required />
+                <input type="number" name="partnerTemplateId" placeholder="Template ID" value={bannerData.partnerTemplateId} onChange={handleChange} required />
+                <input type="text" name="partnerName" placeholder="Partner Name" value={bannerData.partnerName} onChange={handleChange} required />
                 <label>
-                    <input type="checkbox" name="isBlocked" checked={form.isBlocked} onChange={handleChange} />
+                    <input type="checkbox" name="isBlocked" checked={bannerData.isBlocked} onChange={handleChange} />
                     Blocked Partner
                 </label>
                 <button type="submit">Create Partner</button>
