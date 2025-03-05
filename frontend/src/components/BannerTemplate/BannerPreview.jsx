@@ -38,8 +38,8 @@ const BannerPreview = ({ bannerData, activeTab }) => {
       {/* Always show Portal Preview when in portal, categories, or subcategories tab */}
       {(activeTab === "portal" || activeTab === "categories" || activeTab === "subcategories") && (
         <div className="portal-preview">
-          <h2>{bannerData.template_id || "Template ID"}</h2>
-          <p>{bannerData.upper_text || "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}</p>
+          <h2>{bannerData.portal.template_id || "Template ID"}</h2>
+          <p>{bannerData.portal.upper_text || "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}</p>
 
           {/* Display Categories and Subcategories */}
           {bannerData.categories && bannerData.categories.length > 0 ? (
@@ -65,7 +65,7 @@ const BannerPreview = ({ bannerData, activeTab }) => {
             <p>No categories available</p>
           )}
 
-          <p>{bannerData.lower_text || "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing"}</p>
+          <p>{bannerData.portal.lower_text || "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing"}</p>
 
 
         </div>
