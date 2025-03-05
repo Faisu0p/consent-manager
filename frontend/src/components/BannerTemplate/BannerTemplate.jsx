@@ -6,8 +6,7 @@ import SubcategoryTab from "./SubcategoryTab";
 import PartnerTab from "./PartnerTab";
 import "./BannerTemplate.css";
 
-const BannerTemplate = ({ bannerData, setBannerData }) => {
-    const [activeTab, setActiveTab] = useState("templates");
+const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) => {
 
     return (
         <div className="banner-template-container">

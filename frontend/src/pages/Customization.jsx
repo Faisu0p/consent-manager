@@ -24,12 +24,14 @@ const Customization = () => {
     subcategories: [],
     partners: []
   });
+
+  const [activeTab, setActiveTab] = useState("templates");
   
 
   return (
     <div className="customization-container">
-      <BannerTemplate bannerData={bannerData} setBannerData={setBannerData} />
-      <BannerPreview bannerData={bannerData} />
+      <BannerTemplate bannerData={bannerData} setBannerData={setBannerData} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <BannerPreview bannerData={bannerData} activeTab={activeTab} />
     </div>
   );
 };
