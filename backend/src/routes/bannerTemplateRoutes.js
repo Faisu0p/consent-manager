@@ -21,6 +21,18 @@ router.post(
     bannerTemplateController.createBannerTemplate
 );
 
+// ✅ Create Consent Portal Entry (Only Admins can access)
+router.post(
+    "/consent-portal/create",
+    [
+        body("templateId").isInt().withMessage("Template ID is required"),
+        body("upperText").notEmpty().withMessage("Upper text is required"),
+        body("lowerText").notEmpty().withMessage("Lower text is required")
+    ],
+    // authMiddleware(["Admin"]), // Uncomment when auth is enabled
+    bannerTemplateController.createConsentPortal
+);
+
 // Create Consent Category Route (Only Admins can access)
 router.post(
     "/consent-category/create",
@@ -63,6 +75,13 @@ router.get(
     "/all-templates", 
     // authMiddleware(), // Commented out for testing
     bannerTemplateController.getAllBannerTemplates
+);
+
+// ✅ Get Consent Portal Entry by Template ID (Accessible to all authenticated users)
+router.get(
+    "/consent-portal/:templateId",
+    // authMiddleware(), // Uncomment when auth is enabled
+    bannerTemplateController.getConsentPortalByTemplateId
 );
 
 // Get All Consent Categories for a Template (Accessible to all authenticated users)

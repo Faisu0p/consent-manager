@@ -31,6 +31,28 @@ const bannerTemplateController = {
         }
     },
 
+
+    // Create a new consent portal
+    async createConsentPortal(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+    
+        const { templateId, upperText, lowerText } = req.body;
+    
+        try {
+            // Create the consent portal entry
+            const portalId = await bannerTemplateModel.createConsentPortal(templateId, upperText, lowerText);
+    
+            res.status(201).json({ message: "Consent portal entry created successfully", portalId });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    },
+    
+
     // Create a new consent category
     async createConsentCategory(req, res) {
         const errors = validationResult(req);
@@ -101,6 +123,26 @@ const bannerTemplateController = {
             res.status(500).json({ error: "Server error" });
         }
     },
+
+
+    // Get a specific consent portal by template ID
+    async getConsentPortalByTemplateId(req, res) {
+        const { templateId } = req.params;
+    
+        try {
+            const portalEntry = await bannerTemplateModel.getConsentPortalByTemplateId(parseInt(templateId, 10));
+            
+            if (portalEntry.length === 0) {
+                return res.status(404).json({ message: "No consent portal entry found for this template" });
+            }
+    
+            res.json(portalEntry);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    },
+    
 
     // Get all consent categories for a specific template
     async getConsentCategories(req, res) {

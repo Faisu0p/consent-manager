@@ -26,6 +26,26 @@ const bannerTemplateModel = {
         return result.recordset[0].id;  // Return the id of the created template
     },
 
+    // Create a new consent portal
+    async createConsentPortal(templateId, upperText, lowerText) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        const result = await pool
+            .request()
+            .input("template_id", sql.Int, templateId)
+            .input("upper_text", sql.Text, upperText)
+            .input("lower_text", sql.Text, lowerText)
+            .query(`
+                INSERT INTO consent_portal (template_id, upper_text, lower_text) 
+                OUTPUT INSERTED.id
+                VALUES (@template_id, @upper_text, @lower_text)
+            `);
+    
+        return result.recordset[0].id;  // Return the ID of the created consent portal entry
+    },
+    
+
     // Create a new consent category
     async createConsentCategory(templateId, name, description, isRequired) {
         const pool = await connectDB();
@@ -84,6 +104,7 @@ const bannerTemplateModel = {
         return result.recordset[0].id;  // Return the id of the created partner
     },
 
+
     // Get all banner templates
     async getAllBannerTemplates() {
         const pool = await connectDB();
@@ -93,6 +114,21 @@ const bannerTemplateModel = {
 
         return result.recordset;  // Return all banner templates
     },
+
+
+    // Get a specific consent portal by template ID
+    async getConsentPortalByTemplateId(templateId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        const result = await pool
+            .request()
+            .input("template_id", sql.Int, templateId)
+            .query("SELECT * FROM consent_portal WHERE template_id = @template_id");
+    
+        return result.recordset;  // Return the consent portal entry for the given template
+    },
+    
 
     // Get all consent categories for a specific template
     async getConsentCategories(templateId) {
