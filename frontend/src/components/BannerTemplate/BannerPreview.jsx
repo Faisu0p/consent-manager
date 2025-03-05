@@ -12,7 +12,7 @@ const BannerPreview = ({ bannerData, activeTab }) => {
           <h4>{bannerData.template.headerText || "Do you agree to let us use cookies?"}</h4>
           <p>{bannerData.template.mainText || "Some sample text here explaining the purpose of the banner."}</p>
           <p>{bannerData.template.infoParagraph || "Additional info about cookies and consent."}</p>
-          
+
           <div className="buttons">
             <button>{bannerData.template.buttonAcceptText || "I Agree"}</button>
             <button>{bannerData.template.buttonRejectText || "I Disagree"}</button>
@@ -21,42 +21,33 @@ const BannerPreview = ({ bannerData, activeTab }) => {
         </div>
       )}
 
-
-      {/* Portal Preview */}
-      {/* {activeTab === "portal" && (
-        <div className="portal-preview">
-          <h2>{bannerData.template_id || "Template ID"}</h2>
-          <p>{bannerData.upper_text || "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}</p>
-          <p>{bannerData.lower_text || "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing"}</p>
-        </div>
-      )} */}
-
-
-
-
-
-      {/* Always show Portal Preview when in portal, categories, or subcategories tab */}
+      {/* Show Portal, Categories, and Subcategories together */}
       {(activeTab === "portal" || activeTab === "categories" || activeTab === "subcategories") && (
         <div className="portal-preview">
           <h2>{bannerData.portal.template_id || "Template ID"}</h2>
-          <p>{bannerData.portal.upper_text || "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}</p>
+          <p>
+            {bannerData.portal.upper_text ||
+              "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}
+          </p>
 
-          {/* Display Categories and Subcategories */}
-          {bannerData.categories && bannerData.categories.length > 0 ? (
+          {/* Display Categories and their Subcategories */}
+          {bannerData.categories.length > 0 ? (
             <div className="categories-preview">
               <h4>Categories:</h4>
               <ul>
-                {bannerData.categories.map((category, categoryIndex) => (
-                  <li key={categoryIndex}>
-                    {category.name}
-                    {/* Check if this category has subcategories */}
-                    {category.subcategories && category.subcategories.length > 0 && (
-                      <ul>
-                        {category.subcategories.map((subcategory, subIndex) => (
-                          <li key={subIndex}>- {subcategory}</li>
+                {bannerData.categories.map((category) => (
+                  <li key={category.id}>
+                    <strong>{category.name}</strong>
+
+                    {/* Filter and show subcategories that belong to this category */}
+                    <ul>
+                      {bannerData.subcategories
+                        .filter((sub) => Number(sub.subcategoryCategoryId) === Number(category.id))
+
+                        .map((subcategory) => (
+                          <li key={subcategory.id}>- {subcategory.subcategoryName}</li>
                         ))}
-                      </ul>
-                    )}
+                    </ul>
                   </li>
                 ))}
               </ul>
@@ -65,15 +56,12 @@ const BannerPreview = ({ bannerData, activeTab }) => {
             <p>No categories available</p>
           )}
 
-          <p>{bannerData.portal.lower_text || "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing"}</p>
-
-
+          <p>
+            {bannerData.portal.lower_text ||
+              "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing."}
+          </p>
         </div>
       )}
-
-
-
-
 
       {activeTab === "partners" && (
         <div className="template-preview">
@@ -83,10 +71,6 @@ const BannerPreview = ({ bannerData, activeTab }) => {
           </div>
         </div>
       )}
-
-
-
-      {/* You can later add more previews here for other tabs like "portal", "categories", etc. */}
     </div>
   );
 };
