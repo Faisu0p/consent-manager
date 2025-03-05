@@ -65,12 +65,24 @@ const BannerPreview = ({ bannerData, activeTab }) => {
 
       {activeTab === "partners" && (
         <div className="template-preview">
-          <h2>Partners</h2>
-          <div className="buttons">
-            <button>Save</button>
-          </div>
+          <h2>Our Partners</h2>
+          {bannerData.partners && bannerData.partners.length > 0 ? (
+            <ul className="partners-list">
+              {bannerData.partners.map((partner) => (
+                <li key={partner.id}>
+                  <strong>{partner.partnerName}</strong> (Template ID: {partner.partnerTemplateId})
+                  {partner.isBlocked ? <span className="blocked"> - Blocked</span> : ""}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No partners available</p>
+          )}
         </div>
       )}
+
+
+
     </div>
   );
 };
