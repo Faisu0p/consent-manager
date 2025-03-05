@@ -8,8 +8,6 @@ const PortalTab = () => {
         description: ""
     });
 
-    const [portals, setPortals] = useState([]);
-
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -33,15 +31,6 @@ const PortalTab = () => {
                 <textarea name="description" placeholder="Portal Description" value={form.description} onChange={handleChange} required />
                 <button type="submit">Create Portal</button>
             </form>
-
-            <h3 className="banner-template-title">Existing Portals</h3>
-            <ul>
-                {portals.map((portal) => (
-                    <li key={portal.id}>
-                        {portal.name} - <a href={portal.url} target="_blank" rel="noopener noreferrer">{portal.url}</a>
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 };

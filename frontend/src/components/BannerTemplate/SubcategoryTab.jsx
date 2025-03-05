@@ -7,8 +7,6 @@ const SubcategoryTab = () => {
         description: ""
     });
 
-    const [subcategories, setSubcategories] = useState([]);
-
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -28,13 +26,6 @@ const SubcategoryTab = () => {
                 <textarea name="description" placeholder="Subcategory Description" value={form.description} onChange={handleChange} required />
                 <button type="submit">Create Subcategory</button>
             </form>
-
-            <h3>Existing Subcategories</h3>
-            <ul>
-                {subcategories.map((subcategory) => (
-                    <li key={subcategory.id}>{subcategory.name}</li>
-                ))}
-            </ul>
         </div>
     );
 };

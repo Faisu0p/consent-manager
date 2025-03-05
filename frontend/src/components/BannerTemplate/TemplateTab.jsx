@@ -11,8 +11,6 @@ const TemplateTab = () => {
         buttonConfigureText: ""
     });
 
-    const [templates, setTemplates] = useState([]);
-
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
@@ -44,13 +42,6 @@ const TemplateTab = () => {
                 <input type="text" name="buttonConfigureText" placeholder="Configure Button Text" value={form.buttonConfigureText} onChange={handleChange} required />
                 <button type="submit">Create Template</button>
             </form>
-
-            <h3>Existing Templates</h3>
-            <ul>
-                {templates.map((template) => (
-                    <li key={template.id}>{template.name}</li>
-                ))}
-            </ul>
         </div>
     );
 };

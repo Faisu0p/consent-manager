@@ -7,8 +7,6 @@ const PartnerTab = () => {
         isBlocked: false
     });
 
-    const [partners, setPartners] = useState([]);
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setForm({ ...form, [name]: type === "checkbox" ? checked : value });
@@ -32,13 +30,6 @@ const PartnerTab = () => {
                 </label>
                 <button type="submit">Create Partner</button>
             </form>
-
-            <h3>Existing Partners</h3>
-            <ul>
-                {partners.map((partner) => (
-                    <li key={partner.id}>{partner.name} - {partner.isBlocked ? "Blocked" : "Active"}</li>
-                ))}
-            </ul>
         </div>
     );
 };

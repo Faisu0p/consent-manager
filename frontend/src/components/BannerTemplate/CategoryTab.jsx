@@ -8,8 +8,6 @@ const CategoryTab = () => {
         isRequired: false
     });
 
-    const [categories, setCategories] = useState([]);
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setForm({ ...form, [name]: type === "checkbox" ? checked : value });
@@ -34,13 +32,6 @@ const CategoryTab = () => {
                 </label>
                 <button type="submit">Create Category</button>
             </form>
-
-            <h3>Existing Categories</h3>
-            <ul>
-                {categories.map((category) => (
-                    <li key={category.id}>{category.name} - {category.isRequired ? "Required" : "Optional"}</li>
-                ))}
-            </ul>
         </div>
     );
 };
