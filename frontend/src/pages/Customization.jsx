@@ -16,9 +16,9 @@ const Customization = () => {
       buttonConfigureText: "",
     },
     portal: {
-      name: "",
-      url: "",
-      description: "",
+      template_id: "",
+      upper_text: "",
+      lower_text: "",
     },
     categories: [],
     subcategories: [],

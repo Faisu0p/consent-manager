@@ -21,6 +21,16 @@ const BannerPreview = ({ bannerData, activeTab }) => {
         </div>
       )}
 
+
+      {/* Portal Preview */}
+      {activeTab === "portal" && (
+        <div className="portal-preview">
+          <h2>{bannerData.template_id || "Template ID"}</h2>
+          <p>{bannerData.upper_text || "Upper text here."}</p>
+          <p>{bannerData.lower_text || "Lower text here."}</p>
+        </div>
+      )}
+
       {/* You can later add more previews here for other tabs like "portal", "categories", etc. */}
     </div>
   );
