@@ -1,6 +1,17 @@
-import api from "../api";
+import api from "./api";
 
 const bannerService = {
+
+
+  // Create a new banner template along with portal, categories, subcategories, and partners
+  createFullBannerTemplate: async (bannerData) => {
+    try {
+      const response = await api.post("/banner-templates/create-full", bannerData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
   
   // Create a new banner template
   createBannerTemplate: async (data) => {

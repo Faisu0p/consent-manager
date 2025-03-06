@@ -49,17 +49,6 @@ const CategoryTab = ({ bannerData, setBannerData }) => {
                 </label>
                 <button type="submit">Create Category</button>
             </form>
-
-            {/* <h4>Categories List</h4>
-            <ul>
-                {bannerData.categories.length > 0 ? (
-                    bannerData.categories.map(category => (
-                        <li key={category.id}>{category.name} - {category.description}</li>
-                    ))
-                ) : (
-                    <li>No categories added</li>
-                )}
-            </ul> */}
         </div>
     );
 };

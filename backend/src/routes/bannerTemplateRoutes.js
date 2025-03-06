@@ -5,6 +5,40 @@ import bannerTemplateController from "../controllers/bannerTemplateController.js
 
 const router = express.Router();
 
+
+// Create Full Banner Template with related data (Only Admins can access)
+router.post(
+    "/create-full",
+    [
+        body("template.name").notEmpty().withMessage("Banner name is required"),
+        body("template.mainText").notEmpty().withMessage("Main text is required"),
+        body("template.infoParagraph").notEmpty().withMessage("Info paragraph is required"),
+        body("template.headerText").notEmpty().withMessage("Header text is required"),
+        body("template.buttonAcceptText").notEmpty().withMessage("Accept button text is required"),
+        body("template.buttonRejectText").notEmpty().withMessage("Reject button text is required"),
+        body("template.buttonConfigureText").notEmpty().withMessage("Configure button text is required"),
+
+        body("portal.upper_text").optional().notEmpty().withMessage("Upper text is required"),
+        body("portal.lower_text").optional().notEmpty().withMessage("Lower text is required"),
+
+        body("categories").isArray().withMessage("Categories must be an array"),
+        body("categories.*.name").notEmpty().withMessage("Category name is required"),
+        body("categories.*.description").notEmpty().withMessage("Category description is required"),
+        body("categories.*.is_required").isBoolean().withMessage("isRequired must be a boolean value"),
+
+        body("categories.*.subcategories").optional().isArray().withMessage("Subcategories must be an array"),
+        body("categories.*.subcategories.*.name").optional().notEmpty().withMessage("Subcategory name is required"),
+        body("categories.*.subcategories.*.description").optional().notEmpty().withMessage("Subcategory description is required"),
+
+        body("partners").isArray().withMessage("Partners must be an array"),
+        body("partners.*.name").notEmpty().withMessage("Partner name is required"),
+        body("partners.*.is_blocked").isBoolean().withMessage("isBlocked must be a boolean value"),
+    ],
+    // authMiddleware(["Admin"]), // Uncomment when enabling authentication
+    bannerTemplateController.createFullBannerTemplate
+);
+
+
 // Create Banner Template Route (Only Admins can access)
 router.post(
     "/create",
