@@ -5,7 +5,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
     contentDisplay: false,
-    storing: true,
+    storing: false,
     authentication: false,
     storeAccess: false,
     functionality: false,
