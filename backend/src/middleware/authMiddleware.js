@@ -10,7 +10,7 @@ const authMiddleware = (requiredRoles = []) => {
 
         try {
             const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
-            req.user = decoded; // Attach user info to request
+            req.user = decoded;
 
             // Check if user has the required role
             if (requiredRoles.length > 0) {

@@ -10,8 +10,8 @@ const dbConfig = {
   database: process.env.DB_DATABASE,
   port: parseInt(process.env.DB_PORT, 10) || 1433,
   options: {
-    encrypt: process.env.DB_ENCRYPT === 'true', // Ensure encryption setting is respected
-    trustServerCertificate: true, // Use only in development
+    encrypt: process.env.DB_ENCRYPT === 'true',
+    trustServerCertificate: true,
   },
 };
 
@@ -23,7 +23,7 @@ const connectDB = async () => {
     return pool;
   } catch (err) {
     console.error('❌ Database Connection Failed:', err);
-    return null; // Return null instead of exiting the process
+    return null;
   }
 };
 
