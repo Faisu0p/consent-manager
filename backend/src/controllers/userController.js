@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
+import {config} from "../config/env.js";
 import userModel from "../models/userModel.js";
 
 const userController = {
@@ -54,7 +55,7 @@ const userController = {
             // Generate JWT token including user role
             const token = jwt.sign(
                 { userId: user.id, role: user.role_name },
-                process.env.JWT_SECRET,
+                config.JWT_SECRET,
                 { expiresIn: "1h" }
             );
 

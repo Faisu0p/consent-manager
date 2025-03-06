@@ -1,16 +1,14 @@
-import sql from 'mssql';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import sql from "mssql";
+import { config } from "./env.js";
 
 const dbConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
-  port: parseInt(process.env.DB_PORT, 10) || 1433,
+  user: config.DB_USER,
+  password: config.DB_PASSWORD,
+  server: config.DB_SERVER,
+  database: config.DB_DATABASE,
+  port: parseInt(config.DB_PORT, 10) || 1433,
   options: {
-    encrypt: process.env.DB_ENCRYPT === 'true',
+    encrypt: config.DB_ENCRYPT,
     trustServerCertificate: true,
   },
 };
@@ -19,10 +17,10 @@ const dbConfig = {
 const connectDB = async () => {
   try {
     const pool = await new sql.ConnectionPool(dbConfig).connect();
-    console.log('✅ Connected to SQL Server');
+    console.log("✅ Connected to SQL Server");
     return pool;
   } catch (err) {
-    console.error('❌ Database Connection Failed:', err);
+    console.error("❌ Database Connection Failed:", err);
     return null;
   }
 };
