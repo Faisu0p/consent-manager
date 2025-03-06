@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/CookieConsentPortal.css';
 
-const CookieConsentPortal = ({ companyName = "Didomi" }) => {
+const CookieConsentPortal = ({ companyName = "Didomi", onClose }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
     contentDisplay: false,
@@ -40,6 +40,7 @@ const CookieConsentPortal = ({ companyName = "Didomi" }) => {
 
   const handleClose = () => {
     setIsOpen(false);
+    if (onClose) onClose();
   };
 
   if (!isOpen) return null;

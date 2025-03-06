@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/CookieConsent.css';
 
-const CookieConsent = () => {
+const CookieConsent = ({ openPortal }) => {
   return (
     <div className="cookie-banner-container">
       <div className="cookie-banner-banner">
@@ -44,7 +44,7 @@ const CookieConsent = () => {
           </p>
 
           <div className="cookie-banner-buttons">
-            <button className="cookie-banner-configure-button">Configure</button>
+            <button className="cookie-banner-configure-button" onClick={openPortal}>Configure</button>
             <button className="cookie-banner-disagree-button">I disagree</button>
             <button className="cookie-banner-agree-button">I agree</button>
           </div>
