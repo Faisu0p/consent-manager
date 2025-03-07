@@ -117,7 +117,7 @@ const bannerService = {
   // Get all full banner templates with related data
   getAllFullBannerTemplates: async () => {
     try {
-      const response = await api.get("/banner-templates/ull-templates");
+      const response = await api.get("/banner-templates/full-templates");
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

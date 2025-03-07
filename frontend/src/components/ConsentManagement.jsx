@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import bannerService from "../services/bannerServices";
 import CookieConsent from "../components/CookieConsent";
 import CookieConsentPortal from "../components/CookieConsentPortal";
 import "../styles/ConsentManagement.css"; // Import CSS file
@@ -7,6 +8,7 @@ const ConsentManagement = () => {
   const [isPortalOpen, setIsPortalOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(""); 
   const [scriptGenerated, setScriptGenerated] = useState(false);
+  const [templates, setTemplates] = useState([]);
 
   const openPortal = () => setIsPortalOpen(true);
   const closePortal = () => setIsPortalOpen(false);
@@ -22,6 +24,19 @@ const ConsentManagement = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await bannerService.getAllFullBannerTemplates();
+        setTemplates(response.templates); // Assuming response contains `templates`
+      } catch (error) {
+        console.error("Error fetching templates:", error);
+      }
+    };
+  
+    fetchTemplates();
+  }, []);
+
   return (
     <div className="consent-management-container">
       <div className="consent-management-header">
@@ -33,9 +48,11 @@ const ConsentManagement = () => {
         <label htmlFor="template-select">Choose a template:</label>
         <select id="template-select" value={selectedTemplate} onChange={handleTemplateChange}>
           <option value="">-- Select Template --</option>
-          <option value="template1">Template 1</option>
-          <option value="template2">Template 2</option>
-          <option value="template3">Template 3</option>
+          {templates.map((template) => (
+            <option key={template.id} value={template.id}>
+              {template.name}
+            </option>
+          ))}
         </select>
       </div>
 
