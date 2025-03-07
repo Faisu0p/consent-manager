@@ -114,6 +114,16 @@ const bannerService = {
     }
   },
 
+  // Get all full banner templates with related data
+  getAllFullBannerTemplates: async () => {
+    try {
+      const response = await api.get("/banner-templates/ull-templates");
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  }
+
 };
 
 export default bannerService;
