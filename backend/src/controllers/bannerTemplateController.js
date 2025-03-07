@@ -84,6 +84,76 @@ const bannerTemplateController = {
 
 
 
+    async getAllFullBannerTemplates(req, res) {
+        try {
+            // Step 1: Fetch all banner templates
+            const bannerTemplates = await bannerTemplateModel.getAllBannerTemplates();
+
+            // Step 2: Fetch all related data
+            const consentPortals = await bannerTemplateModel.getAllConsentPortals();
+            const consentCategories = await bannerTemplateModel.getAllConsentCategories();
+            const consentSubcategories = await bannerTemplateModel.getAllConsentSubcategories();
+            const partners = await bannerTemplateModel.getAllPartners();
+
+            // Step 3: Create a map to organize related data by template_id
+            const templatesMap = {};
+
+            // Initialize templates in the map
+            for (const template of bannerTemplates) {
+                templatesMap[template.id] = {
+                    ...template,
+                    portal: null,
+                    categories: [],
+                    partners: [],
+                };
+            }
+
+            // Step 4: Assign consent portal to its template
+            for (const portal of consentPortals) {
+                if (templatesMap[portal.template_id]) {
+                    templatesMap[portal.template_id].portal = portal;
+                }
+            }
+
+            // Step 5: Assign categories and create category map for subcategories
+            const categoryMap = {};
+            for (const category of consentCategories) {
+                if (templatesMap[category.template_id]) {
+                    templatesMap[category.template_id].categories.push({
+                        ...category,
+                        subcategories: [],
+                    });
+                    categoryMap[category.id] = templatesMap[category.template_id].categories[
+                        templatesMap[category.template_id].categories.length - 1
+                    ]; // Store reference to category object
+                }
+            }
+
+            // Step 6: Assign subcategories to their respective categories
+            for (const subcategory of consentSubcategories) {
+                if (categoryMap[subcategory.category_id]) {
+                    categoryMap[subcategory.category_id].subcategories.push(subcategory);
+                }
+            }
+
+            // Step 7: Assign partners to their respective templates
+            for (const partner of partners) {
+                if (templatesMap[partner.template_id]) {
+                    templatesMap[partner.template_id].partners.push(partner);
+                }
+            }
+
+            // Step 8: Convert the map to an array and send response
+            res.status(200).json({ templates: Object.values(templatesMap) });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error while fetching banner templates" });
+        }
+    },
+    
+
+
+
     // Create a new banner template
     async createBannerTemplate(req, res) {
         const errors = validationResult(req);

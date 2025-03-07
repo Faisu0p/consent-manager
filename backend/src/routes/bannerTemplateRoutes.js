@@ -55,6 +55,7 @@ router.post(
     bannerTemplateController.createBannerTemplate
 );
 
+
 // ✅ Create Consent Portal Entry (Only Admins can access)
 router.post(
     "/consent-portal/create",
@@ -66,6 +67,7 @@ router.post(
     // authMiddleware(["Admin"]), // Uncomment when auth is enabled
     bannerTemplateController.createConsentPortal
 );
+
 
 // Create Consent Category Route (Only Admins can access)
 router.post(
@@ -80,6 +82,7 @@ router.post(
     bannerTemplateController.createConsentCategory
 );
 
+
 // Create Consent Subcategory Route (Only Admins can access)
 router.post(
     "/consent-subcategory/create",
@@ -91,6 +94,7 @@ router.post(
     // authMiddleware(["Admin"]), // Commented out for testing
     bannerTemplateController.createConsentSubcategory
 );
+
 
 // Create Partner Route (Only Admins can access)
 router.post(
@@ -104,12 +108,22 @@ router.post(
     bannerTemplateController.createPartner
 );
 
+
+// Get All Banner Templates with Full Details (Accessible to all authenticated users)
+router.get(
+    "/full-templates", 
+    // authMiddleware(), // Uncomment when auth is enabled
+    bannerTemplateController.getAllFullBannerTemplates
+);
+
+
 // Get All Banner Templates (Accessible to all authenticated users)
 router.get(
     "/all-templates", 
     // authMiddleware(), // Commented out for testing
     bannerTemplateController.getAllBannerTemplates
 );
+
 
 // ✅ Get Consent Portal Entry by Template ID (Accessible to all authenticated users)
 router.get(
@@ -118,12 +132,14 @@ router.get(
     bannerTemplateController.getConsentPortalByTemplateId
 );
 
+
 // Get All Consent Categories for a Template (Accessible to all authenticated users)
 router.get(
     "/consent-categories/:templateId", 
     // authMiddleware(), // Commented out for testing
     bannerTemplateController.getConsentCategories
 );
+
 
 // Get All Consent Subcategories for a Category (Accessible to all authenticated users)
 router.get(
@@ -132,11 +148,13 @@ router.get(
     bannerTemplateController.getConsentSubcategories
 );
 
+
 // Get All Partners for a Template (Accessible to all authenticated users)
 router.get(
     "/partners/:templateId", 
     // authMiddleware(), // Commented out for testing
     bannerTemplateController.getPartners
 );
+
 
 export default router;

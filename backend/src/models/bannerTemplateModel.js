@@ -1,5 +1,5 @@
 import sql from "mssql";
-import connectDB from "../config/db.js";  // Assuming you're using the same DB connection utility
+import connectDB from "../config/db.js";
 
 const bannerTemplateModel = {
 
@@ -23,7 +23,7 @@ const bannerTemplateModel = {
                 VALUES (@name, @main_text, @info_paragraph, @header_text, @button_accept_text, @button_reject_text, @button_configure_text)
             `);
 
-        return result.recordset[0].id;  // Return the id of the created template
+        return result.recordset[0].id;
     },
 
     // Create a new consent portal
@@ -42,7 +42,7 @@ const bannerTemplateModel = {
                 VALUES (@template_id, @upper_text, @lower_text)
             `);
     
-        return result.recordset[0].id;  // Return the ID of the created consent portal entry
+        return result.recordset[0].id;
     },
     
 
@@ -63,7 +63,7 @@ const bannerTemplateModel = {
                 VALUES (@template_id, @name, @description, @is_required)
             `);
 
-        return result.recordset[0].id;  // Return the id of the created category
+        return result.recordset[0].id;
     },
 
     // Create a new consent subcategory
@@ -82,7 +82,7 @@ const bannerTemplateModel = {
                 VALUES (@category_id, @name, @description)
             `);
 
-        return result.recordset[0].id;  // Return the id of the created subcategory
+        return result.recordset[0].id;
     },
 
     // Create a new partner
@@ -101,7 +101,7 @@ const bannerTemplateModel = {
                 VALUES (@template_id, @name, @is_blocked)
             `);
 
-        return result.recordset[0].id;  // Return the id of the created partner
+        return result.recordset[0].id;
     },
 
 
@@ -112,7 +112,7 @@ const bannerTemplateModel = {
 
         const result = await pool.query("SELECT * FROM banner_templates");
 
-        return result.recordset;  // Return all banner templates
+        return result.recordset;
     },
 
 
@@ -126,7 +126,7 @@ const bannerTemplateModel = {
             .input("template_id", sql.Int, templateId)
             .query("SELECT * FROM consent_portal WHERE template_id = @template_id");
     
-        return result.recordset;  // Return the consent portal entry for the given template
+        return result.recordset;
     },
     
 
@@ -140,7 +140,7 @@ const bannerTemplateModel = {
             .input("template_id", sql.Int, templateId)
             .query("SELECT * FROM consent_categories WHERE template_id = @template_id");
 
-        return result.recordset;  // Return all categories for the given template
+        return result.recordset;
     },
 
     // Get all consent subcategories for a specific category
@@ -153,7 +153,7 @@ const bannerTemplateModel = {
             .input("category_id", sql.Int, categoryId)
             .query("SELECT * FROM consent_subcategories WHERE category_id = @category_id");
 
-        return result.recordset;  // Return all subcategories for the given category
+        return result.recordset;
     },
 
     // Get all partners for a specific template
@@ -166,7 +166,52 @@ const bannerTemplateModel = {
             .input("template_id", sql.Int, templateId)
             .query("SELECT * FROM partners WHERE template_id = @template_id");
 
-        return result.recordset;  // Return all partners for the given template
+        return result.recordset;
+    },
+
+    // All Banner Templates
+    async getAllBannerTemplates() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool.query("SELECT * FROM banner_templates");
+        return result.recordset;
+    },
+
+    // All Consent Portals
+    async getAllConsentPortals() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool.query("SELECT * FROM consent_portal");
+        return result.recordset;
+    },
+
+    // All Consent Categories
+    async getAllConsentCategories() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool.query("SELECT * FROM consent_categories");
+        return result.recordset;
+    },
+
+    // All Consent Subcategories
+    async getAllConsentSubcategories() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool.query("SELECT * FROM consent_subcategories");
+        return result.recordset;
+    },
+
+    // All Partners
+    async getAllPartners() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool.query("SELECT * FROM partners");
+        return result.recordset;
     }
 
 };
