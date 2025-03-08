@@ -29,6 +29,7 @@ const ConsentManagement = () => {
       try {
         const response = await bannerService.getAllFullBannerTemplates();
         setTemplates(response.templates); // Assuming response contains `templates`
+        console.log("All Templates fetched:", response.templates);
       } catch (error) {
         console.error("Error fetching templates:", error);
       }
@@ -36,6 +37,9 @@ const ConsentManagement = () => {
   
     fetchTemplates();
   }, []);
+
+  const selectedTemplateData = templates.find(template => String(template.id) === selectedTemplate) || null;
+
 
   return (
     <div className="consent-management-container">
@@ -59,9 +63,9 @@ const ConsentManagement = () => {
       {/* Preview Section */}
       <div className="consent-management-preview">
         {!isPortalOpen ? (
-          <CookieConsent openPortal={openPortal} />
+          <CookieConsent openPortal={openPortal} templateData={selectedTemplateData} />
         ) : (
-          <CookieConsentPortal onClose={closePortal} />
+          <CookieConsentPortal onClose={closePortal} templateData={selectedTemplateData} />
         )}
       </div>
 

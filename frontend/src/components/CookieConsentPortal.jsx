@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/CookieConsentPortal.css';
 
-const CookieConsentPortal = ({ companyName = "Didomi", onClose }) => {
+const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
     contentDisplay: false,
@@ -44,6 +44,11 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose }) => {
   };
 
   if (!isOpen) return null;
+
+
+  useEffect(() => {
+    console.log("Received template - CookieCOnsentPortal:", templateData);
+  }, [templateData]);
 
   return (
     <div className="cookie-portal-container">
