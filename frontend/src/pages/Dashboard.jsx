@@ -5,6 +5,8 @@ import { getAllUsers } from "../services/userServices";
 import ConsentOverview from "../components/ConsentOverview";
 import RecentActivity from "../components/RecentActivity";
 import AnalyticsReports from "../components/AnalyticsReports";
+import QuickActions from "../components/QuickActions";
+import ComplianceStatus from "../components/ComplianceStatus";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -41,6 +43,8 @@ const Dashboard = () => {
         <ConsentOverview />
         <AnalyticsReports />
         <RecentActivity />
+        <ComplianceStatus />
+        <QuickActions />
         {loading && <p className="dashboard-loading">Loading users...</p>}
         {error && <p className="dashboard-error">{error}</p>}
         {!loading && !error && <UserGrid users={users} />}
