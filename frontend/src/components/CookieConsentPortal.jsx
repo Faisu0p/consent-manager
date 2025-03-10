@@ -338,7 +338,7 @@ const CookieConsentPortal = ({ onClose, templateData }) => {
                 <path d="M12 20L16 24L26 14" stroke="white" strokeWidth="2"/>
               </svg>
               <div className="cookie-portal-didomi-text">
-                <span className="cookie-portal-didomi-brand">DIDOMI</span>
+                <span className="cookie-portal-didomi-brand">{templateData ? templateData.name : "COMPANY"}</span>
                 <span className="cookie-portal-didomi-tagline">PRIVACY MANAGEMENT</span>
               </div>
             </div>
