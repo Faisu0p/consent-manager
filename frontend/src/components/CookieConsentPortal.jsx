@@ -67,7 +67,7 @@ const CookieConsentPortal = ({ onClose, templateData }) => {
 
         <div className="cookie-portal-content">
           <p className="cookie-portal-consent-text">
-          {templateData.portal && templateData.portal.upper_text 
+          {templateData
             ? templateData.portal.upper_text 
             : "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations. To learn more about cookies, partners, and how we use your data, to review your options or these operations for each partner, visit our privacy center."
           }
@@ -268,7 +268,7 @@ const CookieConsentPortal = ({ onClose, templateData }) => {
 
           <div className="cookie-portal-consent-footnote">
             <p>
-            {templateData.portal && templateData.portal.lower_text 
+            {templateData 
               ? templateData.portal.lower_text 
               : "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing: Deliver and present advertising and content, Ensure security, prevent and detect fraud, and fix errors, Link different devices, Match and combine data from other data sources, and Save and communicate privacy choices."
             }
