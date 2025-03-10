@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/CookieConsentPortal.css';
 
-const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) => {
+const CookieConsentPortal = ({ onClose, templateData }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
     contentDisplay: false,
@@ -61,17 +61,17 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
               </svg>
             </div>
           </div>
-          <h2 className="cookie-portal-welcome-title">Welcome to {companyName}</h2>
+          <h2 className="cookie-portal-welcome-title">Welcome to {templateData ? templateData.name : "COMPANY"}</h2>
           <button className="cookie-portal-close-button" onClick={handleClose}>✕</button>
         </div>
 
         <div className="cookie-portal-content">
           <p className="cookie-portal-consent-text">
-            We and our partners place cookies, access and use non-sensitive information from your 
-            device to improve our products and personalize ads and other contents throughout this 
-            website. You may accept all or part of these operations. To learn more about cookies, 
-            partners, and <a href="#" className="cookie-portal-link-text">how we use your data</a>, to review your options or these operations for each 
-            partner, visit our <a href="#" className="cookie-portal-link-text">privacy center</a>.
+          {templateData.portal && templateData.portal.upper_text 
+            ? templateData.portal.upper_text 
+            : "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations. To learn more about cookies, partners, and how we use your data, to review your options or these operations for each partner, visit our privacy center."
+          }
+
           </p>
 
           <div className="cookie-portal-allow-section">
@@ -87,7 +87,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('contentDisplay')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.contentDisplay ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.contentDisplay ? '−' : '+'}
+                  {expandedSections.contentDisplay ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Content display</span>
                 <span className="cookie-portal-required-tag">REQUIRED</span>
@@ -103,7 +103,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('storing')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.storing ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.storing ? '−' : '+'}
+                  {expandedSections.storing ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Storing and/or accessing information on a terminal</span>
               </div>
@@ -125,7 +125,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('authentication')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.authentication ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.authentication ? '−' : '+'}
+                  {expandedSections.authentication ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Authentication and authorization management</span>
               </div>
@@ -143,7 +143,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('storeAccess')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.storeAccess ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.storeAccess ? '−' : '+'}
+                  {expandedSections.storeAccess ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Store and/or access information on a device</span>
               </div>
@@ -161,7 +161,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('functionality')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.functionality ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.functionality ? '−' : '+'}
+                  {expandedSections.functionality ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Functionality</span>
               </div>
@@ -179,7 +179,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('advertising')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.advertising ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.advertising ? '−' : '+'}
+                  {expandedSections.advertising ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Personalised advertising and ad performance measurement</span>
               </div>
@@ -197,7 +197,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('personalizedContent')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.personalizedContent ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.personalizedContent ? '−' : '+'}
+                  {expandedSections.personalizedContent ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Personalised content, content performance measurement, audience data, and product development</span>
               </div>
@@ -215,7 +215,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('analytics')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.analytics ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.analytics ? '−' : '+'}
+                  {expandedSections.analytics ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Analytics</span>
               </div>
@@ -233,7 +233,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('scanDevice')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.scanDevice ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.scanDevice ? '−' : '+'}
+                  {expandedSections.scanDevice ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Actively scan device characteristics for identification</span>
               </div>
@@ -251,7 +251,7 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
             <div className="cookie-portal-consent-section">
               <div className="cookie-portal-section-header" onClick={() => toggleSection('geolocation')}>
                 <span className={`cookie-portal-toggle-icon ${expandedSections.geolocation ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
-                  {expandedSections.geolocation ? '−' : '+'}
+                  {expandedSections.geolocation ? '-' : '+'}
                 </span>
                 <span className="cookie-portal-section-title">Storage and access to geolocation information for targeted advertising purposes</span>
               </div>
@@ -268,10 +268,11 @@ const CookieConsentPortal = ({ companyName = "Didomi", onClose, templateData }) 
 
           <div className="cookie-portal-consent-footnote">
             <p>
-              By giving consent to the purposes above, you also allow this website and its partners to operate 
-              the following data processing: <a href="#" className="cookie-portal-link-text">Deliver and present advertising and content</a>, <a href="#" className="cookie-portal-link-text">Ensure security, 
-              prevent and detect fraud, and fix errors</a>, <a href="#" className="cookie-portal-link-text">Link different devices</a>, <a href="#" className="cookie-portal-link-text">Match and combine data from other 
-              data sources</a>, and <a href="#" className="cookie-portal-link-text">Save and communicate privacy choices</a>.
+            {templateData.portal && templateData.portal.lower_text 
+              ? templateData.portal.lower_text 
+              : "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing: Deliver and present advertising and content, Ensure security, prevent and detect fraud, and fix errors, Link different devices, Match and combine data from other data sources, and Save and communicate privacy choices."
+            }
+
             </p>
           </div>
 
