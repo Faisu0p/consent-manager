@@ -82,6 +82,9 @@ const CookieConsentPortal = ({ onClose, templateData }) => {
             </div>
           </div>
 
+
+        {!templateData ? (
+          
           <div className="cookie-portal-consent-options">
             {/* Content display */}
             <div className="cookie-portal-consent-section">
@@ -265,6 +268,50 @@ const CookieConsentPortal = ({ onClose, templateData }) => {
               )}
             </div>
           </div>
+        
+
+      ) : (
+        <div className="cookie-portal-dynamic-sections">
+          {templateData.categories.map((category, index) => (
+            <div key={index} className="cookie-portal-consent-section">
+              {/* Category Header */}
+              <div className="cookie-portal-section-header" onClick={() => toggleSection(`category-${index}`)}>
+                <span className={`cookie-portal-toggle-icon ${expandedSections[`category-${index}`] ? 'cookie-portal-minus' : 'cookie-portal-plus'}`}>
+                  {expandedSections[`category-${index}`] ? '-' : '+'}
+                </span>
+                <span className="cookie-portal-section-title">{category.name}</span>
+              </div>
+      
+              {/* Category Content */}
+              {expandedSections[`category-${index}`] && (
+                <div className="cookie-portal-section-content">
+                  <p className="cookie-portal-section-description">{category.description}</p>
+      
+                  {/* Subcategories Section */}
+                  {category.subcategories && category.subcategories.length > 0 && (
+                    <div className="cookie-portal-subcategories">
+                      {category.subcategories.map((sub, subIndex) => (
+                        <div key={subIndex} className="cookie-portal-subcategory">
+                          <span className="cookie-portal-subcategory-title">{sub.name}</span>
+                          <p className="cookie-portal-subcategory-description">{sub.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+      
+                  {/* Action Buttons */}
+                  <div className="cookie-portal-action-buttons">
+                    <button className="cookie-portal-disagree-button">Disagree</button>
+                    <button className="cookie-portal-agree-button">Agree</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      
+      
 
           <div className="cookie-portal-consent-footnote">
             <p>
