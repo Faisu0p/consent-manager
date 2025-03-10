@@ -4,6 +4,7 @@ import UserGrid from "../components/UserTile";
 import { getAllUsers } from "../services/userServices";
 import ConsentOverview from "../components/ConsentOverview";
 import RecentActivity from "../components/RecentActivity";
+import AnalyticsReports from "../components/AnalyticsReports";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -38,6 +39,7 @@ const Dashboard = () => {
       <div className="dashboard-content">
         <h1>............................................Welcome to Consent Manager Dashboard...................................</h1>
         <ConsentOverview />
+        <AnalyticsReports />
         <RecentActivity />
         {loading && <p className="dashboard-loading">Loading users...</p>}
         {error && <p className="dashboard-error">{error}</p>}
