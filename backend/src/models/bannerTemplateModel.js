@@ -115,6 +115,19 @@ const bannerTemplateModel = {
         return result.recordset;
     },
 
+    // Get a specific banner template by ID
+    async getBannerTemplateById(templateId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool
+            .request()
+            .input("template_id", sql.Int, templateId)
+            .query("SELECT * FROM banner_templates WHERE id = @template_id");
+
+        return result.recordset.length > 0 ? result.recordset[0] : null; 
+    },
+
 
     // Get a specific consent portal by template ID
     async getConsentPortalByTemplateId(templateId) {
