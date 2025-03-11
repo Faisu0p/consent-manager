@@ -46,77 +46,7 @@ const getFullBannerTemplateById = async (req, res) => {
     }
 };
 
-// const generateConsentScript = async (req, res) => {
-//   try {
-//       const { templateId } = req.params;
 
-//       // Fetch the full template details using model functions directly
-//       const template = await bannerTemplateModel.getBannerTemplateById(templateId);
-//       if (!template) {
-//           return res.status(404).send("Template not found");
-//       }
-
-//       const categories = await bannerTemplateModel.getConsentCategories(templateId);
-//       const partners = await bannerTemplateModel.getPartners(templateId);
-
-//       // Fetch subcategories for each category
-//       for (const category of categories) {
-//           category.subcategories = await bannerTemplateModel.getConsentSubcategories(category.id);
-//       }
-
-//       // Construct the response object
-//       const response = {
-//           ...template,
-//           categories,
-//           partners,
-//       };
-
-//       // Generate JavaScript dynamically using template details
-//       const scriptContent = `
-//           (function() {
-//               var banner = document.createElement("div");
-//               banner.style.position = "fixed";
-//               banner.style.bottom = "0";
-//               banner.style.width = "100%";
-//               banner.style.backgroundColor = "black";
-//               banner.style.color = "white";
-//               banner.style.padding = "10px";
-//               banner.style.textAlign = "center";
-
-//               banner.innerHTML = \`
-//                   <h3>${response.header_text}</h3>
-//                   <p>${response.main_text}</p>
-//                   <button onclick="acceptConsent()"> ${response.button_accept_text} </button>
-//                   <button onclick="rejectConsent()"> ${response.button_reject_text} </button>
-//                   <button onclick="openConfig()"> ${response.button_configure_text} </button>
-//               \`;
-
-//               document.body.appendChild(banner);
-
-//               window.acceptConsent = function() {
-//                   document.body.removeChild(banner);
-//                   localStorage.setItem("consentGiven", "true");
-//               };
-
-//               window.rejectConsent = function() {
-//                   document.body.removeChild(banner);
-//                   localStorage.setItem("consentGiven", "false");
-//               };
-
-//               window.openConfig = function() {
-//                   alert("Open settings to configure consent");
-//               };
-//           })();
-//       `;
-
-//       // Return JavaScript response
-//       res.setHeader("Content-Type", "application/javascript");
-//       res.send(scriptContent);
-//   } catch (error) {
-//       console.error("Error generating script:", error);
-//       res.status(500).send("Internal Server Error");
-//   }
-// };
 
 
 const generateConsentScript = async (req, res) => {
