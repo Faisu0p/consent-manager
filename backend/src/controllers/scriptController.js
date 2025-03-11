@@ -46,11 +46,84 @@ const getFullBannerTemplateById = async (req, res) => {
     }
 };
 
+// const generateConsentScript = async (req, res) => {
+//   try {
+//       const { templateId } = req.params;
+
+//       // Fetch the full template details using model functions directly
+//       const template = await bannerTemplateModel.getBannerTemplateById(templateId);
+//       if (!template) {
+//           return res.status(404).send("Template not found");
+//       }
+
+//       const categories = await bannerTemplateModel.getConsentCategories(templateId);
+//       const partners = await bannerTemplateModel.getPartners(templateId);
+
+//       // Fetch subcategories for each category
+//       for (const category of categories) {
+//           category.subcategories = await bannerTemplateModel.getConsentSubcategories(category.id);
+//       }
+
+//       // Construct the response object
+//       const response = {
+//           ...template,
+//           categories,
+//           partners,
+//       };
+
+//       // Generate JavaScript dynamically using template details
+//       const scriptContent = `
+//           (function() {
+//               var banner = document.createElement("div");
+//               banner.style.position = "fixed";
+//               banner.style.bottom = "0";
+//               banner.style.width = "100%";
+//               banner.style.backgroundColor = "black";
+//               banner.style.color = "white";
+//               banner.style.padding = "10px";
+//               banner.style.textAlign = "center";
+
+//               banner.innerHTML = \`
+//                   <h3>${response.header_text}</h3>
+//                   <p>${response.main_text}</p>
+//                   <button onclick="acceptConsent()"> ${response.button_accept_text} </button>
+//                   <button onclick="rejectConsent()"> ${response.button_reject_text} </button>
+//                   <button onclick="openConfig()"> ${response.button_configure_text} </button>
+//               \`;
+
+//               document.body.appendChild(banner);
+
+//               window.acceptConsent = function() {
+//                   document.body.removeChild(banner);
+//                   localStorage.setItem("consentGiven", "true");
+//               };
+
+//               window.rejectConsent = function() {
+//                   document.body.removeChild(banner);
+//                   localStorage.setItem("consentGiven", "false");
+//               };
+
+//               window.openConfig = function() {
+//                   alert("Open settings to configure consent");
+//               };
+//           })();
+//       `;
+
+//       // Return JavaScript response
+//       res.setHeader("Content-Type", "application/javascript");
+//       res.send(scriptContent);
+//   } catch (error) {
+//       console.error("Error generating script:", error);
+//       res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
 const generateConsentScript = async (req, res) => {
   try {
       const { templateId } = req.params;
 
-      // Fetch the full template details using model functions directly
+      // Fetch the full template details using model functions
       const template = await bannerTemplateModel.getBannerTemplateById(templateId);
       if (!template) {
           return res.status(404).send("Template not found");
@@ -74,33 +147,127 @@ const generateConsentScript = async (req, res) => {
       // Generate JavaScript dynamically using template details
       const scriptContent = `
           (function() {
+              if (localStorage.getItem("consentGiven")) return;
+
               var banner = document.createElement("div");
-              banner.style.position = "fixed";
-              banner.style.bottom = "0";
-              banner.style.width = "100%";
-              banner.style.backgroundColor = "black";
-              banner.style.color = "white";
-              banner.style.padding = "10px";
-              banner.style.textAlign = "center";
+              banner.classList.add("cookie-banner-container");
 
               banner.innerHTML = \`
-                  <h3>${response.header_text}</h3>
-                  <p>${response.main_text}</p>
-                  <button onclick="acceptConsent()"> ${response.button_accept_text} </button>
-                  <button onclick="rejectConsent()"> ${response.button_reject_text} </button>
-                  <button onclick="openConfig()"> ${response.button_configure_text} </button>
+                  <div class="cookie-banner-banner">
+                      <div class="cookie-banner-header">
+                          <h1 class="cookie-banner-company-name">${response.name || "COMPANY"}</h1>
+                          <h2 class="cookie-banner-title">${response.header_text || "Do you agree to let us use cookies?"}</h2>
+                      </div>
+                      <div class="cookie-banner-content">
+                          <p class="cookie-banner-intro">${response.main_text || "We and our partners use cookies and trackers."}</p>
+                          <p class="cookie-banner-details">${response.info_paragraph || "Some cookies are needed for technical purposes, while others help with ads, insights, and more."}</p>
+                          <div class="cookie-banner-buttons">
+                              <button class="cookie-banner-configure-button" onclick="openConfig()">${response.button_configure_text || "Configure"}</button>
+                              <button class="cookie-banner-disagree-button" onclick="rejectConsent()">${response.button_reject_text || "I disagree"}</button>
+                              <button class="cookie-banner-agree-button" onclick="acceptConsent()">${response.button_accept_text || "I agree"}</button>
+                          </div>
+                      </div>
+                  </div>
               \`;
 
+              var style = document.createElement("style");
+              style.innerHTML = \`
+                  .cookie-banner-container {
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      position: fixed;
+                      bottom: 0;
+                      width: 100%;
+                      background: rgba(0, 0, 0, 0.5);
+                      padding: 20px;
+                  }
+                  .cookie-banner-banner {
+                      background-color: white;
+                      border-radius: 8px;
+                      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+                      width: 100%;
+                      max-width: 600px;
+                      overflow: hidden;
+                      padding: 20px;
+                      text-align: center;
+                  }
+                  .cookie-banner-header {
+                      background-color: #f8f8f8;
+                      padding: 15px;
+                      border-bottom: 1px solid #eaeaea;
+                  }
+                  .cookie-banner-company-name {
+                      font-size: 24px;
+                      font-weight: bold;
+                      color: #1a2a3a;
+                      margin-bottom: 10px;
+                      text-transform: uppercase;
+                  }
+                  .cookie-banner-title {
+                      font-size: 20px;
+                      font-weight: bold;
+                      color: #1a2a3a;
+                  }
+                  .cookie-banner-content {
+                      padding: 20px;
+                  }
+                  .cookie-banner-intro, .cookie-banner-details {
+                      font-size: 14px;
+                      color: #333;
+                      margin-bottom: 15px;
+                  }
+                  .cookie-banner-buttons {
+                      display: flex;
+                      justify-content: space-between;
+                      gap: 10px;
+                  }
+                  .cookie-banner-configure-button,
+                  .cookie-banner-disagree-button,
+                  .cookie-banner-agree-button {
+                      flex: 1;
+                      padding: 10px;
+                      border-radius: 5px;
+                      font-size: 14px;
+                      font-weight: bold;
+                      cursor: pointer;
+                      transition: background-color 0.2s;
+                  }
+                  .cookie-banner-configure-button {
+                      background-color: white;
+                      color: #3373cc;
+                      border: 1px solid #3373cc;
+                  }
+                  .cookie-banner-configure-button:hover {
+                      background-color: #f0f5ff;
+                  }
+                  .cookie-banner-disagree-button {
+                      background-color: #f1f1f1;
+                      color: #333;
+                  }
+                  .cookie-banner-disagree-button:hover {
+                      background-color: #e5e5e5;
+                  }
+                  .cookie-banner-agree-button {
+                      background-color: #3373cc;
+                      color: white;
+                  }
+                  .cookie-banner-agree-button:hover {
+                      background-color: #2861b1;
+                  }
+              \`;
+
+              document.head.appendChild(style);
               document.body.appendChild(banner);
 
               window.acceptConsent = function() {
-                  document.body.removeChild(banner);
                   localStorage.setItem("consentGiven", "true");
+                  document.body.removeChild(banner);
               };
 
               window.rejectConsent = function() {
-                  document.body.removeChild(banner);
                   localStorage.setItem("consentGiven", "false");
+                  document.body.removeChild(banner);
               };
 
               window.openConfig = function() {
@@ -117,6 +284,7 @@ const generateConsentScript = async (req, res) => {
       res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 // Export the controller functions
