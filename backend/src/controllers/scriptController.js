@@ -85,16 +85,16 @@ const generateConsentScript = async (req, res) => {
               banner.innerHTML = \`
                   <div class="cookie-banner-banner">
                       <div class="cookie-banner-header">
-                          <h1 class="cookie-banner-company-name">${response.name || "COMPANY"}</h1>
-                          <h2 class="cookie-banner-title">${response.header_text || "Do you agree to let us use cookies?"}</h2>
+                          <h1 class="cookie-banner-company-name">${response.name}</h1>
+                          <h2 class="cookie-banner-title">${response.header_text}</h2>
                       </div>
                       <div class="cookie-banner-content">
-                          <p class="cookie-banner-intro">${response.main_text || "We and our partners use cookies and trackers."}</p>
-                          <p class="cookie-banner-details">${response.info_paragraph || "Some cookies are needed for technical purposes, while others help with ads, insights, and more."}</p>
+                          <p class="cookie-banner-intro">${response.main_text}</p>
+                          <p class="cookie-banner-details">${response.info_paragraph}</p>
                           <div class="cookie-banner-buttons">
-                              <button class="cookie-banner-configure-button" onclick="openConfig()">${response.button_configure_text || "Configure"}</button>
-                              <button class="cookie-banner-disagree-button" onclick="rejectConsent()">${response.button_reject_text || "I disagree"}</button>
-                              <button class="cookie-banner-agree-button" onclick="acceptConsent()">${response.button_accept_text || "I agree"}</button>
+                              <button class="cookie-banner-configure-button" onclick="openConfig()">${response.button_configure_text}</button>
+                              <button class="cookie-banner-disagree-button" onclick="rejectConsent()">${response.button_reject_text}</button>
+                              <button class="cookie-banner-agree-button" onclick="acceptConsent()">${response.button_accept_text}</button>
                           </div>
                       </div>
                   </div>
