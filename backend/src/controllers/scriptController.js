@@ -77,7 +77,29 @@ const generateConsentScript = async (req, res) => {
         // Generate JavaScript dynamically using template details
         const scriptContent = `
             (function() {
-                if (localStorage.getItem("consentGiven")) return;
+
+                function setCookie(name, value, days) {
+                    var expires = "";
+                    if (days) {
+                        var date = new Date();
+                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                        expires = "; expires=" + date.toUTCString();
+                    }
+                    document.cookie = name + "=" + value + "; path=/; SameSite=None; Secure" + expires;
+                }
+
+                function getCookie(name) {
+                    var nameEQ = name + "=";
+                    var ca = document.cookie.split(';');
+                    for(var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                    }
+                    return null;
+                }
+
+                if (getCookie("consentGiven")) return;
   
                 var banner = document.createElement("div");
                 banner.classList.add("cookie-banner-container");
@@ -195,18 +217,61 @@ const generateConsentScript = async (req, res) => {
                 document.body.appendChild(banner);
   
                 window.acceptConsent = function() {
-                    localStorage.setItem("consentGiven", "true");
+                    setCookie("consentGiven", "true", 365);
                     document.body.removeChild(banner);
                 };
-  
+
                 window.rejectConsent = function() {
-                    localStorage.setItem("consentGiven", "false");
+                    setCookie("consentGiven", "false", 365);
                     document.body.removeChild(banner);
                 };
-  
+
+
+
+
+
+                // Open config modal
                 window.openConfig = function() {
-                    alert("Open settings to configure consent");
+                    if (document.querySelector(".cookie-config-modal")) return; // Prevent multiple modals
+
+                    var modal = document.createElement("div");
+                    modal.classList.add("cookie-config-modal");
+                    
+                    // Add the z-index for modal directly in the style
+                    modal.style.position = "fixed";
+                    modal.style.top = "50%";
+                    modal.style.left = "50%";
+                    modal.style.transform = "translate(-50%, -50%)";
+                    modal.style.backgroundColor = "white";
+                    modal.style.padding = "20px";
+                    modal.style.borderRadius = "10px";
+                    modal.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
+                    modal.style.zIndex = "10001"; // Higher z-index than the banner
+                    
+                    modal.innerHTML = \`
+                        <div class="cookie-config-content">
+                            <span class="cookie-config-close">X</span>
+                            <h2>Consent Settings</h2>
+                            <p>Hello World</p>
+                        </div>
+                    \`;
+
+                    modal.querySelector(".cookie-config-close").addEventListener("click", closeConfig);
+
+                    document.body.appendChild(modal);
                 };
+
+                // Close config modal
+                window.closeConfig = function() {
+                    var modal = document.querySelector(".cookie-config-modal");
+                    if (modal) {
+                        modal.remove();
+                    }
+                };
+
+
+
+                
             })();
         `;
   
