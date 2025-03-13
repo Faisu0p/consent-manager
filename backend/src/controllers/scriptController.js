@@ -254,7 +254,7 @@ const generateConsentScript = async (req, res) => {
                     modal.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
                     modal.style.zIndex = "10001"; // Higher than the banner
                     modal.style.width = "90vh";
-                    modal.style.maxWidth = "400px";
+                    modal.style.maxWidth = "500px";
                     modal.style.maxHeight = "80vh"; // Prevents overflow
                     modal.style.overflowY = "auto";
 
@@ -341,16 +341,25 @@ const generateConsentScript = async (req, res) => {
                                     margin-bottom: 15px;
                                 ">
                                     ${response.categories.map(category => `
-                                        <div class="cookie-portal-allow-item" style="display: flex; flex-direction: column;">
+                                        <div class="cookie-portal-allow-item" style="display: flex; flex-direction: column; align-items: flex-start;">
                                             <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #2c3e50;">
-                                                <input type="checkbox"> ${category.name}
+                                                <input type="checkbox" checked> ${category.name}
                                             </label>
-                                            <ul style="margin-left: 24px; font-size: 12px; color: #555; list-style: none; padding-left: 0;">
-                                                ${category.subcategories.map(sub => `<li>- ${sub.name}</li>`).join('')}
+                                            <ul style="
+                                                margin-top: 5px;
+                                                margin-left: 30px; /* Adjust indentation */
+                                                font-size: 12px;
+                                                color: #555;
+                                                list-style-type: disc; /* Bulleted list */
+                                                padding-left: 20px;
+                                                text-align: left; /* Ensures text aligns left */
+                                            ">
+                                                ${category.subcategories.map(sub => `<li>${sub.name}</li>`).join('')}
                                             </ul>
                                         </div>
                                     `).join('')}
                                 </div>
+
 
 
                                 <p class="cookie-portal-consent-text" style="
