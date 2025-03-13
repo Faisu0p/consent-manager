@@ -222,12 +222,36 @@ const generateConsentScript = async (req, res) => {
   
                 document.head.appendChild(style);
                 document.body.appendChild(banner);
-  
+
+
+                // Event handler for the Accept button
                 window.acceptConsent = function() {
-                    setCookie("consentGiven", "true", 365);
+                    var categories = ${JSON.stringify(response.categories)};
+                    var selectedCategories = categories.map(cat => ({ id: cat.id, name: cat.name }));
+
+                    // Function to get cookie value by name
+                    function getCookie(name) {
+                        var match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+                        return match ? decodeURIComponent(match[2]) : null;
+                    }
+
+                    var existingCategories = getCookie("consentCategories");
+
+                    if (existingCategories) {
+                        // If selectedCategories are already present, only save consentGiven
+                        setCookie("consentGiven", "true", 365);
+                    } else {
+                        // If selectedCategories are not in cookies, save them
+                        document.cookie = "consentCategories=" + encodeURIComponent(JSON.stringify(selectedCategories)) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+                        setCookie("consentGiven", "true", 365);
+                    }
+
                     document.body.removeChild(banner);
                 };
 
+
+
+                // Event handlers for the Reject button
                 window.rejectConsent = function() {
                     setCookie("consentGiven", "false", 365);
                     document.body.removeChild(banner);
