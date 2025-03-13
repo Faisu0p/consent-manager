@@ -80,7 +80,7 @@ const ConsentManagement = () => {
       {scriptGenerated && (
         <div className="consent-management-script-output">
           <p>Script generated. Copy here:</p>
-          <textarea readOnly value={`<script>Generated script for ${selectedTemplate}</script>`} />
+          <textarea readOnly value={`<script src="http://localhost:5000/api/generate-script/${selectedTemplate}"></script>`} />
         </div>
       )}
     </div>
