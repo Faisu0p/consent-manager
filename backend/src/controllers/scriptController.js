@@ -181,14 +181,21 @@ const generateConsentScript = async (req, res) => {
                     .cookie-banner-disagree-button,
                     .cookie-banner-agree-button {
                         flex: 1;
-                        padding: 12px;
-                        border-radius: 5px;
+                        padding: 12px 20px;
+                        border-radius: 25px; /* Makes buttons more cylindrical */
                         font-size: 14px;
                         font-weight: bold;
                         cursor: pointer;
-                        transition: background-color 0.2s ease;
+                        transition: background-color 0.2s ease, transform 0.1s ease;
                         border: none;
                     }
+
+                    .cookie-banner-configure-button:hover,
+                    .cookie-banner-disagree-button:hover,
+                    .cookie-banner-agree-button:hover {
+                        transform: scale(1.05); /* Slight hover effect */
+                    }
+
                     .cookie-banner-configure-button {
                         background-color: white;
                         color: #3373cc;
