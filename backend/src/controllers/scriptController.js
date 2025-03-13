@@ -343,7 +343,8 @@ const generateConsentScript = async (req, res) => {
                                     ${response.categories.map(category => `
                                         <div class="cookie-portal-allow-item" style="display: flex; flex-direction: column; align-items: flex-start;">
                                             <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #2c3e50;">
-                                                <input type="checkbox" checked> ${category.name}
+                                                <input type="checkbox" checked data-id="${category.id}" class="cookie-category-checkbox"> ${category.name}
+
                                             </label>
                                             <ul style="
                                                 margin-top: 5px;
@@ -392,6 +393,8 @@ const generateConsentScript = async (req, res) => {
                                     </svg>
                                 </div>
 
+
+
                                 <!-- Save button with text below -->
                                 <div class="cookie-portal-save-container" style="
                                     text-align: center;
@@ -423,6 +426,24 @@ const generateConsentScript = async (req, res) => {
 
                     // Append modal to body
                     document.body.appendChild(modal);
+
+                    // Save button event
+                    modal.querySelector(".cookie-portal-save-button").addEventListener("click", function() {
+                        var selectedCategories = [];
+                        document.querySelectorAll(".cookie-category-checkbox:checked").forEach(checkbox => {
+                            selectedCategories.push({
+                                id: checkbox.getAttribute("data-id"),
+                                name: checkbox.parentElement.textContent.trim()
+                            });
+                        });
+
+                        // Store selected categories in a cookie
+                        document.cookie = "selectedCategories=" + encodeURIComponent(JSON.stringify(selectedCategories)) + "; path=/; max-age=31536000"; // 1 year expiration
+
+                        // Close modal after saving
+                        closeConfig();
+                    });
+
                 };
 
                 // Close config modal
