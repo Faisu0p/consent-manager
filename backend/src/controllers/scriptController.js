@@ -229,262 +229,191 @@ const generateConsentScript = async (req, res) => {
 
 
 
+                // Open config modal
+                window.openConfig = function(response) {
+                    if (document.querySelector(".cookie-config-modal")) return; // Prevent multiple modals
 
-                // // Open config modal
-                // window.openConfig = function() {
-                //     if (document.querySelector(".cookie-config-modal")) return; // Prevent multiple modals
+                    var modal = document.createElement("div");
+                    modal.classList.add("cookie-config-modal");
 
-                //     var modal = document.createElement("div");
-                //     modal.classList.add("cookie-config-modal");
-                    
-                //     // Add the z-index for modal directly in the style
-                //     modal.style.position = "fixed";
-                //     modal.style.top = "50%";
-                //     modal.style.left = "50%";
-                //     modal.style.transform = "translate(-50%, -50%)";
-                //     modal.style.backgroundColor = "white";
-                //     modal.style.padding = "20px";
-                //     modal.style.borderRadius = "10px";
-                //     modal.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
-                //     modal.style.zIndex = "10001"; // Higher z-index than the banner
-                    
-                //     modal.innerHTML = \`
-                //         <div class="cookie-config-content">
-                //             <span class="cookie-config-close">X</span>
-                //             <h2>Consent Settings</h2>
-                //             <p>Hello World</p>
-                //         </div>
-                //     \`;
+                    // Modal styling
+                    modal.style.position = "fixed";
+                    modal.style.top = "50%";
+                    modal.style.left = "50%";
+                    modal.style.transform = "translate(-50%, -50%)";
+                    modal.style.backgroundColor = "#fff";
+                    modal.style.padding = "20px";
+                    modal.style.borderRadius = "10px";
+                    modal.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
+                    modal.style.zIndex = "10001"; // Higher than the banner
+                    modal.style.width = "400px";
+                    modal.style.maxWidth = "90%";
 
-                //     modal.querySelector(".cookie-config-close").addEventListener("click", closeConfig);
-
-                //     document.body.appendChild(modal);
-                // };
-
-                // // Close config modal
-                // window.closeConfig = function() {
-                //     var modal = document.querySelector(".cookie-config-modal");
-                //     if (modal) {
-                //         modal.remove();
-                //     }
-                // };
+                    // Modal content using API response data
+                    modal.innerHTML = \`
+                        <div class="cookie-portal-banner">
 
 
+                            <!-- Header -->
+                            <div class="cookie-portal-header" style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                padding-bottom: 15px;
+                                border-bottom: 1px solid #e0e0e0;
+                                position: relative;
+                                text-align: left;
+                            ">
+                                <!-- Left Side: Icon and Text -->
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="cookie-portal-icon-container" style="
+                                        width: 40px;
+                                        height: 40px;
+                                        background: #e6f0fa;
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        border-radius: 50%;
+                                    ">
+                                        <div class="cookie-portal-pen-icon">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M18 2L22 6L12 16H8V12L18 2Z" fill="#2E75B7"/>
+                                            </svg>
+                                        </div>
+                                    </div>
 
-// Open config modal
-window.openConfig = function(response) {
-    if (document.querySelector(".cookie-config-modal")) return; // Prevent multiple modals
+                                    <h1 class="cookie-banner-company-name" style="
+                                        font-size: 18px;
+                                        font-weight: bold;
+                                        color: #2c3e50;
+                                        margin: 0;
+                                    ">
+                                        Welcome to ${response.name}
+                                    </h1>
+                                </div>
 
-    var modal = document.createElement("div");
-    modal.classList.add("cookie-config-modal");
-
-    // Modal styling
-    modal.style.position = "fixed";
-    modal.style.top = "50%";
-    modal.style.left = "50%";
-    modal.style.transform = "translate(-50%, -50%)";
-    modal.style.backgroundColor = "#fff";
-    modal.style.padding = "20px";
-    modal.style.borderRadius = "10px";
-    modal.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
-    modal.style.zIndex = "10001"; // Higher than the banner
-    modal.style.width = "400px";
-    modal.style.maxWidth = "90%";
-
-    // Modal content using API response data
-    modal.innerHTML = \`
-        <div class="cookie-portal-banner">
+                                <!-- Close Button (Right Side) -->
+                                <button class="cookie-portal-close-button" style="
+                                    position: absolute;
+                                    top: 10px;
+                                    right: 10px;
+                                    background: none;
+                                    border: none;
+                                    font-size: 18px;
+                                    cursor: pointer;
+                                    color: #777;
+                                ">✕</button>
+                            </div>
 
 
-            <!-- Header -->
-            <div class="cookie-portal-header" style="
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding-bottom: 15px;
-                border-bottom: 1px solid #e0e0e0;
-                position: relative;
-                text-align: left;
-            ">
-                <!-- Left Side: Icon and Text -->
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div class="cookie-portal-icon-container" style="
-                        width: 40px;
-                        height: 40px;
-                        background: #e6f0fa;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        border-radius: 50%;
-                    ">
-                        <div class="cookie-portal-pen-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 2L22 6L12 16H8V12L18 2Z" fill="#2E75B7"/>
-                            </svg>
+
+                            <!-- Main Content -->
+
+                            <div class="cookie-portal-content">
+                                <p class="cookie-portal-consent-text" style="
+                                    font-size: 14px;
+                                    color: #333;
+                                    line-height: 1.5;
+                                    margin: 15px 0;
+                                ">
+                                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
+                                </p>
+
+
+
+
+                                <div class="cookie-portal-allow-section" style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 15px;
+                                    padding: 10px;
+                                    background: #f8f9fa;
+                                    border-radius: 8px;
+                                    margin-bottom: 15px;
+                                ">
+                                    ${response.categories.map(category => `
+                                        <div class="cookie-portal-allow-item" style="display: flex; flex-direction: column;">
+                                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #2c3e50;">
+                                                <input type="checkbox"> ${category.name}
+                                            </label>
+                                            <ul style="margin-left: 24px; font-size: 12px; color: #555; list-style: none; padding-left: 0;">
+                                                ${category.subcategories.map(sub => `<li>- ${sub.name}</li>`).join('')}
+                                            </ul>
+                                        </div>
+                                    `).join('')}
+                                </div>
+
+
+                                <p class="cookie-portal-consent-text" style="
+                                    font-size: 14px;
+                                    color: #333;
+                                    line-height: 1.5;
+                                    margin: 15px 0;
+                                ">
+                                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
+                                </p>
+                            </div>
+
+
+                            <div class="cookie-portal-footer" style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                padding: 10px 15px;
+                                border-top: 1px solid #e0e0e0;
+                                background: #f8f9fa;
+                            ">
+                                <!-- SVG Logo on the left -->
+                                <div class="cookie-portal-logo-container" style="
+                                    display: flex;
+                                    align-items: center;
+                                ">
+                                    <svg width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="100" height="30" rx="5" fill="#2e75b7"/>
+                                        <text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-size="14" font-family="Arial, sans-serif">Your Logo</text>
+                                    </svg>
+                                </div>
+
+                                <!-- Save button with text below -->
+                                <div class="cookie-portal-save-container" style="
+                                    text-align: center;
+                                ">
+                                    <button class="cookie-portal-save-button" style="
+                                        background: #2e75b7;
+                                        color: white;
+                                        border: none;
+                                        padding: 8px 15px;
+                                        border-radius: 4px;
+                                        font-size: 14px;
+                                        cursor: pointer;
+                                        font-weight: 500;
+                                    ">Save</button>
+                                    <p class="cookie-portal-save-text" style="
+                                        font-size: 12px;
+                                        color: #666;
+                                        margin-top: 5px;
+                                    ">Set all your preferences to save and continue</p>
+                                </div>
+                            </div>
+
+                            
                         </div>
-                    </div>
+                    \`;
 
-                    <h1 class="cookie-banner-company-name" style="
-                        font-size: 18px;
-                        font-weight: bold;
-                        color: #2c3e50;
-                        margin: 0;
-                    ">
-                        Welcome to ${response.name}
-                    </h1>
-                </div>
+                    // Close modal event
+                    modal.querySelector(".cookie-portal-close-button").addEventListener("click", closeConfig);
 
-                <!-- Close Button (Right Side) -->
-                <button class="cookie-portal-close-button" style="
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    background: none;
-                    border: none;
-                    font-size: 18px;
-                    cursor: pointer;
-                    color: #777;
-                ">✕</button>
-            </div>
+                    // Append modal to body
+                    document.body.appendChild(modal);
+                };
 
-
-
-
-
-            <!-- Main Content -->
-
-            <div class="cookie-portal-content">
-                <p class="cookie-portal-consent-text" style="
-                    font-size: 14px;
-                    color: #333;
-                    line-height: 1.5;
-                    margin: 15px 0;
-                ">
-                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
-                </p>
-
-
-
-
-                <div class="cookie-portal-allow-section" style="
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                    padding: 10px;
-                    background: #f8f9fa;
-                    border-radius: 8px;
-                    margin-bottom: 15px;
-                ">
-                    ${response.categories.map(category => `
-                        <div class="cookie-portal-allow-item" style="display: flex; flex-direction: column;">
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #2c3e50;">
-                                <input type="checkbox"> ${category.name}
-                            </label>
-                            <ul style="margin-left: 24px; font-size: 12px; color: #555; list-style: none; padding-left: 0;">
-                                ${category.subcategories.map(sub => `<li>- ${sub.name}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `).join('')}
-                </div>
-
-
-
-
-
-
-
-                <p class="cookie-portal-consent-text" style="
-                    font-size: 14px;
-                    color: #333;
-                    line-height: 1.5;
-                    margin: 15px 0;
-                ">
-                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
-                </p>
-            </div>
-
-
-
-
-
-            <div class="cookie-portal-footer" style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 15px;
-                border-top: 1px solid #e0e0e0;
-                background: #f8f9fa;
-            ">
-                <!-- SVG Logo on the left -->
-                <div class="cookie-portal-logo-container" style="
-                    display: flex;
-                    align-items: center;
-                ">
-                    <svg width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100" height="30" rx="5" fill="#2e75b7"/>
-                        <text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-size="14" font-family="Arial, sans-serif">Your Logo</text>
-                    </svg>
-                </div>
-
-                <!-- Save button with text below -->
-                <div class="cookie-portal-save-container" style="
-                    text-align: center;
-                ">
-                    <button class="cookie-portal-save-button" style="
-                        background: #2e75b7;
-                        color: white;
-                        border: none;
-                        padding: 8px 15px;
-                        border-radius: 4px;
-                        font-size: 14px;
-                        cursor: pointer;
-                        font-weight: 500;
-                    ">Save</button>
-                    <p class="cookie-portal-save-text" style="
-                        font-size: 12px;
-                        color: #666;
-                        margin-top: 5px;
-                    ">Set all your preferences to save and continue</p>
-                </div>
-            </div>
-
-
-
-
-
-
-
-            
-        </div>
-    \`;
-
-    // Close modal event
-    modal.querySelector(".cookie-portal-close-button").addEventListener("click", closeConfig);
-
-    // Append modal to body
-    document.body.appendChild(modal);
-};
-
-// Close config modal
-window.closeConfig = function() {
-    var modal = document.querySelector(".cookie-config-modal");
-    if (modal) {
-        modal.remove();
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
+                // Close config modal
+                window.closeConfig = function() {
+                    var modal = document.querySelector(".cookie-config-modal");
+                    if (modal) {
+                        modal.remove();
+                    }
+                };
                 
             })();
         `;
