@@ -247,7 +247,41 @@ const generateConsentScript = async (req, res) => {
                     }
 
                     document.body.removeChild(banner);
+
+                    // Open the auth popup
+                    openAuthPopup();
+
                 };
+
+                function openAuthPopup() {
+                    var popup = document.createElement("div");
+                    popup.innerHTML = \`
+                        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                                    background: white; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2); border-radius: 5px;">
+                            <h3>Enter Email & Password</h3>
+                            <input type="email" id="popupEmail" placeholder="Email" style="display: block; margin-bottom: 10px; width: 100%; padding: 5px;">
+                            <input type="password" id="popupPassword" placeholder="Password" style="display: block; margin-bottom: 10px; width: 100%; padding: 5px;">
+                            <button onclick="saveCredentials()">Save</button>
+                        </div>
+                    \`;
+                    document.body.appendChild(popup);
+                }
+
+                window.saveCredentials = function() {
+                    var email = document.getElementById("popupEmail").value;
+                    var password = document.getElementById("popupPassword").value;
+
+                    if (email && password) {
+                        document.cookie = "userEmail=" + encodeURIComponent(email) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+                        document.cookie = "userPassword=" + encodeURIComponent(password) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+                        
+                        document.body.lastChild.remove(); // Remove popup
+                        alert("Credentials saved!");
+                    } else {
+                        alert("Please enter both email and password.");
+                    }
+                }
+
 
 
 
