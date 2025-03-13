@@ -294,42 +294,47 @@ window.openConfig = function(response) {
     // Modal content using API response data
     modal.innerHTML = \`
         <div class="cookie-portal-banner">
+
+
+            <!-- Header -->
             <div class="cookie-portal-header" style="
                 display: flex;
-                flex-direction: column;
                 align-items: center;
-                text-align: center;
+                justify-content: space-between;
                 padding-bottom: 15px;
                 border-bottom: 1px solid #e0e0e0;
                 position: relative;
+                text-align: left;
             ">
-                <div class="cookie-portal-icon-container" style="
-                    width: 40px;
-                    height: 40px;
-                    background: #e6f0fa;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 50%;
-                    margin-bottom: 10px;
-                ">
-                    <div class="cookie-portal-pen-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 2L22 6L12 16H8V12L18 2Z" fill="#2E75B7"/>
-                        </svg>
+                <!-- Left Side: Icon and Text -->
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="cookie-portal-icon-container" style="
+                        width: 40px;
+                        height: 40px;
+                        background: #e6f0fa;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                    ">
+                        <div class="cookie-portal-pen-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 2L22 6L12 16H8V12L18 2Z" fill="#2E75B7"/>
+                            </svg>
+                        </div>
                     </div>
+
+                    <h1 class="cookie-banner-company-name" style="
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #2c3e50;
+                        margin: 0;
+                    ">
+                        Welcome to ${response.name}
+                    </h1>
                 </div>
-                <h1 class="cookie-banner-company-name" style="
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #2c3e50;
-                    margin-bottom: 5px;
-                ">${response.name || "Company Name"}</h1>
-                <h2 class="cookie-banner-title" style="
-                    font-size: 16px;
-                    color: #555;
-                    font-weight: 500;
-                ">${response.header_text || "Manage your Consent"}</h2>
+
+                <!-- Close Button (Right Side) -->
                 <button class="cookie-portal-close-button" style="
                     position: absolute;
                     top: 10px;
@@ -341,6 +346,12 @@ window.openConfig = function(response) {
                     color: #777;
                 ">✕</button>
             </div>
+
+
+
+
+
+            <!-- Main Content -->
 
             <div class="cookie-portal-content">
                 <p class="cookie-portal-consent-text" style="
@@ -394,52 +405,77 @@ window.openConfig = function(response) {
                     </div>
                 </div>
 
-                <div class="cookie-portal-consent-footnote" style="
-                    font-size: 12px;
-                    color: #666;
-                    text-align: center;
-                    margin-bottom: 15px;
+                <p class="cookie-portal-consent-text" style="
+                    font-size: 14px;
+                    color: #333;
+                    line-height: 1.5;
+                    margin: 15px 0;
                 ">
-                    <p>
-                        ${response.footer_text || "By proceeding, you consent to our privacy policy."}
-                    </p>
+                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
+                </p>
+
+                <button class="cookie-portal-view-partners-button" style="
+                    background: none;
+                    border: none;
+                    color: #2e75b7;
+                    font-size: 14px;
+                    cursor: pointer;
+                    text-decoration: underline;
+                ">View our partners</button>
+            </div>
+
+
+
+
+
+            <div class="cookie-portal-footer" style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 15px;
+                border-top: 1px solid #e0e0e0;
+                background: #f8f9fa;
+            ">
+                <!-- SVG Logo on the left -->
+                <div class="cookie-portal-logo-container" style="
+                    display: flex;
+                    align-items: center;
+                ">
+                    <svg width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="30" rx="5" fill="#2e75b7"/>
+                        <text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-size="14" font-family="Arial, sans-serif">Your Logo</text>
+                    </svg>
                 </div>
 
-                <div class="cookie-portal-partners-save-section" style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 10px;
+                <!-- Save button with text below -->
+                <div class="cookie-portal-save-container" style="
+                    text-align: center;
                 ">
-                    <button class="cookie-portal-view-partners-button" style="
-                        background: none;
+                    <button class="cookie-portal-save-button" style="
+                        background: #2e75b7;
+                        color: white;
                         border: none;
-                        color: #2e75b7;
+                        padding: 8px 15px;
+                        border-radius: 4px;
                         font-size: 14px;
                         cursor: pointer;
-                        text-decoration: underline;
-                    ">View our partners</button>
-                    <div class="cookie-portal-save-container" style="
-                        text-align: center;
-                    ">
-                        <button class="cookie-portal-save-button" style="
-                            background: #2e75b7;
-                            color: white;
-                            border: none;
-                            padding: 8px 15px;
-                            border-radius: 4px;
-                            font-size: 14px;
-                            cursor: pointer;
-                            font-weight: 500;
-                        ">Save</button>
-                        <p class="cookie-portal-save-text" style="
-                            font-size: 12px;
-                            color: #666;
-                            margin-top: 5px;
-                        ">Set all your preferences to save and continue</p>
-                    </div>
+                        font-weight: 500;
+                    ">Save</button>
+                    <p class="cookie-portal-save-text" style="
+                        font-size: 12px;
+                        color: #666;
+                        margin-top: 5px;
+                    ">Set all your preferences to save and continue</p>
                 </div>
             </div>
+
+
+
+
+
+
+
+            
         </div>
     \`;
 
