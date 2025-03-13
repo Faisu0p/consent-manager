@@ -363,47 +363,35 @@ window.openConfig = function(response) {
                     ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
                 </p>
 
+
+
+
                 <div class="cookie-portal-allow-section" style="
                     display: flex;
                     flex-direction: column;
-                    align-items: center;
+                    gap: 15px;
                     padding: 10px;
                     background: #f8f9fa;
                     border-radius: 8px;
                     margin-bottom: 15px;
                 ">
-                    <div class="cookie-portal-allow-text" style="
-                        font-size: 14px;
-                        font-weight: 600;
-                        color: #2c3e50;
-                        margin-bottom: 8px;
-                    ">YOU ALLOW</div>
-                    <div class="cookie-portal-allow-buttons" style="
-                        display: flex;
-                        gap: 10px;
-                    ">
-                        <button class="cookie-portal-disagree-all-button" style="
-                            padding: 8px 15px;
-                            font-size: 14px;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            font-weight: 500;
-                            background: #fff;
-                            border: 1px solid #ddd;
-                            color: #333;
-                        ">${response.button_reject_text || "Disagree to all"}</button>
-                        <button class="cookie-portal-agree-all-button" style="
-                            padding: 8px 15px;
-                            font-size: 14px;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            font-weight: 500;
-                            background: #94adc3;
-                            border: none;
-                            color: white;
-                        ">${response.button_accept_text || "Agree to all"}</button>
-                    </div>
+                    ${response.categories.map(category => `
+                        <div class="cookie-portal-allow-item" style="display: flex; flex-direction: column;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #2c3e50;">
+                                <input type="checkbox"> ${category.name}
+                            </label>
+                            <ul style="margin-left: 24px; font-size: 12px; color: #555; list-style: none; padding-left: 0;">
+                                ${category.subcategories.map(sub => `<li>- ${sub.name}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `).join('')}
                 </div>
+
+
+
+
+
+
 
                 <p class="cookie-portal-consent-text" style="
                     font-size: 14px;
@@ -413,15 +401,6 @@ window.openConfig = function(response) {
                 ">
                     ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
                 </p>
-
-                <button class="cookie-portal-view-partners-button" style="
-                    background: none;
-                    border: none;
-                    color: #2e75b7;
-                    font-size: 14px;
-                    cursor: pointer;
-                    text-decoration: underline;
-                ">View our partners</button>
             </div>
 
 
