@@ -367,6 +367,7 @@ const generateConsentScript = async (req, res) => {
                 // Event handlers for the Reject button
                 window.rejectConsent = function() {
                     setCookie("consentGiven", "false", 365);
+                    openLoginStatusWindow();
                     document.body.removeChild(banner);
                 };
 
