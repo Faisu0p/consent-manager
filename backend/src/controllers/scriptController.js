@@ -404,20 +404,92 @@ const generateConsentScript = async (req, res) => {
 
 
 
-                window.saveCredentials = function() {
-                    var email = document.getElementById("popupEmail").value;
-                    var password = document.getElementById("popupPassword").value;
+                // window.saveCredentials = function() {
+                //     var email = document.getElementById("popupEmail").value;
+                //     var password = document.getElementById("popupPassword").value;
 
-                    if (email && password) {
-                        document.cookie = "userEmail=" + encodeURIComponent(email) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
-                        document.cookie = "userPassword=" + encodeURIComponent(password) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+                //     if (email && password) {
+                //         document.cookie = "userEmail=" + encodeURIComponent(email) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+                //         document.cookie = "userPassword=" + encodeURIComponent(password) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
                         
-                        document.body.lastChild.remove(); // Remove popup
-                        alert("Credentials saved!");
-                    } else {
-                        alert("Please enter both email and password.");
-                    }
-                }
+                //         document.body.lastChild.remove(); // Remove popup
+                //         alert("Credentials saved!");
+                //     } else {
+                //         alert("Please enter both email and password.");
+                //     }
+                // }
+
+                
+window.saveCredentials = function() {
+    var email = document.getElementById("popupEmail").value;
+    var password = document.getElementById("popupPassword").value;
+
+    if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+    }
+
+    // Retrieve cookies
+    var cookies = document.cookie.split("; ").reduce((acc, cookie) => {
+        var [key, value] = cookie.split("=");
+        acc[key] = decodeURIComponent(value);
+        return acc;
+    }, {});
+
+    if (cookies.userLoggedIn !== "true") {
+        console.log("User not logged in, skipping database save.");
+        return;
+    }
+
+    var given = cookies.consentGiven === "true";
+    var selectedCategories = [];
+
+    if (given) {
+        if (cookies.selectedCategories) {
+            try {
+                selectedCategories = JSON.parse(cookies.selectedCategories).map(category => Number(category.id));
+            } catch (e) {
+                console.error("Error parsing selectedCategories:", e);
+                selectedCategories = [];
+            }
+        } else if (cookies.consentCategories) {
+            try {
+                selectedCategories = JSON.parse(cookies.consentCategories).map(category => Number(category.id));
+            } catch (e) {
+                console.error("Error parsing consentCategories:", e);
+                selectedCategories = [];
+            }
+        }
+    }
+
+    var requestData = {
+        email: email,
+        password: password,
+        given: given,
+        selectedCategories: selectedCategories
+    };
+
+    console.log("Sending request data:", requestData); // Debugging output
+
+    fetch("http://localhost:5000/api/register-and-store-consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Server response:", data);
+        if (data.success) {
+            document.body.lastChild.remove();
+            alert("Credentials saved and consent data stored!");
+        } else {
+            alert("Error saving consent data.");
+        }
+    })
+    .catch(error => console.error("Fetch error:", error));
+};
+
+
 
 
 
@@ -428,6 +500,9 @@ const generateConsentScript = async (req, res) => {
                     openLoginStatusWindow();
                     document.body.removeChild(banner);
                 };
+
+
+
 
 
 
