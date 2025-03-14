@@ -479,7 +479,7 @@ window.saveCredentials = function() {
     .then(response => response.json())
     .then(data => {
         console.log("Server response:", data);
-        if (data.success) {
+        if (data.message === "User registered and consent recorded successfully") {
             document.body.lastChild.remove();
             alert("Credentials saved and consent data stored!");
         } else {
