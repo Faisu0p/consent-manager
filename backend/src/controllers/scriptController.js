@@ -248,24 +248,103 @@ const generateConsentScript = async (req, res) => {
 
                     document.body.removeChild(banner);
 
-                    // Open the auth popup
-                    openAuthPopup();
+                    // Check if user is logged in
+                    openLoginStatusWindow();
+
 
                 };
 
-                function openAuthPopup() {
-                    var popup = document.createElement("div");
-                    popup.innerHTML = \`
-                        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                                    background: white; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2); border-radius: 5px;">
-                            <h3>Enter Email & Password</h3>
-                            <input type="email" id="popupEmail" placeholder="Email" style="display: block; margin-bottom: 10px; width: 100%; padding: 5px;">
-                            <input type="password" id="popupPassword" placeholder="Password" style="display: block; margin-bottom: 10px; width: 100%; padding: 5px;">
-                            <button onclick="saveCredentials()">Save</button>
+
+                function openLoginStatusWindow() {
+                    var loginWindow = document.createElement("div");
+                    loginWindow.style.position = "fixed";
+                    loginWindow.style.top = "0";
+                    loginWindow.style.left = "0";
+                    loginWindow.style.width = "100vw";
+                    loginWindow.style.height = "100vh";
+                    loginWindow.style.background = "rgba(0, 0, 0, 0.5)";
+                    loginWindow.style.display = "flex";
+                    loginWindow.style.justifyContent = "center";
+                    loginWindow.style.alignItems = "center";
+                    loginWindow.style.zIndex = "1000";
+
+                    loginWindow.innerHTML = \`
+                        <div style="background: white; padding: 25px; border-radius: 10px; 
+                                    box-shadow: 0px 4px 15px rgba(0,0,0,0.3); text-align: center; 
+                                    width: 350px; font-family: Arial, sans-serif;">
+                            <h3 style="margin-bottom: 15px; color: #333;">Are you logged in?</h3>
+                            <button onclick="handleLoginStatus(true)" 
+                                style="background: #007bff; color: white; border: none; padding: 10px 15px; 
+                                        border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 10px;
+                                        font-size: 16px;">✔ Yes, I'm logged in</button>
+                            <button onclick="handleLoginStatus(false)" 
+                                style="background: #dc3545; color: white; border: none; padding: 10px 15px; 
+                                        border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;">✖ No, I'm not logged in</button>
                         </div>
                     \`;
+
+                    document.body.appendChild(loginWindow);
+                }
+
+
+                window.handleLoginStatus = function(isLoggedIn) {
+                    document.body.lastChild.remove(); // Remove the login status window
+
+                    if (isLoggedIn) {
+                        document.cookie = "userLoggedIn=true; path=/; max-age=" + (365 * 24 * 60 * 60);
+                        openAuthPopup(); // Show authentication popup
+                    } else {
+                        document.cookie = "userLoggedIn=false; path=/; max-age=" + (365 * 24 * 60 * 60);
+                    }
+                };
+
+
+                function openAuthPopup() {
+                    var popup = document.createElement("div");
+                    popup.style.position = "fixed";
+                    popup.style.top = "0";
+                    popup.style.left = "0";
+                    popup.style.width = "100vw";
+                    popup.style.height = "100vh";
+                    popup.style.background = "rgba(0, 0, 0, 0.5)";
+                    popup.style.display = "flex";
+                    popup.style.justifyContent = "center";
+                    popup.style.alignItems = "center";
+                    popup.style.zIndex = "1000";
+
+                    popup.innerHTML = \`
+                        <div style="background: white; padding: 25px; border-radius: 10px; 
+                                    box-shadow: 0px 4px 15px rgba(0,0,0,0.3); text-align: center; 
+                                    width: 350px; font-family: Arial, sans-serif;">
+                            <h3 style="margin-bottom: 15px; color: #333;">Enter Email & Password</h3>
+                            
+                            <input type="email" id="popupEmail" placeholder="Email" 
+                                style="width: 100%; padding: 10px; margin-bottom: 10px; 
+                                    border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+                            
+                            <input type="password" id="popupPassword" placeholder="Password" 
+                                style="width: 100%; padding: 10px; margin-bottom: 15px; 
+                                    border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+                            
+                            <button onclick="saveCredentials()" 
+                                style="background: #007bff; color: white; border: none; padding: 10px 15px; 
+                                    border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;">
+                                Save
+                            </button>
+                            
+                            <button onclick="document.body.removeChild(popup)" 
+                                style="background: #dc3545; color: white; border: none; padding: 10px 15px; 
+                                    border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; font-size: 16px;">
+                                Cancel
+                            </button>
+                        </div>
+                    \`;
+
                     document.body.appendChild(popup);
                 }
+
+
+
 
                 window.saveCredentials = function() {
                     var email = document.getElementById("popupEmail").value;
