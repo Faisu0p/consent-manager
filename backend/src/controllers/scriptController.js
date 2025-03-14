@@ -1,4 +1,6 @@
 import bannerTemplateModel from "../models/bannerTemplateModel.js";
+import consentModel from "../models/consentModel.js";
+import bcrypt from "bcryptjs";
 
 const getFullBannerTemplateById = async (req, res) => {
     try {
@@ -45,6 +47,62 @@ const getFullBannerTemplateById = async (req, res) => {
         res.status(500).json({ error: "Server error while fetching banner template details" });
     }
 };
+
+
+// Register a new consent user and store consent
+const registerAndStoreConsent = async (req, res) => {
+    try {
+        const { email, password, given, selectedCategories } = req.body;
+
+        // Basic input validation
+        if (
+            !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || // Validate email format
+            !password || typeof password !== "string" || password.length < 6 || // Ensure password is valid
+            typeof given !== "boolean" || // Ensure given is a boolean
+            !Array.isArray(selectedCategories) || !selectedCategories.every(id => Number.isInteger(id)) // Validate category IDs
+        ) {
+            return res.status(400).json({ error: "Invalid input data" });
+        }
+
+        // Check if user already exists
+        let user = await consentModel.getConsentUserByEmail(email);
+        let consentUserId;
+
+        if (user) {
+            consentUserId = user.id;
+
+            // Check if a consent record already exists for this user
+            const existingConsent = await consentModel.getConsentByUserId(consentUserId);
+            if (existingConsent) {
+                return res.status(409).json({ error: "User consent already exists" });
+            }
+        } else {
+            // Hash password and create a new user
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            consentUserId = await consentModel.createConsentUser(email, hashedPassword);
+        }
+
+        // Insert consent record
+        const consentId = await consentModel.createConsent(consentUserId, given);
+
+        // Insert selected categories if consent is given
+        if (given && selectedCategories.length > 0) {
+            await consentModel.createConsentCategories(consentId, selectedCategories);
+        }
+
+        res.status(201).json({
+            message: "User registered and consent recorded successfully",
+            consentUserId,
+            consentId,
+        });
+
+    } catch (error) {
+        console.error("Error in registerAndStoreConsent:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
 
 
 
@@ -607,4 +665,4 @@ const generateConsentScript = async (req, res) => {
 
 
 // Export the controller functions
-export { getFullBannerTemplateById, generateConsentScript };
+export { getFullBannerTemplateById, generateConsentScript, registerAndStoreConsent };
