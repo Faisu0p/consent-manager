@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import bannerTemplateService from "../../services/bannerServices";
 import TemplateTab from "./TemplateTab";
 import PortalTab from "./PortalTab";
 import CategoryTab from "./CategoryTab";
@@ -36,11 +37,16 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
     };
 
     useEffect(() => {
-        // Replace with API call to fetch English templates from backend
-        setEnglishTemplates([
-            { id: "1", name: "English Template 1" },
-            { id: "2", name: "English Template 2" }
-        ]);
+        const fetchEnglishTemplates = async () => {
+            try {
+                const templates = await bannerTemplateService.getEnglishBannerTemplates();
+                setEnglishTemplates(templates); // Set fetched templates in state
+            } catch (error) {
+                console.error("Error fetching English templates:", error);
+            }
+        };
+    
+        fetchEnglishTemplates();
     }, []);
     
     
