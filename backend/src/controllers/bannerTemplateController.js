@@ -334,7 +334,18 @@ const bannerTemplateController = {
             console.error(err);
             res.status(500).json({ error: "Server error" });
         }
-    }
+    },
+
+    async getEnglishBannerTemplates(req, res) {
+        try {
+            const englishTemplates = await bannerTemplateModel.getEnglishBannerTemplates();
+            res.json(englishTemplates);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    },
+    
 };
 
 export default bannerTemplateController;

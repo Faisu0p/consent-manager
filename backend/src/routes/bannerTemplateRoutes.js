@@ -156,5 +156,12 @@ router.get(
     bannerTemplateController.getPartners
 );
 
+router.get(
+    "/english-templates", 
+    // authMiddleware(), // Uncomment if authentication is needed
+    bannerTemplateController.getEnglishBannerTemplates
+);
+
+
 
 export default router;

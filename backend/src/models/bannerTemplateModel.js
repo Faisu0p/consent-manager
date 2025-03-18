@@ -231,7 +231,19 @@ async createPartner(templateId, name, isBlocked) {
 
         const result = await pool.query("SELECT * FROM partners");
         return result.recordset;
-    }
+    },
+
+    async getEnglishBannerTemplates() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        const result = await pool
+            .request()
+            .query("SELECT id, name FROM banner_templates WHERE language_code = 'en'");
+    
+        return result.recordset; // Returns an array of English templates
+    },
+    
 
 };
 
