@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TemplateTab from "./TemplateTab";
 import PortalTab from "./PortalTab";
 import CategoryTab from "./CategoryTab";
@@ -9,6 +9,9 @@ import "./BannerTemplate.css";
 const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) => {
 
     const [selectedLanguage, setSelectedLanguage] = useState(""); // Store selected language
+    const [englishTemplates, setEnglishTemplates] = useState([]); // Store English templates
+    const [parentTemplateId, setParentTemplateId] = useState(""); // Store selected parent template
+
     const languages = [
         { code: "en", name: "English" },
         { code: "hi", name: "Hindi" },
@@ -18,15 +21,28 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
     const handleLanguageChange = (e) => {
         const newLanguage = e.target.value;
         setSelectedLanguage(newLanguage);
+
+        setParentTemplateId(""); // Reset parent template id
+
         setBannerData(prevData => ({
             ...prevData,
             template: {
                 ...prevData.template,
-                language_code: newLanguage // Store language inside template object
+                language_code: newLanguage, // Store language inside template object
+                parent_template_id: null // Reset parent template id
             }
         }));
         console.log("Selected Language:", newLanguage);
     };
+
+    useEffect(() => {
+        // Replace with API call to fetch English templates from backend
+        setEnglishTemplates([
+            { id: "1", name: "English Template 1" },
+            { id: "2", name: "English Template 2" }
+        ]);
+    }, []);
+    
     
 
 
@@ -50,6 +66,29 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
                     ))}
                 </select>
             </div>
+
+            {selectedLanguage && selectedLanguage !== "en" && (
+                <div className="parent-template-selection">
+                    <label>Select English Template:</label>
+                    <select value={parentTemplateId} onChange={(e) => {
+                        const selectedId = e.target.value;
+                        setParentTemplateId(selectedId);
+                        setBannerData(prevData => ({
+                            ...prevData,
+                            template: {
+                                ...prevData.template,
+                                parent_template_id: selectedId || null 
+                            }
+                        }));
+                    }}>
+                        <option value="">-- Select English Template --</option>
+                        {englishTemplates.map(template => (
+                            <option key={template.id} value={template.id}>{template.name}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
+
 
             {selectedLanguage && (
                 <div className="banner-template-content">

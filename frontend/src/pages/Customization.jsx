@@ -16,6 +16,7 @@ const Customization = () => {
       buttonRejectText: "",
       buttonConfigureText: "",
       language_code: "",
+      parent_template_id: "",
     },
     portal: {
       template_id: "",
