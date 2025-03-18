@@ -110,26 +110,45 @@ const registerAndStoreConsent = async (req, res) => {
 const generateConsentScript = async (req, res) => {
     try {
         const { templateId } = req.params;
-  
-        // Fetch the full template details using model functions
-        const template = await bannerTemplateModel.getBannerTemplateById(templateId);
+        const { lang } = req.query; // Get selected language from query params
+
+        let finalTemplateId = templateId; // Default template ID
+        
+        // Fetch available languages for this template
+        const availableLanguages = await bannerTemplateModel.getAvailableLanguages(templateId);
+
+        if (lang) {
+            // Fetch translated template ID
+            const languageMapping = await bannerTemplateModel.getTemplateIdByLanguage(templateId, lang);
+            if (languageMapping) {
+                finalTemplateId = languageMapping.template_id; // Use translated template ID
+            }
+        }
+
+        // Fetch the full template details using the correct translated template ID
+        const template = await bannerTemplateModel.getBannerTemplateById(finalTemplateId);
         if (!template) {
             return res.status(404).send("Template not found");
         }
-  
-        const categories = await bannerTemplateModel.getConsentCategories(templateId);
-        const partners = await bannerTemplateModel.getPartners(templateId);
-  
+
+        // Fetch categories, partners, and portal data using finalTemplateId
+        const categories = await bannerTemplateModel.getConsentCategories(finalTemplateId);
+        const partners = await bannerTemplateModel.getPartners(finalTemplateId);
+        const portalData = await bannerTemplateModel.getConsentPortalByTemplateId(finalTemplateId);
+        const portal = portalData.length > 0 ? portalData[0] : null;
+
         // Fetch subcategories for each category
         for (const category of categories) {
             category.subcategories = await bannerTemplateModel.getConsentSubcategories(category.id);
         }
-  
+
         // Construct the response object
         const response = {
             ...template,
             categories,
             partners,
+            portal,
+            availableLanguages,
         };
   
         // Generate JavaScript dynamically using template details
@@ -168,6 +187,15 @@ const generateConsentScript = async (req, res) => {
                             <h1 class="cookie-banner-company-name">${response.name}</h1>
                             <h2 class="cookie-banner-title">${response.header_text}</h2>
                         </div>
+
+                        <label for="languageSelector">Choose Language:</label>
+<select id="languageSelector">
+    <option value="">Default</option>
+    ${response.availableLanguages.map(lang => `<option value="${lang.language_code}">${lang.language_code.toUpperCase()}</option>`).join("")}
+</select>
+
+
+
                         <div class="cookie-banner-content">
                             <p class="cookie-banner-intro">${response.main_text}</p>
                             <p class="cookie-banner-details">${response.info_paragraph}</p>
@@ -179,6 +207,7 @@ const generateConsentScript = async (req, res) => {
                         </div>
                     </div>
                 \`;
+                
   
                 var style = document.createElement("style");
                 style.innerHTML = \`
@@ -280,6 +309,27 @@ const generateConsentScript = async (req, res) => {
   
                 document.head.appendChild(style);
                 document.body.appendChild(banner);
+
+
+
+        // Add event listener for language selection
+        document.getElementById("languageSelector").addEventListener("change", function(event) {
+            var selectedLang = event.target.value;
+            if (selectedLang) {
+                // Reload the script with the selected language
+                var scriptElement = document.querySelector('script[src*="generate-script"]');
+                if (scriptElement) {
+                    var newScript = document.createElement("script");
+                    newScript.src = scriptElement.src.split("?")[0] + "?lang=" + selectedLang;
+                    newScript.async = true;
+                    scriptElement.parentNode.replaceChild(newScript, scriptElement);
+                }
+            }
+        });
+
+
+
+
 
 
                 // Event handler for the Accept button
@@ -596,7 +646,7 @@ window.saveCredentials = function() {
                                     line-height: 1.5;
                                     margin: 15px 0;
                                 ">
-                                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
+                                    ${response.portal?.upper_text || "We use cookies to enhance your experience. You can manage your preferences here."}
                                 </p>
 
 
@@ -640,7 +690,7 @@ window.saveCredentials = function() {
                                     line-height: 1.5;
                                     margin: 15px 0;
                                 ">
-                                    ${response.info_paragraph || "We use cookies to enhance your experience. You can manage your preferences here."}
+                                    ${response.portal?.lower_text || "We use cookies to enhance your experience. You can manage your preferences here."}
                                 </p>
                             </div>
 

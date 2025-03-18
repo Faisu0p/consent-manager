@@ -244,6 +244,7 @@ async createPartner(templateId, name, isBlocked) {
         return result.recordset; // Returns an array of English templates
     },
 
+    // Link a banner template to a specific language
     async linkBannerTemplateLanguage(templateId, mainTemplateId, languageCode) {
         const pool = await connectDB();
         if (!pool) throw new Error("Database connection failed");
@@ -258,6 +259,44 @@ async createPartner(templateId, name, isBlocked) {
                 VALUES (@template_id, @main_template_id, @language_code)
             `);
     },
+
+    // Get a template ID by language
+    async getTemplateIdByLanguage(mainTemplateId, languageCode) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        const result = await pool
+            .request()
+            .input("main_template_id", sql.Int, mainTemplateId)
+            .input("language_code", sql.NVarChar, languageCode)
+            .query(`
+                SELECT template_id 
+                FROM banner_template_languages 
+                WHERE main_template_id = @main_template_id 
+                AND language_code = @language_code
+            `);
+    
+        return result.recordset.length > 0 ? result.recordset[0] : null;
+    },
+
+    async getAvailableLanguages(mainTemplateId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        const result = await pool
+            .request()
+            .input("main_template_id", sql.Int, mainTemplateId)
+            .query(`
+                SELECT language_code, template_id
+                FROM banner_template_languages 
+                WHERE main_template_id = @main_template_id
+            `);
+    
+        return result.recordset; // Returns array of { language_code, template_id }
+    }
+    
+    
+    
     
     
 
