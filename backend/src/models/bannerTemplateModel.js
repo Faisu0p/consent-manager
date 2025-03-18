@@ -4,7 +4,7 @@ import connectDB from "../config/db.js";
 const bannerTemplateModel = {
 
 // Create a new banner template
-async createBannerTemplate(name, mainText, infoParagraph, headerText, buttonAcceptText, buttonRejectText, buttonConfigureText) {
+async createBannerTemplate(name, mainText, infoParagraph, headerText, buttonAcceptText, buttonRejectText, buttonConfigureText, language_code) {
     const pool = await connectDB();
     if (!pool) throw new Error("Database connection failed");
 
@@ -17,10 +17,11 @@ async createBannerTemplate(name, mainText, infoParagraph, headerText, buttonAcce
         .input("button_accept_text", sql.NVarChar, buttonAcceptText)
         .input("button_reject_text", sql.NVarChar, buttonRejectText)
         .input("button_configure_text", sql.NVarChar, buttonConfigureText)
+        .input("language_code", sql.NVarChar, language_code)
         .query(`
-            INSERT INTO banner_templates (name, main_text, info_paragraph, header_text, button_accept_text, button_reject_text, button_configure_text) 
+            INSERT INTO banner_templates (name, main_text, info_paragraph, header_text, button_accept_text, button_reject_text, button_configure_text, language_code) 
             OUTPUT INSERTED.id
-            VALUES (@name, @main_text, @info_paragraph, @header_text, @button_accept_text, @button_reject_text, @button_configure_text)
+            VALUES (@name, @main_text, @info_paragraph, @header_text, @button_accept_text, @button_reject_text, @button_configure_text, @language_code)
         `);
 
     return result.recordset[0].id;

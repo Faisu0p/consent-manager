@@ -21,7 +21,8 @@ const bannerTemplateController = {
                 template.headerText,
                 template.buttonAcceptText,
                 template.buttonRejectText,
-                template.buttonConfigureText
+                template.buttonConfigureText,
+                template.language_code
             );
 
             // Step 2: Create the consent portal (if exists)
@@ -161,7 +162,7 @@ const bannerTemplateController = {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { name, mainText, infoParagraph, headerText, buttonAcceptText, buttonRejectText, buttonConfigureText } = req.body;
+        const { name, mainText, infoParagraph, headerText, buttonAcceptText, buttonRejectText, buttonConfigureText, language_code } = req.body;
 
         try {
             // Create the banner template
@@ -172,7 +173,8 @@ const bannerTemplateController = {
                 headerText, 
                 buttonAcceptText, 
                 buttonRejectText, 
-                buttonConfigureText
+                buttonConfigureText,
+                language_code
             );
 
             res.status(201).json({ message: "Banner template created successfully", templateId });
