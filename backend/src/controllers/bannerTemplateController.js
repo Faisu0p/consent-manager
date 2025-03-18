@@ -25,6 +25,15 @@ const bannerTemplateController = {
                 template.language_code
             );
 
+            if (template.parent_template_id && template.parent_template_id !== "null") {
+                await bannerTemplateModel.linkBannerTemplateLanguage(
+                    templateId,
+                    parseInt(template.parent_template_id, 10), // Convert to integer
+                    template.language_code
+                );
+            }
+            
+
             // Step 2: Create the consent portal (if exists)
             if (portal) {
                 await bannerTemplateModel.createConsentPortal(

@@ -243,6 +243,22 @@ async createPartner(templateId, name, isBlocked) {
     
         return result.recordset; // Returns an array of English templates
     },
+
+    async linkBannerTemplateLanguage(templateId, mainTemplateId, languageCode) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+    
+        await pool
+            .request()
+            .input("template_id", sql.Int, templateId)
+            .input("main_template_id", sql.Int, mainTemplateId)
+            .input("language_code", sql.NVarChar, languageCode)
+            .query(`
+                INSERT INTO banner_template_languages (template_id, main_template_id, language_code) 
+                VALUES (@template_id, @main_template_id, @language_code)
+            `);
+    },
+    
     
 
 };
