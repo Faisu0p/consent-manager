@@ -122,6 +122,15 @@ const bannerService = {
     } catch (error) {
       throw error.response?.data || error.message;
     }
+  },
+
+  getEnglishBannerTemplates: async () => {
+    try {
+      const response = await api.get("/banner-templates/english-templates");
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
   }
 
 };
