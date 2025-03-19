@@ -188,7 +188,7 @@ const generateConsentScript = async (req, res) => {
                             <h2 class="cookie-banner-title">${response.header_text}</h2>
                         </div>
 
-                        <label for="languageSelector">Choose Language:</label>
+<label for="languageSelector" style="color: black;">Choose Language:</label>
 <select id="languageSelector">
     <option value="">Default</option>
     ${response.availableLanguages.map(lang => `<option value="${lang.language_code}">${lang.language_code.toUpperCase()}</option>`).join("")}
