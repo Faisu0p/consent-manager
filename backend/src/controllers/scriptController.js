@@ -191,7 +191,16 @@ const generateConsentScript = async (req, res) => {
 <label for="languageSelector" style="color: black;">Choose Language:</label>
 <select id="languageSelector">
     <option value="">Default</option>
-    ${response.availableLanguages.map(lang => `<option value="${lang.language_code}">${lang.language_code.toUpperCase()}</option>`).join("")}
+    ${response.availableLanguages.map(lang => {
+        const languageNames = {
+            en: "English",
+            hi: "हिन्दी",
+            fr: "Français",
+            es: "Español",
+            de: "Deutsch"
+        };
+        return `<option value="${lang.language_code}">${languageNames[lang.language_code] || lang.language_code.toUpperCase()}</option>`;
+    }).join("")}
 </select>
 
 
