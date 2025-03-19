@@ -313,19 +313,51 @@ const generateConsentScript = async (req, res) => {
 
 
         // Add event listener for language selection
+        // document.getElementById("languageSelector").addEventListener("change", function(event) {
+        //     var selectedLang = event.target.value;
+        //     if (selectedLang) {
+        //         // Reload the script with the selected language
+        //         var scriptElement = document.querySelector('script[src*="generate-script"]');
+        //         if (scriptElement) {
+        //             var newScript = document.createElement("script");
+        //             newScript.src = scriptElement.src.split("?")[0] + "?lang=" + selectedLang;
+        //             newScript.async = true;
+        //             scriptElement.parentNode.replaceChild(newScript, scriptElement);
+        //         }
+        //     }
+        // });
+
+
+
+
+
+
+        // Event listener for language selection
         document.getElementById("languageSelector").addEventListener("change", function(event) {
-            var selectedLang = event.target.value;
-            if (selectedLang) {
-                // Reload the script with the selected language
-                var scriptElement = document.querySelector('script[src*="generate-script"]');
-                if (scriptElement) {
-                    var newScript = document.createElement("script");
-                    newScript.src = scriptElement.src.split("?")[0] + "?lang=" + selectedLang;
-                    newScript.async = true;
-                    scriptElement.parentNode.replaceChild(newScript, scriptElement);
-                }
+        var selectedLang = event.target.value;
+        if (selectedLang) {
+            // Store the language preference
+            setCookie("preferredLanguage", selectedLang, 365);
+            
+            // Instead of replacing the script immediately, remove the banner first
+            var bannerContainer = document.querySelector(".cookie-banner-container");
+            if (bannerContainer) {
+                document.body.removeChild(bannerContainer);
             }
-        });
+            
+            // Now replace the script
+            var scriptElement = document.querySelector('script[src*="generate-script"]');
+            if (scriptElement) {
+                var newScript = document.createElement("script");
+                newScript.src = scriptElement.src.split("?")[0] + "?lang=" + selectedLang;
+                newScript.async = true;
+                
+                // Use a different approach to avoid race conditions
+                scriptElement.parentNode.insertBefore(newScript, scriptElement);
+                scriptElement.parentNode.removeChild(scriptElement);
+            }
+        }
+    });
 
 
 
