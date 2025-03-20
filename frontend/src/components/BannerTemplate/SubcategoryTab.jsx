@@ -52,7 +52,7 @@ const SubcategoryTab = ({ bannerData, setBannerData }) => {
                     <option value="">Select a Category</option>
                     {bannerData.categories.map(category => (
                         <option key={category.id} value={category.id}>
-                            {category.categoryName}
+                            {category.name}
                         </option>
                     ))}
                 </select>
