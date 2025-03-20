@@ -51,19 +51,43 @@
     resize: vertical;
 }
 
-.template-tab-submit {
+.template-tab-submit, 
+.template-tab-next-step-button {
     background: #007bff;
     color: white;
     border: none;
-    padding: 12px;
+    padding: 12px 20px;
     font-size: 16px;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
 }
 
-.template-tab-submit:hover {
+.template-tab-submit:hover, 
+.template-tab-next-step-button:hover {
     background: #0056b3;
     transform: scale(1.02);
 }
+
+.template-tab-buttons {
+    display: flex;
+    gap: 10px; 
+    justify-content: flex-end; 
+    grid-column: span 2; 
+}
+
+.template-tab-submit {
+    flex: 1; 
+}
+
+.template-tab-next-step-button {
+    flex: 1; 
+}
+
+

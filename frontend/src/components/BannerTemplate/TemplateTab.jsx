@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "../../styles/TemplateTab.css"
 
-const TemplateTab = ({ bannerData, setBannerData }) => {
+const TemplateTab = ({ bannerData, setBannerData, setActiveTab }) => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,7 +29,9 @@ const TemplateTab = ({ bannerData, setBannerData }) => {
     return (
         <div className="template-tab-container">
             <h3 className="template-tab-title">Create Banner Template</h3>
+
             <form onSubmit={handleSubmit} className="template-tab-form">
+                
                 <label className="template-tab-label">Template Name:</label>
                 <input type="text" name="name" className="template-tab-input" placeholder="e.g., Secure Banking Notice" value={bannerData.template.name} onChange={handleChange} required />
 
@@ -51,8 +53,20 @@ const TemplateTab = ({ bannerData, setBannerData }) => {
                 <label className="template-tab-label">Configure Button:</label>
                 <input type="text" name="buttonConfigureText" className="template-tab-input" placeholder="e.g., Manage Preferences" value={bannerData.template.buttonConfigureText} onChange={handleChange} required />
 
-                <button type="submit" className="template-tab-submit" disabled={isSubmitting}>{isSubmitting ? "Creating..." : "Create Template"}</button>
+                <div className="template-tab-buttons">
+                    <button type="submit" className="template-tab-submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Creating..." : "Create Template"}
+                    </button>
+
+                    {!isSubmitting && (
+                        <button type="button" className="template-tab-next-step-button" onClick={() => setActiveTab("portal")}>
+                            Next Step →
+                        </button>
+                    )}
+                </div>
+
             </form>
+
         </div>
     );
 };
