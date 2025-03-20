@@ -53,12 +53,12 @@ const BannerPreview = ({ bannerData, activeTab }) => {
               </ul>
             </div>
           ) : (
-            <p>No categories available</p>
+            <p>Please create itemized categories for consent collection.</p>
           )}
 
           <p>
             {bannerData.portal.lower_text ||
-              "By managing your preferences, you decide how this website and its partners process your data. You can accept all, reject non-essential cookies, or customize your settings."}
+              "For any inquiries, please contact our Data Protection Office at abc.com. You can update your consent anytime by logging into our mobile app or portal and selecting 'My Privacy'"}
           </p>
         </div>
       )}
