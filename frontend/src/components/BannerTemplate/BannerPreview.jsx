@@ -8,15 +8,15 @@ const BannerPreview = ({ bannerData, activeTab }) => {
 
       {activeTab === "templates" && (
         <div className="template-preview">
-          <h2>{bannerData.template.name || "Consent Manager"}</h2>
-          <h4>{bannerData.template.headerText || "Do you agree to let us use cookies?"}</h4>
-          <p>{bannerData.template.mainText || "Some sample text here explaining the purpose of the banner."}</p>
-          <p>{bannerData.template.infoParagraph || "Additional info about cookies and consent."}</p>
+          <h2>{bannerData.template.name || "Secure Banking"}</h2>
+          <h4>{bannerData.template.headerText || "Your Security is Our Priority"}</h4>
+          <p>{bannerData.template.mainText || "We use cookies to enhance your banking experience, ensure secure transactions, and improve our services. By selecting 'Accept & Continue', you consent to the use of essential and analytical cookies for secure banking and improved services."}</p>
+          <p>{bannerData.template.infoParagraph || "Essential cookies ensure secure logins and fraud prevention. Others help personalize your banking experience. You can manage your preferences anytime."}</p>
 
           <div className="buttons">
-            <button>{bannerData.template.buttonAcceptText || "I Agree"}</button>
-            <button>{bannerData.template.buttonRejectText || "I Disagree"}</button>
-            <button>{bannerData.template.buttonConfigureText || "Configure"}</button>
+            <button>{bannerData.template.buttonAcceptText || "Accept & Continue"}</button>
+            <button>{bannerData.template.buttonRejectText || "Decline Cookies"}</button>
+            <button>{bannerData.template.buttonConfigureText || "Manage Preferences"}</button>
           </div>
         </div>
       )}
