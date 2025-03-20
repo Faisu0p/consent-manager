@@ -14,6 +14,14 @@
     color: #222;
 }
 
+.template-tab-description {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+
 .template-tab-form {
     display: grid;
     grid-template-columns: 1fr 2fr;

@@ -28,10 +28,16 @@ const TemplateTab = ({ bannerData, setBannerData, setActiveTab }) => {
 
     return (
         <div className="template-tab-container">
-            <h3 className="template-tab-title">Create Banner Template</h3>
+            <h3 className="template-tab-title">Create Main Banner Template</h3>
+
+            <p className="template-tab-description">
+                This tab allows you to create and configure a main banner template, 
+                including its text content and button labels. Users will see this banner 
+                when they interact with consent options on your platform.
+            </p>
 
             <form onSubmit={handleSubmit} className="template-tab-form">
-                
+
                 <label className="template-tab-label">Template Name:</label>
                 <input type="text" name="name" className="template-tab-input" placeholder="e.g., Secure Banking Notice" value={bannerData.template.name} onChange={handleChange} required />
 
