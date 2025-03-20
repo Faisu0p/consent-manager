@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
+import "../../styles/TemplateTab.css"
 
 const TemplateTab = ({ bannerData, setBannerData }) => {
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleChange = (e) => {
         setBannerData({
             ...bannerData,
@@ -14,22 +18,40 @@ const TemplateTab = ({ bannerData, setBannerData }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
+
         console.log(bannerData);
         alert("Template Created Successfully!");
+
+        setTimeout(() => setIsSubmitting(false), 2000);
     };
 
     return (
-        <div>
-            <h3>Create Banner Template</h3>
-            <form onSubmit={handleSubmit} className="banner-template-form">
-                <input type="text" name="name" placeholder="Template Name" value={bannerData.template.name} onChange={handleChange} required />
-                <input type="text" name="headerText" placeholder="Header Text" value={bannerData.template.headerText} onChange={handleChange} required />
-                <textarea name="mainText" placeholder="Main Text" value={bannerData.template.mainText} onChange={handleChange} required />
-                <textarea name="infoParagraph" placeholder="Info Paragraph" value={bannerData.template.infoParagraph} onChange={handleChange} required />
-                <input type="text" name="buttonAcceptText" placeholder="Accept Button Text" value={bannerData.template.buttonAcceptText} onChange={handleChange} required />
-                <input type="text" name="buttonRejectText" placeholder="Reject Button Text" value={bannerData.template.buttonRejectText} onChange={handleChange} required />
-                <input type="text" name="buttonConfigureText" placeholder="Configure Button Text" value={bannerData.template.buttonConfigureText} onChange={handleChange} required />
-                <button type="submit">Create Template</button>
+        <div className="template-tab-container">
+            <h3 className="template-tab-title">Create Banner Template</h3>
+            <form onSubmit={handleSubmit} className="template-tab-form">
+                <label className="template-tab-label">Template Name:</label>
+                <input type="text" name="name" className="template-tab-input" placeholder="e.g., Secure Banking Notice" value={bannerData.template.name} onChange={handleChange} required />
+
+                <label className="template-tab-label">Header Text:</label>
+                <input type="text" name="headerText" className="template-tab-input" placeholder="e.g., Your Security is Our Priority" value={bannerData.template.headerText} onChange={handleChange} required />
+
+                <label className="template-tab-label">Main Message:</label>
+                <textarea name="mainText" className="template-tab-textarea" placeholder="e.g., We use cookies to ensure secure transactions." value={bannerData.template.mainText} onChange={handleChange} required />
+
+                <label className="template-tab-label">Additional Info:</label>
+                <textarea name="infoParagraph" className="template-tab-textarea" placeholder="e.g., Essential cookies enable secure logins." value={bannerData.template.infoParagraph} onChange={handleChange} required />
+
+                <label className="template-tab-label">Accept Button:</label>
+                <input type="text" name="buttonAcceptText" className="template-tab-input" placeholder="e.g., Accept & Continue" value={bannerData.template.buttonAcceptText} onChange={handleChange} required />
+
+                <label className="template-tab-label">Reject Button:</label>
+                <input type="text" name="buttonRejectText" className="template-tab-input" placeholder="e.g., Decline Cookies" value={bannerData.template.buttonRejectText} onChange={handleChange} required />
+
+                <label className="template-tab-label">Configure Button:</label>
+                <input type="text" name="buttonConfigureText" className="template-tab-input" placeholder="e.g., Manage Preferences" value={bannerData.template.buttonConfigureText} onChange={handleChange} required />
+
+                <button type="submit" className="template-tab-submit" disabled={isSubmitting}>{isSubmitting ? "Creating..." : "Create Template"}</button>
             </form>
         </div>
     );
