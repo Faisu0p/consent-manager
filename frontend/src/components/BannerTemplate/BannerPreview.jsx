@@ -24,10 +24,10 @@ const BannerPreview = ({ bannerData, activeTab }) => {
       {/* Show Portal, Categories, and Subcategories together */}
       {(activeTab === "portal" || activeTab === "categories" || activeTab === "subcategories") && (
         <div className="portal-preview">
-          <h2>{bannerData.portal.template_id || "Template ID"}</h2>
+          <h2>{bannerData.template.name || "Secure Banking"}</h2>
           <p>
             {bannerData.portal.upper_text ||
-              "We and our partners place cookies, access and use non-sensitive information from your device to improve our products and personalize ads and other contents throughout this website. You may accept all or part of these operations."}
+              "We and our partners use cookies and process data to provide a personalized experience, analyze site usage, and enhance security. You can review and adjust your preferences below."}
           </p>
 
           {/* Display Categories and their Subcategories */}
@@ -58,7 +58,7 @@ const BannerPreview = ({ bannerData, activeTab }) => {
 
           <p>
             {bannerData.portal.lower_text ||
-              "By giving consent to the purposes above, you also allow this website and its partners to operate the following data processing."}
+              "By managing your preferences, you decide how this website and its partners process your data. You can accept all, reject non-essential cookies, or customize your settings."}
           </p>
         </div>
       )}

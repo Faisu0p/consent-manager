@@ -99,7 +99,7 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
             {selectedLanguage && (
                 <div className="banner-template-content">
                     {activeTab === "templates" && <TemplateTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab} />}
-                    {activeTab === "portal" && <PortalTab bannerData={bannerData} setBannerData={setBannerData} />}
+                    {activeTab === "portal" && <PortalTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab}/>}
                     {activeTab === "categories" && <CategoryTab bannerData={bannerData} setBannerData={setBannerData} />}
                     {activeTab === "subcategories" && <SubcategoryTab bannerData={bannerData} setBannerData={setBannerData} />}
                     {activeTab === "partners" && <PartnerTab bannerData={bannerData} setBannerData={setBannerData} />}
