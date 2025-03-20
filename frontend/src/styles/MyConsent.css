@@ -1,21 +1,81 @@
 .my-consent-container {
-    text-align: center;
-    padding: 50px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 50px auto;
-  }
-  
-  .my-consent-container h1 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .my-consent-container p {
-    color: #666;
-    font-size: 16px;
-  }
-  
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #333;
+}
+
+.my-consent-container h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Consent List Table */
+.consent-table {
+  width: 100%;
+  max-width: 800px;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.consent-table th, .consent-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.consent-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Form Styling */
+.consent-form {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.consent-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.consent-form textarea, .consent-form select, .consent-form input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
