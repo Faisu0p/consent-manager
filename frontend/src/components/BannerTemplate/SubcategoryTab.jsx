@@ -65,6 +65,7 @@ const SubcategoryTab = ({ bannerData, setBannerData, setActiveTab }) => {
                     {!isSubmitting && <button type="button" className="sub-category-next-step-button" onClick={() => setActiveTab("partners")}>Next Step →</button>}
                 </div>
             </form>
+            
         </div>
     );
 };

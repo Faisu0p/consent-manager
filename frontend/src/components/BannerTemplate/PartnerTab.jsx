@@ -1,77 +1,55 @@
 import React, { useState, useEffect } from "react";
+import "../../styles/PartnerTab.css";
 
 const PartnerTab = ({ bannerData, setBannerData }) => {
-    // Separate state for form inputs
-    const [partnerForm, setPartnerForm] = useState({
-        partnerTemplateId: "",
-        partnerName: "",
-        isBlocked: false
-    });
+    const [partnerForm, setPartnerForm] = useState({ partnerName: "", isBlocked: false });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Handle form input changes
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setPartnerForm({ ...partnerForm, [name]: type === "checkbox" ? checked : value });
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
-        const newPartner = {
-            id: Date.now(),
-            ...partnerForm
-        };
+        const newPartner = { id: Date.now(), partnerTemplateId: 1, ...partnerForm };
 
-        setBannerData((prevData) => ({
-            ...prevData,
-            partners: [...prevData.partners, newPartner]
-        }));
+        setTimeout(() => {
+            setBannerData((prevData) => ({ ...prevData, partners: [...prevData.partners, newPartner] }));
+            setPartnerForm({ partnerName: "", isBlocked: false });
 
-        // Reset form state
-        setPartnerForm({
-            partnerTemplateId: "",
-            partnerName: "",
-            isBlocked: false
-        });
+            setIsSubmitting(false);
+        }
+        , 1000);
     };
 
-    // Debug: Log latest bannerData updates
-    useEffect(() => {
-        console.log("Updated Banner Data:", bannerData);
-    }, [bannerData]);
+    useEffect(() => console.log("Updated Banner Data:", bannerData), [bannerData]);
 
     return (
-        <div>
-            <h3>Create Partner</h3>
-            <form onSubmit={handleSubmit} className="banner-template-form">
-                <input
-                    type="number"
-                    name="partnerTemplateId"
-                    placeholder="Template ID"
-                    value={partnerForm.partnerTemplateId}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="partnerName"
-                    placeholder="Partner Name"
-                    value={partnerForm.partnerName}
-                    onChange={handleChange}
-                    required
-                />
-                <label>
-                    <input
-                        type="checkbox"
-                        name="isBlocked"
-                        checked={partnerForm.isBlocked}
-                        onChange={handleChange}
-                    />
-                    Blocked Partner
+        <div className="partner-tab-container">
+
+            <h3 className="partner-tab-title">Create Partner</h3>
+            <p className="partner-tab-description">
+                Add multiple partners to manage consent-based interactions. Select "Required Partner" if sharing consent with this partner is mandatory.
+            </p>
+
+            <form onSubmit={handleSubmit} className="partner-tab-form">
+                <label className="partner-tab-label">Partner Name:
+                    <input type="text" name="partnerName" className="partner-tab-input" placeholder="Enter partner name (e.g., Google Analytics)" value={partnerForm.partnerName} onChange={handleChange} required />
                 </label>
-                <button type="submit">Create Partner</button>
+
+                <label className="partner-tab-checkbox-label">
+                    <input type="checkbox" name="isBlocked" className="partner-tab-checkbox" checked={partnerForm.isBlocked} onChange={handleChange} />
+                    Required Partner
+                </label>
+
+                <button type="submit" className="partner-tab-submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Submitting..." : "Add Partner"}
+                </button>
             </form>
+
         </div>
     );
 };

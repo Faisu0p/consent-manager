@@ -72,9 +72,17 @@ const BannerPreview = ({ bannerData, activeTab }) => {
           {bannerData.partners && bannerData.partners.length > 0 ? (
             <ul className="preview-component-partners-list">
               {bannerData.partners.map((partner) => (
-                <li key={partner.id}>
-                  <strong>{partner.partnerName}</strong> (Template ID: {partner.partnerTemplateId})
-                  {partner.isBlocked ? <span className="preview-component-blocked"> - Blocked</span> : ""}
+                <li key={partner.id} className="preview-component-partner-item">
+                  <label className="preview-component-checkbox-label">
+                    <input
+                      type="checkbox"
+                      defaultChecked={partner.isBlocked}
+                      disabled={partner.isBlocked}
+                      className="preview-component-partner-checkbox"
+                    />
+                    {partner.partnerName}
+                  </label>
+                  {partner.isBlocked && <span className="preview-component-required"> - Required</span>}
                 </li>
               ))}
             </ul>
@@ -83,6 +91,7 @@ const BannerPreview = ({ bannerData, activeTab }) => {
           )}
         </div>
       )}
+
     </div>
   );
 };

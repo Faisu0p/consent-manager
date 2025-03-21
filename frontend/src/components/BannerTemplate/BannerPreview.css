@@ -109,3 +109,39 @@
     text-align: left; /* Ensures text aligns left */
 }
 
+
+.preview-component-partners-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .preview-component-partner-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  .preview-component-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  
+  .preview-component-partner-checkbox {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .preview-component-required {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+  
+  
+  
+  
+
