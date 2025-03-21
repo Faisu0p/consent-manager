@@ -7,30 +7,35 @@ import SubcategoryTab from "./SubcategoryTab";
 import PartnerTab from "./PartnerTab";
 import "./BannerTemplate.css";
 
-const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) => {
-
-    const [selectedLanguage, setSelectedLanguage] = useState(""); // Store selected language
-    const [englishTemplates, setEnglishTemplates] = useState([]); // Store English templates
-    const [parentTemplateId, setParentTemplateId] = useState(""); // Store selected parent template
+const BannerTemplate = ({ bannerData, setBannerData, activeTab, setActiveTab }) => {
+    const [selectedLanguage, setSelectedLanguage] = useState("");
+    const [englishTemplates, setEnglishTemplates] = useState([]);
+    const [parentTemplateId, setParentTemplateId] = useState("");
 
     const languages = [
         { code: "en", name: "English" },
         { code: "hi", name: "Hindi" },
-        { code: "fr", name: "French" }
+        { code: "gu", name: "Gujarati" },
+        { code: "mr", name: "Marathi" },
+        { code: "pa", name: "Punjabi" },
+        { code: "fr", name: "French" },
+        { code: "es", name: "Spanish" },
+        { code: "de", name: "German" }
     ];
+    
 
     const handleLanguageChange = (e) => {
         const newLanguage = e.target.value;
         setSelectedLanguage(newLanguage);
 
-        setParentTemplateId(""); // Reset parent template id
+        setParentTemplateId("");
 
         setBannerData(prevData => ({
             ...prevData,
             template: {
                 ...prevData.template,
-                language_code: newLanguage, // Store language inside template object
-                parent_template_id: null // Reset parent template id
+                language_code: newLanguage,
+                parent_template_id: null
             }
         }));
         console.log("Selected Language:", newLanguage);
@@ -40,7 +45,7 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
         const fetchEnglishTemplates = async () => {
             try {
                 const templates = await bannerTemplateService.getEnglishBannerTemplates();
-                setEnglishTemplates(templates); // Set fetched templates in state
+                setEnglishTemplates(templates);
             } catch (error) {
                 console.error("Error fetching English templates:", error);
             }
@@ -48,22 +53,19 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
     
         fetchEnglishTemplates();
     }, []);
-    
-    
-
 
     return (
         <div className="banner-template-container">
             <h2 className="banner-template-title">Banner Template Management</h2>
             <div className="banner-template-tabs">
-                <button onClick={() => setActiveTab("templates")} disabled={!selectedLanguage} className={activeTab === "templates" ? "active" : ""}>Templates</button>
-                <button onClick={() => setActiveTab("portal")} disabled={!selectedLanguage} className={activeTab === "portal" ? "active" : ""}>Portal</button>
-                <button onClick={() => setActiveTab("categories")} disabled={!selectedLanguage} className={activeTab === "categories" ? "active" : ""}>Categories</button>
-                <button onClick={() => setActiveTab("subcategories")} disabled={!selectedLanguage} className={activeTab === "subcategories" ? "active" : ""}>Subcategories</button>
-                <button onClick={() => setActiveTab("partners")} disabled={!selectedLanguage} className={activeTab === "partners" ? "active" : ""}>Partners</button>
+                <button onClick={() => setActiveTab("templates")} disabled={!selectedLanguage} className={activeTab === "templates" ? "banner-template-active" : ""}>Templates</button>
+                <button onClick={() => setActiveTab("portal")} disabled={!selectedLanguage} className={activeTab === "portal" ? "banner-template-active" : ""}>Portal</button>
+                <button onClick={() => setActiveTab("categories")} disabled={!selectedLanguage} className={activeTab === "categories" ? "banner-template-active" : ""}>Categories</button>
+                <button onClick={() => setActiveTab("subcategories")} disabled={!selectedLanguage} className={activeTab === "subcategories" ? "banner-template-active" : ""}>Subcategories</button>
+                <button onClick={() => setActiveTab("partners")} disabled={!selectedLanguage} className={activeTab === "partners" ? "banner-template-active" : ""}>Partners</button>
             </div>
 
-            <div className="language-selection">
+            <div className="banner-template-language-selection">
                 <label>Select Language:</label>
                 <select value={bannerData.template?.language_code || ""} onChange={handleLanguageChange}>
                     <option value="">-- Select Language --</option>
@@ -74,7 +76,7 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
             </div>
 
             {selectedLanguage && selectedLanguage !== "en" && (
-                <div className="parent-template-selection">
+                <div className="banner-template-parent-template-selection">
                     <label>Select English Template:</label>
                     <select value={parentTemplateId} onChange={(e) => {
                         const selectedId = e.target.value;
@@ -95,7 +97,6 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
                 </div>
             )}
 
-
             {selectedLanguage && (
                 <div className="banner-template-content">
                     {activeTab === "templates" && <TemplateTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab} />}
@@ -105,7 +106,7 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
                     {activeTab === "partners" && <PartnerTab bannerData={bannerData} setBannerData={setBannerData} />}
                 </div>
             )}
-
+            
         </div>
     );
 };
