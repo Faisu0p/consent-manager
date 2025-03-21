@@ -101,7 +101,7 @@ const BannerTemplate = ({ bannerData, setBannerData,activeTab,setActiveTab }) =>
                     {activeTab === "templates" && <TemplateTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab} />}
                     {activeTab === "portal" && <PortalTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab}/>}
                     {activeTab === "categories" && <CategoryTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab}/>}
-                    {activeTab === "subcategories" && <SubcategoryTab bannerData={bannerData} setBannerData={setBannerData} />}
+                    {activeTab === "subcategories" && <SubcategoryTab bannerData={bannerData} setBannerData={setBannerData} setActiveTab={setActiveTab}/>}
                     {activeTab === "partners" && <PartnerTab bannerData={bannerData} setBannerData={setBannerData} />}
                 </div>
             )}
