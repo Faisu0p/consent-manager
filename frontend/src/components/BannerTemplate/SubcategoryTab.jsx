@@ -40,7 +40,7 @@ const SubcategoryTab = ({ bannerData, setBannerData, setActiveTab }) => {
     return (
         <div className="sub-category-container">
             <h3 className="sub-category-title">Create Consent Subcategory</h3>
-            <p className="sub-category-description">Define subcategories under each category to further specify data collection purposes.</p>
+            <p className="sub-category-description">Define subcategories under each category to further specify data collection purposes.(This is optional)</p>
 
             <form onSubmit={handleSubmit} className="sub-category-form">
                 <label className="sub-category-label">Select a Category: 

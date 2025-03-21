@@ -106,7 +106,6 @@ const BannerTemplate = ({ bannerData, setBannerData, activeTab, setActiveTab }) 
                     {activeTab === "partners" && <PartnerTab bannerData={bannerData} setBannerData={setBannerData} />}
                 </div>
             )}
-            
         </div>
     );
 };
