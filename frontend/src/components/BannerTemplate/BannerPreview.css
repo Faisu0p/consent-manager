@@ -1,5 +1,5 @@
 /* Banner Preview container styles */
-.banner-preview {
+.preview-component-banner-preview {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
@@ -10,26 +10,20 @@
     color: #333;
 }
 
-/* Title styling */
-.banner-preview h3 {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
 /* Template preview section */
-.template-preview h2 {
+.preview-component-template-preview h2 {
     text-align: center;
     font-size: 24px;
     margin-bottom: 10px;
 }
 
-.template-preview h4 {
+.preview-component-template-preview h4 {
     text-align: center;
     font-size: 20px;
     margin-bottom: 10px;
 }
 
-.template-preview p {
+.preview-component-template-preview p {
     text-align: center;
     font-size: 16px;
     margin-bottom: 15px;
@@ -37,13 +31,13 @@
 }
 
 /* Button styling */
-.buttons {
+.preview-component-buttons {
     display: flex;
     justify-content: space-around;
     gap: 10px;
 }
 
-.buttons button {
+.preview-component-buttons button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -54,10 +48,64 @@
     transition: background-color 0.3s;
 }
 
-.buttons button:hover {
+.preview-component-buttons button:hover {
     background-color: #0056b3;
 }
 
-.buttons button:active {
+.preview-component-buttons button:active {
     background-color: #003366;
 }
+
+/* Categories section container */
+.preview-component-categories-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Individual category item */
+.preview-component-category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Category label with checkbox */
+.preview-component-category-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Category description box */
+.preview-component-category-description {
+    background: #eef2f7;
+    border-left: 4px solid #2c3e50;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #444;
+    width: 100%;
+    max-width: 500px;
+}
+
+
+/* Subcategories list */
+.preview-component-subcategories-list {
+    margin-top: 5px;
+    margin-left: 30px; /* Adjust indentation */
+    font-size: 12px;
+    color: #555;
+    list-style-type: disc; /* Bulleted list */
+    padding-left: 20px;
+    text-align: left; /* Ensures text aligns left */
+}
+
