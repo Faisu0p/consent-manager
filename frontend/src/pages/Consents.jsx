@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../styles/MyConsent.css";
+import "../styles/Consents.css";
 
-const MyConsent = () => {
+const Consents = () => {
   const [view, setView] = useState("list"); // "list" or "form"
   const [selectedConsent, setSelectedConsent] = useState(null);
 
@@ -18,7 +18,7 @@ const MyConsent = () => {
 
   return (
     <div className="my-consent-container">
-      <h1>My Consents</h1>
+      <h1>Manage Consents</h1>
 
       {view === "list" ? (
         <div>
@@ -79,4 +79,4 @@ const MyConsent = () => {
   );
 };
 
-export default MyConsent;
+export default Consents;
