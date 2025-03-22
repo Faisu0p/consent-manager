@@ -575,6 +575,11 @@ window.saveCredentials = function() {
     .then(data => {
         console.log("Server response:", data);
         if (data.message === "User registered and consent recorded successfully") {
+
+            if (data.consentUserId) {
+                document.cookie = "userId=" + encodeURIComponent(data.consentUserId) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+            }
+
             document.body.lastChild.remove();
             alert("Credentials saved and consent data stored!");
         } else {
