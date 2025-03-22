@@ -520,6 +520,10 @@ window.saveCredentials = function() {
         return;
     }
 
+    // Save credentials to cookies
+    document.cookie = "userEmail=" + encodeURIComponent(email) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+    document.cookie = "userPassword=" + encodeURIComponent(password) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+
     // Retrieve cookies
     var cookies = document.cookie.split("; ").reduce((acc, cookie) => {
         var [key, value] = cookie.split("=");
