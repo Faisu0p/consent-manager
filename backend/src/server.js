@@ -5,6 +5,7 @@ import userRoute from "./routes/userRoutes.js";
 import accessLogRoute from "./routes/accessLogRoutes.js";
 import bannerTemplateRoute from "./routes/bannerTemplateRoutes.js";
 import scriptRoute from "./routes/scriptRoutes.js";
+import privacyRoutes from "./routes/privacyRoutes.js";
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use("/api/banner-templates", bannerTemplateRoute);
 
 // Routes for scripts
 app.use("/api", scriptRoute);
+
+// Routes for privacy settings
+app.use("/privacy", privacyRoutes);
 
 const PORT = config.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
