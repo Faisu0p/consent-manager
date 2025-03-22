@@ -9,6 +9,7 @@ import Customization from "./pages/Customization";
 import Report from "./pages/Report";
 import Settings from "./pages/Settings";
 import Consents from "./pages/Consents";
+import MyConsent from "./pages/MyConsent";
 
 
 
@@ -28,8 +29,10 @@ function App() {
         <Route path="reports" element={<Report />} />
         <Route path="settings" element={<Settings />} />
         <Route path="all-consents" element={<Consents />} />
-
       </Route>
+
+      <Route path="my-consent" element={<MyConsent />} />
+
     </Routes>
   );
 }
