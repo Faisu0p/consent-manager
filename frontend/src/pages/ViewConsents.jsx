@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import consentService from "../services/consentService";
 import "../styles/ViewConsents.css";
 
 const ViewConsent = () => {
@@ -19,15 +20,21 @@ const ViewConsent = () => {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(consents.length / itemsPerPage);
 
-
-  // Sample data for testing (replace with API data later)
+  // Fetch consents from the server
   useEffect(() => {
-    setConsents([
-      { id: 1, userId: "12345", template: "Marketing Banner", category: "Analytics", status: true, date: "2025-03-24" },
-      { id: 2, userId: "67890", template: "Legal Notice", category: "Compliance", status: false, date: "2025-03-22" }
-    ]);
-  }, []);
-
+    const fetchConsents = async () => {
+      try {
+        const data = await consentService.getConsents();
+        console.log("Fetched Consents:", data); // Log the API response
+        setConsents(data);
+      } catch (error) {
+        console.error("Failed to fetch consents:", error);
+      }
+    };
+  
+    fetchConsents();
+  }, []);  
+  
 
   // Event handlers for search bar and filter dropdown
   const handleSearchChange = (e) => {
@@ -54,8 +61,13 @@ const ViewConsent = () => {
   const exportToCSV = () => {
     const csvContent = [
       ["Consent ID", "User ID", "Template", "Category", "Status", "Consent Date"],
-      ...consents.map((c) => [
-        c.id, c.userId, c.template, c.category, c.status ? "Accepted" : "Rejected", c.date
+      ...consents.map((c, index) => [
+        index + 1, // Sequential ID instead of consent_id
+        c.user_id, 
+        c.template_name || "-",
+        `"${c.category_names}"`, // Wrap in quotes to avoid issues with commas
+        c.consent_status ? "Accepted" : "Rejected",
+        new Date(c.consent_date).toLocaleDateString("en-GB") // Format date
       ])
     ].map(e => e.join(",")).join("\n");
   
@@ -63,17 +75,31 @@ const ViewConsent = () => {
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "consents.csv";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
   
   const exportToJSON = () => {
-    const jsonStr = JSON.stringify(consents, null, 2);
+    const formattedData = consents.map((c, index) => ({
+      "Consent ID": index + 1, // Sequential ID
+      "User ID": c.user_id,
+      "Template": c.template_name || "-",
+      "Category": c.category_names,
+      "Status": c.consent_status ? "Accepted" : "Rejected", // Fix status key
+      "Consent Date": new Date(c.consent_date).toLocaleDateString("en-GB") // Match displayed format
+    }));
+  
+    const jsonStr = JSON.stringify(formattedData, null, 2);
     const blob = new Blob([jsonStr], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "consents.json";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
+   
   
 
   return (
@@ -99,6 +125,13 @@ const ViewConsent = () => {
       </div>
 
 
+      {/* Export Options */}
+      <div className="view-consent-export">
+        <button className="view-consent-export-btn" onClick={exportToCSV}>Export CSV</button>
+        <button className="view-consent-export-btn" onClick={exportToJSON}>Export JSON</button>
+      </div>
+
+
       {/*Table for displaying consents*/}
       <table className="view-consent-table">
         <thead>
@@ -112,22 +145,23 @@ const ViewConsent = () => {
             <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
-        {consents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((row) => (
-          <tr key={row.id}>
-            <td>{row.id}</td>
-            <td>{row.userId}</td>
-            <td>{row.template}</td>
-            <td>{row.category}</td>
-            <td>{row.status ? "✅" : "❌"}</td>
-            <td>{row.date}</td>
-            <td>
-              <button className="view-consent-btn">Modify</button>
-              <button className="view-consent-btn view-consent-view-btn" onClick={() => openModal(row)}>View</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
+          {consents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((row, index) => (
+            <tr key={row.id || `consent-${index}`}>
+              <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+              <td>{row.user_id}</td>
+              <td>{row.template_name || "-"}</td>
+              <td>{row.category_names}</td>
+              <td>{row.consent_status ? "✅" : "❌"}</td>
+              <td>{new Date(row.consent_date).toLocaleDateString("en-GB")}</td>
+              <td>
+                <button className="view-consent-btn">Modify</button>
+                <button className="view-consent-btn view-consent-view-btn" onClick={() => openModal(row)}>View</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
 
       </table>
 
@@ -168,13 +202,6 @@ const ViewConsent = () => {
         >
           Next
         </button>
-      </div>
-
-
-      {/* Export Options */}
-      <div className="view-consent-export">
-        <button className="view-consent-export-btn" onClick={exportToCSV}>Export CSV</button>
-        <button className="view-consent-export-btn" onClick={exportToJSON}>Export JSON</button>
       </div>
 
 
