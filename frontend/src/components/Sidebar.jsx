@@ -27,7 +27,7 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
           <MenuItem icon={<FiFileText />} component={<Link to="/customization" />}>Customization</MenuItem>
           <MenuItem icon={<FiBarChart2 />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
 
-          <MenuItem icon={<RiFileShield2Line />} component={<Link to="/all-consents" />}>
+          <MenuItem icon={<RiFileShield2Line />} component={<Link to="/view-consents" />}>
   View Consents
 </MenuItem>
 

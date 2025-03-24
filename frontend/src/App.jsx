@@ -8,7 +8,7 @@ import Audit from "./pages/Audit";
 import Customization from "./pages/Customization";
 import Report from "./pages/Report";
 import Settings from "./pages/Settings";
-import Consents from "./pages/Consents";
+import ViewConsents from "./pages/ViewConsents";
 import MyConsent from "./pages/MyConsent";
 
 
@@ -28,7 +28,7 @@ function App() {
         <Route path="customization" element={<Customization />} />
         <Route path="reports" element={<Report />} />
         <Route path="settings" element={<Settings />} />
-        <Route path="all-consents" element={<Consents />} />
+        <Route path="view-consents" element={<ViewConsents />} />
       </Route>
 
       <Route path="my-consent" element={<MyConsent />} />
