@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "../styles/MyConsent.css"; // Styling for the full-page layout
 
 const MyConsent = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch userId from URL
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userId = queryParams.get("userId");
 
   useEffect(() => {
     // Simulate a short delay before displaying the content
@@ -15,8 +21,8 @@ const MyConsent = () => {
 
   // Static User & Consent Data
   const userData = {
-    userId: "12345",
-    email: "user@example.com",
+    userId: userId || "Unknown", // Use the userId from the URL, fallback to "Unknown"
+    email: "user@example.com", // You can replace this with dynamic data later
     overallConsent: "Accepted",
     categories: [
       {
