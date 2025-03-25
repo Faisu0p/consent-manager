@@ -16,17 +16,23 @@ const viewConsentController = {
     async getUserConsents(req, res) {
         try {
             const { userId } = req.params;
-            if (!userId) {
-                return res.status(400).json({ success: false, message: "User ID is required" });
+            if (!userId || isNaN(userId)) {
+                return res.status(400).json({ success: false, message: "Valid User ID is required" });
             }
 
             const consents = await viewConsentModel.getUserConsents(userId);
+
+            if (!consents || consents.length === 0) {
+                return res.status(404).json({ success: false, message: "No consents found for this user" });
+            }
+
             res.status(200).json({ success: true, consents });
         } catch (error) {
             console.error("Error fetching user consents:", error);
-            res.status(500).json({ success: false, message: "Server error" });
+            res.status(500).json({ success: false, message: "Server error", error: error.message });
         }
     }
+
 };
 
 export default viewConsentController;
