@@ -134,13 +134,13 @@ const ViewConsent = () => {
 
   return (
     <div className="view-consent-container">
-      <h1 className="view-consent-title">Hello, World! This is View Consent PageHello, World!! This is View Consent PageHello, World! This is View Consent Page</h1>
+      <h1 className="view-consent-title">Hello, World! This is View Consent Page</h1>
 
       {/*Search and filter bar*/}
       <div className="view-consent-filter">
         <input
           type="text"
-          placeholder="Search by User ID or Email"
+          placeholder="Search by User ID or Template Name"
           value={searchTerm}
           onChange={handleSearchChange}
           className="view-consent-search"
@@ -168,7 +168,7 @@ const ViewConsent = () => {
             <th>Consent ID</th>
             <th>User ID</th>
             <th>Template Name</th>
-            <th>Category</th>
+            <th>Categories</th>
             <th>Consent Given</th>
             <th>Consent Date</th>
             <th>Actions</th>
@@ -180,7 +180,7 @@ const ViewConsent = () => {
             <tr key={row.id || `consent-${index}`}>
               <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
               <td>{row.user_id}</td>
-              <td>{row.template_name || "-"}</td>
+              <td>{row.template_name || "N/A"}</td>
               <td>{row.category_names}</td>
               <td>{row.consent_status ? "✅" : "❌"}</td>
               <td>{new Date(row.consent_date).toLocaleDateString("en-GB")}</td>
