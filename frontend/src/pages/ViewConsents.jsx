@@ -46,11 +46,41 @@ const ViewConsent = () => {
   };
 
 
-  // Event handlers for modal
-  const openModal = (consent) => {
-    setSelectedConsent(consent);
-    setIsModalOpen(true);
+  // Pop up modal for viewing consent details
+  const openModal = async (consent) => {
+    console.log("Fetching fresh consent data for user:", consent.user_id);
+  
+    try {
+      // Fetch latest consent data from the API
+      const updatedConsents = await consentService.getUserConsents(consent.user_id);
+      console.log("Fetched user consents:", updatedConsents); // Log fetched data
+  
+      // Find the specific consent entry for this template (if multiple exist for the user)
+      const updatedConsent = updatedConsents.find(c => c.consent_id === consent.consent_id) || consent;
+      console.log("Updated consent to be set:", updatedConsent); // Log the selected consent
+  
+      // Set the fetched data in state
+      setSelectedConsent({
+        ...updatedConsent,
+        category_names: (updatedConsent.categories || []).map(cat => cat.category_name).join(", "),
+        subcategory_names: (updatedConsent.categories || [])
+          .flatMap(cat => (cat.subcategories || []).map(sub => sub.subcategory_name))
+          .join(", "),
+        partner_names: (updatedConsent.partners || []).map(partner => partner.partner_name).join(", "),
+      });
+  
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching user consents:", error);
+      alert("Failed to fetch the latest consent data.");
+    }
   };
+  
+  
+  
+  
+  
+  
   
   const closeModal = () => {
     setIsModalOpen(false);
@@ -172,13 +202,30 @@ const ViewConsent = () => {
           <div className="view-consent-modal-content">
             <span className="view-consent-close" onClick={closeModal}>&times;</span>
             <h2>Consent Details</h2>
-            <p><strong>Consent ID:</strong> {selectedConsent.id}</p>
-            <p><strong>User ID:</strong> {selectedConsent.userId}</p>
-            <p><strong>User Email:</strong> {selectedConsent.email}</p>
-            <p><strong>Template:</strong> {selectedConsent.template}</p>
-            <p><strong>Category:</strong> {selectedConsent.category}</p>
-            <p><strong>Status:</strong> {selectedConsent.status ? "✅ Accepted" : "❌ Rejected"}</p>
-            <p><strong>Consent Date:</strong> {selectedConsent.date}</p>
+            <p><strong>Consent ID:</strong> {selectedConsent.consent_id}</p>
+            <p><strong>User ID:</strong> {selectedConsent.user_id}</p>
+            <p><strong>User Email:</strong> {selectedConsent.user_email}</p>
+            <p><strong>Template:</strong> {selectedConsent.template_name}</p>
+            <p><strong>Categories & Subcategories:</strong></p>
+            <ul>
+              {(selectedConsent.categories || []).map((category) => (
+                <li key={category.category_id}>
+                  <strong>{category.category_name}</strong>
+                  {category.subcategories && category.subcategories.length > 0 ? (
+                    <ul>
+                      {category.subcategories.map((sub) => (
+                        <li key={sub.subcategory_id}>{sub.subcategory_name}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>- No subcategories -</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <p><strong>Partners:</strong> {selectedConsent.partner_names || "-"}</p>
+            <p><strong>Status:</strong> {selectedConsent.consent_status ? "✅ Accepted" : "❌ Rejected"}</p>
+            <p><strong>Consent Date:</strong> {new Date(selectedConsent.consent_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <button className="view-consent-close-btn" onClick={closeModal}>Close</button>
           </div>
         </div>
