@@ -45,21 +45,26 @@ const ViewConsent = () => {
     setStatusFilter(e.target.value);
   };
 
+  const filteredConsents = consents.filter(row => 
+    (searchTerm === "" || 
+      (row.user_id && row.user_id.toString().includes(searchTerm)) || 
+      (row.template_name && row.template_name.toLowerCase().includes(searchTerm.toLowerCase()))
+    ) &&
+    (statusFilter === "" || row.consent_status === (statusFilter === "accepted"))
+  );
 
-  // Pop up modal for viewing consent details
+
+  // Filtering logic for view consents
   const openModal = async (consent) => {
     console.log("Fetching fresh consent data for user:", consent.user_id);
   
     try {
-      // Fetch latest consent data from the API
       const updatedConsents = await consentService.getUserConsents(consent.user_id);
-      console.log("Fetched user consents:", updatedConsents); // Log fetched data
+      console.log("Fetched user consents:", updatedConsents);
   
-      // Find the specific consent entry for this template (if multiple exist for the user)
       const updatedConsent = updatedConsents.find(c => c.consent_id === consent.consent_id) || consent;
-      console.log("Updated consent to be set:", updatedConsent); // Log the selected consent
+      console.log("Updated consent to be set:", updatedConsent);
   
-      // Set the fetched data in state
       setSelectedConsent({
         ...updatedConsent,
         category_names: (updatedConsent.categories || []).map(cat => cat.category_name).join(", "),
@@ -76,16 +81,11 @@ const ViewConsent = () => {
     }
   };
   
-  
-  
-  
-  
-  
-  
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedConsent(null);
   };
+  
 
   // Filtering and pagination logic
   const exportToCSV = () => {
@@ -150,7 +150,6 @@ const ViewConsent = () => {
           <option value="">All Statuses</option>
           <option value="accepted">Accepted</option>
           <option value="rejected">Rejected</option>
-          <option value="pending">Pending</option>
         </select>
       </div>
 
@@ -177,7 +176,7 @@ const ViewConsent = () => {
         </thead>
 
         <tbody>
-          {consents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((row, index) => (
+          {filteredConsents.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((row, index) => (
             <tr key={row.id || `consent-${index}`}>
               <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
               <td>{row.user_id}</td>
