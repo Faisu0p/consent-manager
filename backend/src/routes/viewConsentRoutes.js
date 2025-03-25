@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/all", viewConsentController.getAllConsents);
 
 // Route to get consents for a specific user
-router.get("/:userId", viewConsentController.getUserConsents);
+router.get("/user/:userId", viewConsentController.getUserConsents);
 
 export default router;

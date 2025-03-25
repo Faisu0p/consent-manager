@@ -9,6 +9,18 @@ const consentService = {
       console.error("Error fetching consents:", error.response?.data || error.message);
       throw error;
     }
+  },
+  
+  async getUserConsents(userId) {
+    try {
+      if (!userId) throw new Error("User ID is required");
+
+      const response = await api.get(`/consents/user/${userId}`);
+      return response.data.consents; // Extract consents array
+    } catch (error) {
+      console.error("Error fetching user consents:", error.response?.data || error.message);
+      throw error;
+    }
   }
 };
 
