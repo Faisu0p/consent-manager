@@ -21,7 +21,20 @@ const consentService = {
       console.error("Error fetching user consents:", error.response?.data || error.message);
       throw error;
     }
+  },
+
+  async getAllConsentDetails(userId) {
+    try {
+      if (!userId) throw new Error("User ID is required");
+
+      const response = await api.get(`/consent-details/all/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching all consent details:", error.response?.data || error.message);
+      throw error;
+    }
   }
+
 };
 
 export default consentService;

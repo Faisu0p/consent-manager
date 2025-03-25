@@ -7,6 +7,7 @@ import bannerTemplateRoute from "./routes/bannerTemplateRoutes.js";
 import scriptRoute from "./routes/scriptRoutes.js";
 import privacyRoutes from "./routes/privacyRoutes.js";
 import viewConsentRoutes from "./routes/viewConsentRoutes.js";
+import myConsentRoutes from "./routes/myConsentRoutes.js";
 
 const app = express();
 
@@ -30,6 +31,10 @@ app.use("/privacy", privacyRoutes);
 
 // Routes for viewing consents
 app.use("/api/consents", viewConsentRoutes);
+
+// Routes for user consents
+app.use("/api/consent-details", myConsentRoutes);
+
 
 const PORT = config.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
