@@ -26,6 +26,18 @@ const viewConsentController = {
                 return res.status(404).json({ success: false, message: "No consents found for this user" });
             }
 
+            // Fetch and attach categories, subcategories, and partners
+            for (let consent of consents) {
+                const categories = await viewConsentModel.getCategoriesByConsentId(consent.consent_id);
+
+                for (let category of categories) {
+                    category.subcategories = await viewConsentModel.getSubcategoriesByCategoryId(category.category_id);
+                }
+
+                consent.categories = categories;
+                consent.partners = await viewConsentModel.getPartnersByTemplateId(consent.template_id);
+            }
+
             res.status(200).json({ success: true, consents });
         } catch (error) {
             console.error("Error fetching user consents:", error);
