@@ -1,237 +1,251 @@
-/* Reset styles to fix viewport issues */
+/* Reset and Global Styles */
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-  }
-  
-  /* Full-page layout */
-  .myconsent-portal-container {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* Changed from center to flex-start to ensure header is visible */
-    justify-content: flex-start;
-    background: linear-gradient(135deg, #4b6cb7, #182848);
-    color: white;
-    /* Added top padding to ensure the header is visible */
-    padding: 20px 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    box-sizing: border-box;
-    position: relative;
-    top: 0;
-    left: 0;
-  }
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+}
 
-  .myconsent-portal-myconsent-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-size: 1.5rem;
-  }
-  
-  .myconsent-portal-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.3);
-    border-top: 5px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 10px;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  
-  /* Header - fixed positioning issues */
-  .myconsent-portal-header {
-    width: 100%;
-    padding: 20px 20px 0; /* Added top padding */
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    /* Ensure the header is visible */
-    position: relative;
-    display: block;
-    margin-top: 300px;
+/* Loading Screen Styles */
+.myconsent-portal-loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.myconsent-portal-spinner {
+  width: 80px;
+  height: 80px;
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  border-top: 8px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 30px;
+}
+
+.myconsent-portal-loading-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Full Page Container */
+.myconsent-portal-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  color: white;
+  padding: 80px 20px 20px; /* Increased top padding to ensure visibility */
+  box-sizing: border-box;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+/* Header Styles */
+.myconsent-portal-header {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  margin-bottom: 30px;
+  position: static; /* Ensure no absolute positioning */
+}
+
+.myconsent-portal-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.myconsent-portal-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+/* User Info Section */
+.myconsent-portal-user-info {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.myconsent-portal-section-title {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.myconsent-portal-info-item {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  opacity: 0.9;
+}
+
+/* Greeting Styles */
+.myconsent-portal-greeting {
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.myconsent-portal-greeting-text {
+  font-size: 2rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* Consent Status Styles */
+.myconsent-portal-status {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.myconsent-portal-status-title {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.myconsent-portal-status-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.myconsent-portal-status-accepted {
+  background: linear-gradient(to right, #28a745, #20c997);
+}
+
+.myconsent-portal-status-rejected {
+  background: linear-gradient(to right, #dc3545, #c71f37);
+}
+
+/* Categories Section */
+.myconsent-portal-categories {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myconsent-portal-categories-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.myconsent-portal-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.myconsent-portal-category-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.myconsent-portal-category-card:hover {
+  transform: translateY(-5px);
+}
+
+.myconsent-portal-category-name {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: white;
+  font-weight: 600;
+}
+
+.myconsent-portal-subcategory-list {
+  list-style-type: none;
+  padding: 15px;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.myconsent-portal-subcategory-item {
+  font-size: 1rem;
+  margin: 10px 0;
+  padding-left: 15px;
+  border-left: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Modify Button */
+.myconsent-portal-modify-btn {
+  background: linear-gradient(to right, #ff9800, #f57c00);
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.myconsent-portal-modify-btn:hover {
+  background: linear-gradient(to right, #f57c00, #e65100);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .myconsent-portal-category-grid {
+    grid-template-columns: 1fr;
   }
   
   .myconsent-portal-title {
-    font-size: 2.2rem;
-    margin-bottom: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-size: 2rem;
   }
   
   .myconsent-portal-subtitle {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-bottom: 10px;
-  }
-  
-  /* User Info */
-  .myconsent-portal-user-info {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 15px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 1000px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .myconsent-portal-section-title {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-    color: #fff;
-  }
-  
-  .myconsent-portal-info-item {
     font-size: 1rem;
-    margin: 8px 0;
   }
-  
-  /* Greeting */
-  .myconsent-portal-greeting {
-    margin-bottom: 20px;
-    width: 90%;
-    max-width: 1000px;
-  }
-  
-  .myconsent-portal-greeting-text {
-    font-size: 1.6rem;
-    font-weight: 600;
-  }
-  
-  /* Consent Status */
-  .myconsent-portal-status {
-    padding: 15px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 1000px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-  }
-  
-  .myconsent-portal-status-title {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-  }
-  
-  .myconsent-portal-status-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-  
-  .myconsent-portal-status-accepted {
-    background: linear-gradient(to right, #28a745, #20c997);
-  }
-  
-  .myconsent-portal-status-rejected {
-    background: linear-gradient(to right, #dc3545, #c71f37);
-  }
-  
-  /* Categories */
-  .myconsent-portal-categories {
-    width: 90%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-  }
-  
-  .myconsent-portal-categories-title {
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  /* Grid for category cards to display side by side */
-  .myconsent-portal-category-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-  }
-  
-  .myconsent-portal-category-card {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 12px;
-    width: calc(50% - 10px); /* Two cards per row with gap */
-    min-width: 280px; /* Minimum width for small screens */
-    margin-bottom: 0; /* Remove bottom margin since we're using gap */
-    text-align: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    flex-grow: 1; /* Allow cards to grow */
-  }
-  
-  .myconsent-portal-category-card:hover {
-    transform: translateY(-2px);
-  }
-  
-  .myconsent-portal-category-name {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-    color: #fff;
-    font-weight: 600;
-  }
-  
-  .myconsent-portal-category-status,
-  .myconsent-portal-category-timestamp {
-    font-size: 1rem;
-    margin: 8px 0;
-  }
-  
-  .myconsent-portal-subcategory-list {
-    list-style-type: none;
-    padding: 10px;
-    margin: 15px 0;
-    text-align: left;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-  }
-  
-  .myconsent-portal-subcategory-item {
-    font-size: 1rem;
-    margin: 8px 0;
-    padding-left: 10px;
-    border-left: 3px solid rgba(255, 255, 255, 0.5);
-  }
-  
-  /* Modify Button */
-  .myconsent-portal-modify-btn {
-    background: linear-gradient(to right, #ff9800, #f57c00);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .myconsent-portal-modify-btn:hover {
-    background: linear-gradient(to right, #f57c00, #e65100);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-  }
-  
+}

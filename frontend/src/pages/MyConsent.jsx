@@ -22,6 +22,10 @@ const MyConsent = () => {
     const fetchConsentDetails = async () => {
       if (userId) {
         try {
+
+          // Add a delay of 3 seconds (3000 milliseconds)
+          await new Promise(resolve => setTimeout(resolve, 3000));
+
           const consentDetails = await consentService.getAllConsentDetails(userId); // Using the method from consentService
           console.log("Consent Details:", consentDetails); // Logging the API response
 
@@ -48,11 +52,16 @@ const MyConsent = () => {
   }, [userId]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Loading state
+    return (
+      <div className="myconsent-portal-loading-screen">
+        <div className="myconsent-portal-spinner"></div>
+        <p className="myconsent-portal-loading-text">Redirecting...</p>
+      </div>
+    );
   }
 
   if (!userData) {
-    return <div>Error fetching data</div>; // Error state
+    return <div>Error fetching data</div>;
   }
 
   // Check if email is a string before calling split
@@ -66,76 +75,68 @@ const MyConsent = () => {
 
   return (
     <div className="myconsent-portal-container">
-      {isLoading ? (
-        <div className="myconsent-portal-loading-screen">
-          <div className="myconsent-portal-spinner"></div>
-          <p className="myconsent-portal-loading-text">Redirecting...</p>
+
+      {/* Header */}
+      <header className="myconsent-portal-header">
+        <h1 className="myconsent-portal-title">MyConsent Portal</h1>
+        <p className="myconsent-portal-subtitle">Review and manage your consent preferences.</p>
+      </header>
+
+      {/* User Info */}
+      <section className="myconsent-portal-user-info">
+        <h2 className="myconsent-portal-section-title">👤 User Information</h2>
+        <p className="myconsent-portal-info-item"><strong>User ID:</strong> {userId}</p>
+        <p className="myconsent-portal-info-item"><strong>Email:</strong> {userData.email}</p>
+      </section>
+
+      {/* Greeting */}
+      <section className="myconsent-portal-greeting">
+        <h2 className="myconsent-portal-greeting-text">Hello, {emailUsername}! 👋</h2>
+      </section>
+
+      {/* Overall Consent Status */}
+      <section className={`myconsent-portal-status myconsent-portal-status-${userData.consentGiven.toLowerCase()}`}>
+        <h2 className="myconsent-portal-status-title">📊 Overall Consent Status</h2>
+        <p className="myconsent-portal-status-value">{userData.consentGiven == "Yes" ? "Accepted ✅" : "Rejected ❌"}</p>
+      </section>
+
+      {/* Consent Categories */}
+      <section className="myconsent-portal-categories">
+        <h2 className="myconsent-portal-categories-title">Your Consent Preferences</h2>
+        <div className="myconsent-portal-category-grid">
+          {userData.categories.length > 0 ? (
+            userData.categories.map((category) => (
+              <div key={category.category_id} className="myconsent-portal-category-card">
+                <h3 className="myconsent-portal-category-name">{category.category_name}</h3>
+                <p className="myconsent-portal-category-status">
+                  <strong>Required:</strong> {category.is_required ? "✅ Yes" : "❌ No"}
+                </p>
+                <p className="myconsent-portal-category-acceptance">
+                  <strong>Acceptance Status:</strong> {isCategorySelected(category.category_id) ? "Accepted ✅" : "Rejected ❌"}
+                </p>
+                <p className="myconsent-portal-category-description">
+                  <strong>Description:</strong> {category.category_description}
+                </p>
+
+                <ul className="myconsent-portal-subcategory-list">
+                  {userData.subcategories
+                    .filter((sub) => sub.category_id === category.category_id)
+                    .map((sub) => (
+                      <li key={sub.subcategory_id} className="myconsent-portal-subcategory-item">
+                        <strong>{sub.subcategory_name}</strong> - {sub.subcategory_description}
+                      </li>
+                    ))}
+                </ul>
+
+                <button className="myconsent-portal-modify-btn">Modify Consent</button>
+              </div>
+            ))
+          ) : (
+            <p>No categories available</p>
+          )}
         </div>
-      ) : (
-        <>
-          {/* Header */}
-          <header className="myconsent-portal-header">
-            <h1 className="myconsent-portal-title">MyConsent Portal</h1>
-            <p className="myconsent-portal-subtitle">Review and manage your consent preferences.</p>
-          </header>
+      </section>
 
-          {/* User Info */}
-          <section className="myconsent-portal-user-info">
-            <h2 className="myconsent-portal-section-title">👤 User Information</h2>
-            <p className="myconsent-portal-info-item"><strong>User ID:</strong> {userId}</p>
-            <p className="myconsent-portal-info-item"><strong>Email:</strong> {userData.email}</p>
-          </section>
-
-          {/* Greeting */}
-          <section className="myconsent-portal-greeting">
-            <h2 className="myconsent-portal-greeting-text">Hello, {emailUsername}! 👋</h2>
-          </section>
-
-          {/* Overall Consent Status */}
-          <section className={`myconsent-portal-status myconsent-portal-status-${userData.consentGiven.toLowerCase()}`}>
-            <h2 className="myconsent-portal-status-title">📊 Overall Consent Status</h2>
-            <p className="myconsent-portal-status-value">{userData.consentGiven == "Yes" ? "Accepted ✅" : "Rejected ❌"}</p>
-          </section>
-
-          {/* Consent Categories */}
-          <section className="myconsent-portal-categories">
-            <h2 className="myconsent-portal-categories-title">Your Consent Preferences</h2>
-            <div className="myconsent-portal-category-grid">
-              {userData.categories.length > 0 ? (
-                userData.categories.map((category) => (
-                  <div key={category.category_id} className="myconsent-portal-category-card">
-                    <h3 className="myconsent-portal-category-name">{category.category_name}</h3>
-                    <p className="myconsent-portal-category-status">
-                      <strong>Required:</strong> {category.is_required ? "✅ Yes" : "❌ No"}
-                    </p>
-
-                    <p className="myconsent-portal-category-acceptance">
-  <strong>Acceptance Status:</strong> {isCategorySelected(category.category_id) ? "Accepted ✅" : "Rejected ❌"}
-</p>
-                    <p className="myconsent-portal-category-description">
-                      <strong>Description:</strong> {category.category_description}
-                    </p>
-
-                    <ul className="myconsent-portal-subcategory-list">
-                      {userData.subcategories
-                        .filter((sub) => sub.category_id === category.category_id)
-                        .map((sub) => (
-                          <li key={sub.subcategory_id} className="myconsent-portal-subcategory-item">
-                            <strong>{sub.subcategory_name}</strong> - {sub.subcategory_description}
-                          </li>
-                        ))}
-                    </ul>
-
-                    <button className="myconsent-portal-modify-btn">Modify Consent</button>
-                  </div>
-                ))
-              ) : (
-                <p>No categories available</p>
-              )}
-            </div>
-          </section>
-        </>
-      )}
     </div>
   );
 };
