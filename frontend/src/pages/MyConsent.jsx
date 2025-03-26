@@ -58,6 +58,12 @@ const MyConsent = () => {
   // Check if email is a string before calling split
   const emailUsername = typeof userData.email === "string" ? userData.email.split("@")[0] : "Unknown";
 
+  const isCategorySelected = (categoryId) => {
+    return userData.selectedCategories.some(
+      (selectedCategory) => selectedCategory.category_id === categoryId
+    );
+  };
+
   return (
     <div className="myconsent-portal-container">
       {isLoading ? (
@@ -88,7 +94,7 @@ const MyConsent = () => {
           {/* Overall Consent Status */}
           <section className={`myconsent-portal-status myconsent-portal-status-${userData.consentGiven.toLowerCase()}`}>
             <h2 className="myconsent-portal-status-title">📊 Overall Consent Status</h2>
-            <p className="myconsent-portal-status-value">{userData.consentGiven}</p>
+            <p className="myconsent-portal-status-value">{userData.consentGiven == "Yes" ? "Accepted ✅" : "Rejected ❌"}</p>
           </section>
 
           {/* Consent Categories */}
@@ -102,6 +108,10 @@ const MyConsent = () => {
                     <p className="myconsent-portal-category-status">
                       <strong>Required:</strong> {category.is_required ? "✅ Yes" : "❌ No"}
                     </p>
+
+                    <p className="myconsent-portal-category-acceptance">
+  <strong>Acceptance Status:</strong> {isCategorySelected(category.category_id) ? "Accepted ✅" : "Rejected ❌"}
+</p>
                     <p className="myconsent-portal-category-description">
                       <strong>Description:</strong> {category.category_description}
                     </p>
