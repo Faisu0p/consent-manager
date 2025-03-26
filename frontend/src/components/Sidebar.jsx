@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiUsers, FiSettings, FiLogOut, FiBarChart2, FiFileText } from "react-icons/fi";
 import { MdManageAccounts, MdDashboard } from "react-icons/md";
 import { RiFileShield2Line } from "react-icons/ri";
+import { TbPencilCog } from "react-icons/tb";
 
 import { logout } from "../services/authService";
 
@@ -25,13 +26,9 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
           <MenuItem icon={<FiUsers />} component={<Link to="/users" />}>Users</MenuItem>
           <MenuItem icon={<FiFileText />} component={<Link to="/audit-logs" />}>Audit Logs</MenuItem>
           <MenuItem icon={<FiFileText />} component={<Link to="/customization" />}>Customization</MenuItem>
+          <MenuItem icon={<TbPencilCog />} component={<Link to="/modify-banner" />}>Modify Banner</MenuItem>
           <MenuItem icon={<FiBarChart2 />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
-
-          <MenuItem icon={<RiFileShield2Line />} component={<Link to="/view-consents" />}>
-  View Consents
-</MenuItem>
-
-
+          <MenuItem icon={<RiFileShield2Line />} component={<Link to="/view-consents" />}>View Consents</MenuItem>
           <MenuItem icon={<FiSettings />} component={<Link to="/settings" />}>Settings</MenuItem>
           <MenuItem icon={<FiLogOut />} onClick={handleLogout}>Logout</MenuItem>
         </Menu>
