@@ -1,13 +1,34 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import bannerService from "../services/bannerServices";
 import "../styles/ModifyBanner.css";
 
 const ModifyBanner = () => {
+
+  const [templates, setTemplates] = useState([]);
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await bannerService.getAllFullBannerTemplates();
+        setTemplates(response.templates); // Assuming response contains `templates`
+        console.log("All Templates fetched:", response.templates);
+      } catch (error) {
+        console.error("Error fetching templates:", error);
+      }
+    };
+  
+    fetchTemplates();
+  }, []);
+  
+
   return (
     <div className="modify-banner-container">
       
       {/* Section Heading */}
       <h1 className="modify-banner-heading">Modify Banner Section</h1>
       <p className="modify-banner-description">
+        Here you can modify existing banners by adding categories or subcategories.
+        Here you can modify existing banners by adding categories or subcategories.
         Here you can modify existing banners by adding categories or subcategories.
       </p>
       
@@ -16,9 +37,11 @@ const ModifyBanner = () => {
         <label htmlFor="template-select">Select a Template:</label>
         <select id="template-select" className="modify-banner-dropdown">
           <option value="">-- Choose a Template --</option>
-          <option value="template1">Template 1</option>
-          <option value="template2">Template 2</option>
-          <option value="template3">Template 3</option>
+          {templates.map((template) => (
+            <option key={template.id} value={template.id}>
+              {template.name}
+            </option>
+          ))}
         </select>
       </div>
       
@@ -84,12 +107,7 @@ const ModifyBanner = () => {
 
       <div className="modify-banner-portal-footer">
         <div className="modify-banner-portal-logo-container">
-          <svg width="100" height="30" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="30" rx="5" fill="#2e75b7"/>
-            <text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-size="14" font-family="Arial, sans-serif">
-              Your Logo
-            </text>
-          </svg>
+
         </div>
         <div className="modify-banner-portal-save-container">
           <button className="modify-banner-portal-save-button">Save</button>
