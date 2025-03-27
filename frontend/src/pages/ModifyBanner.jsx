@@ -48,11 +48,56 @@ const ModifyBanner = () => {
       {/* Layout with Two Sections */}
       <div className="modify-banner-content">
         
-        {/* Left Section - Categories and Subcategories */}
-        <div className="modify-banner-left">
-          <h2>Add Categories & Subcategories</h2>
-          <p>Feature to add categories and subcategories will go here.</p>
-        </div>
+{/* Left Section - Categories and Subcategories */}
+<div className="modify-banner-left">
+  <h2>Add Categories & Subcategories</h2>
+  <p className="modify-banner-info">
+    You can add new categories and subcategories to existing banner templates.
+  </p>
+
+  {/* Add Category Section */}
+  <div className="modify-banner-category">
+    <h3>Create Consent Category</h3>
+    <p>
+      Define consent categories to specify the types of data collection and their purposes. Users will be able to grant or deny consent based on these categories.
+    </p>
+    <label>Category Name:</label>
+    <input type="text" placeholder="Enter category name (e.g., Marketing Preferences)" />
+    
+    <label>Reason for Consent:</label>
+    <textarea placeholder="Explain why this category requires consent (e.g., legal compliance, personalized marketing, etc.)"></textarea>
+
+    <div className="modify-banner-checkbox">
+      <input type="checkbox" id="mandatory-category" />
+      <label htmlFor="mandatory-category">This category is mandatory for consent</label>
+    </div>
+
+    <button className="modify-banner-add-btn">Add Category</button>
+  </div>
+
+  {/* Add Subcategory Section */}
+  <div className="modify-banner-subcategory">
+    <h3>Create Consent Subcategory</h3>
+    <p>
+      Define subcategories under each category to further specify data collection purposes. (This is optional)
+    </p>
+
+    <label>Select a Category:</label>
+    <select>
+      <option>Choose a Category</option>
+      {/* Options will be dynamically populated */}
+    </select>
+
+    <label>Subcategory Name:</label>
+    <input type="text" placeholder="Enter subcategory name (e.g., Email Marketing)" />
+    
+    <label>Description:</label>
+    <textarea placeholder="Explain why this subcategory requires consent"></textarea>
+
+    <button className="modify-banner-add-btn">Add Subcategory</button>
+  </div>
+</div>
+
 
 
 

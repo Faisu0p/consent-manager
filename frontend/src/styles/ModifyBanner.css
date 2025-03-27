@@ -51,6 +51,88 @@
 }
 
 
+/* Left */
+
+.modify-banner-info {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.modify-banner-category,
+.modify-banner-subcategory {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.modify-banner-category h3,
+.modify-banner-subcategory h3 {
+  color: #2e75b7;
+  margin-bottom: 10px;
+}
+
+.modify-banner-category p,
+.modify-banner-subcategory p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.modify-banner-category label,
+.modify-banner-subcategory label {
+  display: block;
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.modify-banner-category input,
+.modify-banner-subcategory input,
+.modify-banner-category textarea,
+.modify-banner-subcategory textarea,
+.modify-banner-subcategory select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+}
+
+.modify-banner-checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.modify-banner-checkbox input {
+  margin: 0;
+}
+
+.modify-banner-add-btn {
+  background: #2e75b7;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modify-banner-add-btn:hover {
+  background: #235a9a;
+}
+
+
+
 /* Right */
 
 .modify-banner-right {
