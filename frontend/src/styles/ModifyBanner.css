@@ -50,13 +50,112 @@
   text-align: center;
 }
 
+
+/* Right */
+
 .modify-banner-right {
   margin-left: 20px;
 }
 
-.modify-banner-preview {
+.modify-banner-portal-banner {
+  background: white;
   padding: 20px;
-  background-color: #ddd;
   border-radius: 8px;
+  text-align: left;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modify-banner-portal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.modify-banner-portal-icon-container {
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modify-banner-company-name {
+  font-size: 1.2rem;
   font-weight: bold;
+  margin: 0;
+}
+
+.modify-banner-portal-content {
+  margin-bottom: 15px;
+}
+
+.modify-banner-consent-text {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.modify-banner-portal-allow-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.modify-banner-portal-allow-item {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.modify-banner-portal-allow-item label {
+  font-weight: bold;
+  display: block;
+}
+
+.modify-banner-portal-allow-item ul {
+  padding-left: 20px;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.modify-banner-category-checkbox {
+  margin-right: 8px;
+}
+
+.modify-banner-portal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.modify-banner-portal-logo-container {
+  flex-shrink: 0;
+}
+
+.modify-banner-portal-save-container {
+  text-align: right;
+}
+
+.modify-banner-portal-save-button {
+  background-color: #2e75b7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.modify-banner-portal-save-text {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 5px;
 }
