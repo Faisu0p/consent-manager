@@ -48,19 +48,23 @@ const ModifyBanner = () => {
 
   const handleAddCategory = () => {
     const newCategory = {
+      id: Date.now(),
       name: categoryName,
       description: categoryDescription,
-      isMandatory,
+      is_required: isMandatory,
       subcategories: [],
     };
   
     setCategories([...categories, newCategory]);
+  
+    // Don't modify selectedTemplate.categories here
+  
     setCategoryName("");
     setCategoryDescription("");
     setIsMandatory(false);
-  
-    console.log("Categories:", [...categories, newCategory]);
   };
+  
+  
   
   const handleAddSubcategory = () => {
     if (!selectedCategory) {
@@ -75,22 +79,70 @@ const ModifyBanner = () => {
               ...category,
               subcategories: [
                 ...category.subcategories,
-                { name: subCategoryName, description: subCategoryDescription },
+                { id: Date.now(), name: subCategoryName, description: subCategoryDescription },
               ],
             }
           : category
       )
     );
   
+    if (selectedTemplate) {
+      setSelectedTemplate({
+        ...selectedTemplate,
+        categories: selectedTemplate.categories.map((category) =>
+          category.name === selectedCategory
+            ? {
+                ...category,
+                subcategories: [
+                  ...category.subcategories,
+                  { id: Date.now(), name: subCategoryName, description: subCategoryDescription },
+                ],
+              }
+            : category
+        ),
+      });
+    }
+  
     setSubCategoryName("");
     setSubCategoryDescription("");
-  
-    console.log("Updated Categories:", categories);
   };
+  
 
   useEffect(() => {
     console.log("Latest Categories:", categories);
   }, [categories]);
+
+
+  const handleSavePreferences = () => {
+    if (!selectedTemplate) {
+      console.warn("No template selected.");
+      return;
+    }
+  
+    // Prevent duplicate categories by filtering out ones already in selectedTemplate
+    const mergedCategories = [
+      ...selectedTemplate.categories, 
+      ...categories.filter(
+        (newCat) => !selectedTemplate.categories.some((existingCat) => existingCat.name === newCat.name)
+      ),
+    ];
+  
+    const formattedData = {
+      templateId: selectedTemplate.id,
+      categories: mergedCategories.map((category) => ({
+        name: category.name,
+        description: category.description,
+        isMandatory: category.isMandatory,
+        subcategories: category.subcategories.map((sub) => ({
+          name: sub.name,
+          description: sub.description,
+        })),
+      })),
+    };
+  
+    console.log("Saved Preferences:", formattedData);
+  };
+  
   
   
   
@@ -253,7 +305,7 @@ const ModifyBanner = () => {
 
                 </div>
                 <div className="modify-banner-portal-save-container">
-                  <button className="modify-banner-portal-save-button">Save</button>
+                  <button className="modify-banner-portal-save-button" onClick={handleSavePreferences}>Save</button>
                   <p className="modify-banner-portal-save-text">Set all your preferences to save and continue</p>
                 </div>
               </div>
