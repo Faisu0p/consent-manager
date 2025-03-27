@@ -5,6 +5,8 @@ import "../styles/ModifyBanner.css";
 const ModifyBanner = () => {
 
   const [templates, setTemplates] = useState([]);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
@@ -13,13 +15,20 @@ const ModifyBanner = () => {
   const [subCategoryName, setSubCategoryName] = useState("");
   const [subCategoryDescription, setSubCategoryDescription] = useState("");
 
-
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
         const response = await bannerService.getAllFullBannerTemplates();
-        setTemplates(response.templates); // Assuming response contains `templates`
-        console.log("All Templates fetched:", response.templates);
+        const filteredTemplates = response.templates.map((template) => ({
+          id: template.id,
+          name: template.name,
+          upper_text: template.portal?.upper_text || "",
+          lower_text: template.portal?.lower_text || "",
+          categories: template.categories || []
+        }));
+  
+        setTemplates(filteredTemplates);
+        console.log("Filtered Templates:", filteredTemplates);
       } catch (error) {
         console.error("Error fetching templates:", error);
       }
@@ -28,6 +37,14 @@ const ModifyBanner = () => {
     fetchTemplates();
   }, []);
 
+  const handleTemplateChange = (e) => {
+    const templateId = e.target.value;
+    const template = templates.find((t) => t.id === parseInt(templateId));
+  
+    setSelectedTemplate(template || null);
+    console.log("Selected Template:", template);
+  };
+  
 
   const handleAddCategory = () => {
     const newCategory = {
@@ -92,7 +109,7 @@ const ModifyBanner = () => {
       {/* Dropdown for Template Selection */}
       <div className="modify-banner-dropdown-container">
         <label htmlFor="template-select">Select a Template:</label>
-        <select id="template-select" className="modify-banner-dropdown">
+        <select id="template-select" className="modify-banner-dropdown" onChange={handleTemplateChange}>
           <option value="">-- Choose a Template --</option>
           {templates.map((template) => (
             <option key={template.id} value={template.id}>
@@ -188,37 +205,46 @@ const ModifyBanner = () => {
                     </svg>
                   </div>
                 </div>
-                <h1 className="modify-banner-company-name">Welcome to Example Corp</h1>
+                <h1 className="modify-banner-company-name">Welcome to {selectedTemplate ? selectedTemplate.name : "Preview"}</h1>
               </div>
 
               <div className="modify-banner-portal-content">
                 <p className="modify-banner-consent-text">
-                  We use cookies to enhance your experience. You can manage your preferences here.
+                  {selectedTemplate ? selectedTemplate.upper_text : "We use cookies to enhance your experience. You can manage your preferences here."}
                 </p>
-
+                
+                {/* Dynamically render categories and subcategories */}
                 <div className="modify-banner-portal-allow-section">
-                  <div className="modify-banner-portal-allow-item">
-                    <label>
-                      <input type="checkbox" checked className="modify-banner-category-checkbox" /> Essential Cookies
-                    </label>
-                    <ul>
-                      <li>Security</li>
-                      <li>Authentication</li>
-                    </ul>
-                  </div>
-                  <div className="modify-banner-portal-allow-item">
-                    <label>
-                      <input type="checkbox" className="modify-banner-category-checkbox" /> Marketing Cookies
-                    </label>
-                    <ul>
-                      <li>Personalized Ads</li>
-                      <li>Tracking</li>
-                    </ul>
-                  </div>
+                  {selectedTemplate?.categories?.length > 0 ? (
+                    selectedTemplate.categories.map((category) => (
+                      <div key={category.id} className="modify-banner-portal-allow-item">
+                        <label>
+                          <input
+                            type="checkbox"
+                            className="modify-banner-category-checkbox"
+                            defaultChecked={category.is_required} // Check if required
+                          />
+                          {category.name}
+                        </label>
+                        <ul>
+                          {category.subcategories && category.subcategories.length > 0 ? (
+                            category.subcategories.map((sub) => (
+                              <li key={sub.id}>{sub.name}</li>
+                            ))
+                          ) : (
+                            <li>No subcategories</li>
+                          )}
+                        </ul>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No categories available</p>
+                  )}
                 </div>
 
+
                 <p className="modify-banner-consent-text">
-                  You can modify your preferences anytime in settings.
+                  {selectedTemplate ? selectedTemplate.lower_text : "You can modify your preferences anytime in settings."}
                 </p>
               </div>
 
