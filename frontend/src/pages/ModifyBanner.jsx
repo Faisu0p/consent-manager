@@ -141,6 +141,7 @@ const ModifyBanner = () => {
     };
   
     console.log("Saved Preferences:", formattedData);
+    alert("Preferences saved successfully!");
   };
   
   
