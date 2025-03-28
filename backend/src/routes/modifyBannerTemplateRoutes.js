@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Modify an existing banner template (Only Admins can access)
 router.put(
-    "/modify-template",
+    "/update",
     [
         body("templateId").isInt().withMessage("Template ID is required"),
         body("categories").isArray().withMessage("Categories must be an array"),
