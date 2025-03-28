@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import bannerService from "../services/bannerServices";
+import modifyTemplateService from "../services/modifyTemplateService";
 import "../styles/ModifyBanner.css";
 
 const ModifyBanner = () => {
@@ -108,14 +109,17 @@ const ModifyBanner = () => {
     setSubCategoryDescription("");
   };
   
-  
-
   useEffect(() => {
     console.log("Latest Categories:", categories);
   }, [categories]);
 
 
-  const handleSavePreferences = () => {
+
+
+
+
+
+  const handleSavePreferences = async () => {
     if (!selectedTemplate) {
       console.warn("No template selected.");
       return;
@@ -133,17 +137,27 @@ const ModifyBanner = () => {
       templateId: selectedTemplate.id,
       categories: mergedCategories.map((category) => ({
         name: category.name,
-        description: category.description,
-        isMandatory: category.isMandatory,
-        subcategories: category.subcategories.map((sub) => ({
+        description: category.description || "",
+        isMandatory: category.is_required || category.isMandatory || false,
+        subcategories: (category.subcategories || []).map((sub) => ({
           name: sub.name,
-          description: sub.description,
+          description: sub.description || "",
         })),
       })),
     };
   
-    console.log("Saved Preferences:", formattedData);
-    alert("Preferences saved successfully!");
+    try {
+      // Import the modifyTemplateService
+      const response = await modifyTemplateService.modifyBannerTemplate(
+        formattedData.templateId, 
+        formattedData.categories
+      );
+      console.log("Server response:", response);
+      alert("Banner template modified successfully!");
+    } catch (error) {
+      console.error("Error saving preferences:", error);
+      alert("Failed to save preferences. Please try again.");
+    }
   };
   
   
