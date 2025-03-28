@@ -47,6 +47,11 @@ const ModifyBanner = () => {
   
 
   const handleAddCategory = () => {
+    if (!categoryName.trim()) {
+      alert("Category name is required!");
+      return;
+    }
+  
     const newCategory = {
       id: Date.now(),
       name: categoryName,
@@ -57,12 +62,18 @@ const ModifyBanner = () => {
   
     setCategories([...categories, newCategory]);
   
-    // Don't modify selectedTemplate.categories here
+    if (selectedTemplate) {
+      setSelectedTemplate({
+        ...selectedTemplate,
+        categories: [...selectedTemplate.categories, newCategory], // Update template categories
+      });
+    }
   
     setCategoryName("");
     setCategoryDescription("");
     setIsMandatory(false);
   };
+  
   
   
   
@@ -72,16 +83,12 @@ const ModifyBanner = () => {
       return;
     }
   
+    const newSubcategory = { id: Date.now(), name: subCategoryName, description: subCategoryDescription };
+  
     setCategories((prevCategories) =>
       prevCategories.map((category) =>
         category.name === selectedCategory
-          ? {
-              ...category,
-              subcategories: [
-                ...category.subcategories,
-                { id: Date.now(), name: subCategoryName, description: subCategoryDescription },
-              ],
-            }
+          ? { ...category, subcategories: [...category.subcategories, newSubcategory] }
           : category
       )
     );
@@ -91,13 +98,7 @@ const ModifyBanner = () => {
         ...selectedTemplate,
         categories: selectedTemplate.categories.map((category) =>
           category.name === selectedCategory
-            ? {
-                ...category,
-                subcategories: [
-                  ...category.subcategories,
-                  { id: Date.now(), name: subCategoryName, description: subCategoryDescription },
-                ],
-              }
+            ? { ...category, subcategories: [...category.subcategories, newSubcategory] }
             : category
         ),
       });
@@ -106,6 +107,7 @@ const ModifyBanner = () => {
     setSubCategoryName("");
     setSubCategoryDescription("");
   };
+  
   
 
   useEffect(() => {
