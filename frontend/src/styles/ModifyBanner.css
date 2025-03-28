@@ -30,6 +30,8 @@
 .modify-banner-dropdown {
   padding: 8px;
   font-size: 1rem;
+  background-color: white;
+  color: #333;
 }
 
 .modify-banner-content {
