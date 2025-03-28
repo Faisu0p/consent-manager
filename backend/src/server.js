@@ -8,6 +8,7 @@ import scriptRoute from "./routes/scriptRoutes.js";
 import privacyRoutes from "./routes/privacyRoutes.js";
 import viewConsentRoutes from "./routes/viewConsentRoutes.js";
 import myConsentRoutes from "./routes/myConsentRoutes.js";
+import modifyBannerTemplateRoute from "./routes/modifyBannerTemplateRoutes.js";
 
 const app = express();
 
@@ -34,6 +35,9 @@ app.use("/api/consents", viewConsentRoutes);
 
 // Routes for user consents
 app.use("/api/consent-details", myConsentRoutes);
+
+// Routes for modifying banner templates (Admin only)
+app.use("/api/modify-template", modifyBannerTemplateRoute);
 
 
 const PORT = config.PORT || 5000;
