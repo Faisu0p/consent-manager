@@ -183,6 +183,7 @@ const MyConsent = () => {
   onClick={() => {
     const updatedData = [
       {
+        userId: userId,
         consentGiven: consentGiven,
         selectedCategories: userData.selectedCategories.map(cat => ({
           category_id: cat.category_id
