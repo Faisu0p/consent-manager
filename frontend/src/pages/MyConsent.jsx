@@ -171,6 +171,25 @@ const MyConsent = () => {
         </div>
       </section>
 
+<button 
+  className="myconsent-portal-save-btn" 
+  onClick={() => {
+    const updatedData = [
+      {
+        consentGiven: consentGiven,
+        selectedCategories: userData.selectedCategories.map(cat => ({
+          category_id: cat.category_id
+        }))
+      }
+    ];
+    console.log("Updated Consent Data:", JSON.stringify(updatedData, null, 2));
+  }}
+>
+  Save
+</button>
+
+
+
     </div>
   );
 };
