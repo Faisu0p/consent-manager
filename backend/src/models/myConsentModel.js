@@ -121,7 +121,7 @@ const myConsentModel = {
     },
 
 
-    // Update User Consent
+// Update User Consent
 async updateUserConsent(userId, consentGiven, selectedCategories) {
     const pool = await connectDB();
     if (!pool) throw new Error("Database connection failed");
@@ -130,18 +130,18 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
     await transaction.begin();
 
     try {
-        // Update consent_given status
+        // ✅ Update `given` status in the `consents` table
         await pool
             .request()
             .input("user_id", sql.Int, userId)
-            .input("given", sql.VarChar, consentGiven)
+            .input("given", sql.Bit, consentGiven === "Yes" ? 1 : 0)  // Convert Yes/No to 1/0
             .query(`
-                UPDATE consent_selected_categories 
+                UPDATE consents 
                 SET given = @given 
-                WHERE consent_id = @user_id;
+                WHERE consent_user_id = @user_id;
             `);
 
-        // If consent is "No", delete all selected categories
+        // ✅ If consent is "No", delete all selected categories
         if (consentGiven === "No") {
             await pool
                 .request()
@@ -150,7 +150,7 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
                     DELETE FROM consent_selected_categories WHERE consent_id = @user_id;
                 `);
         } else {
-            // Fetch current selected categories
+            // ✅ Fetch current selected categories
             const result = await pool
                 .request()
                 .input("user_id", sql.Int, userId)
@@ -161,7 +161,7 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
             const existingCategoryIds = result.recordset.map(row => row.category_id);
             const newCategoryIds = selectedCategories.map(cat => cat.category_id);
 
-            // Find categories to delete
+            // ✅ Find categories to delete
             const categoriesToDelete = existingCategoryIds.filter(id => !newCategoryIds.includes(id));
             if (categoriesToDelete.length > 0) {
                 await pool
@@ -173,7 +173,7 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
                     `);
             }
 
-            // Insert new selected categories
+            // ✅ Insert new selected categories
             for (const categoryId of newCategoryIds) {
                 if (!existingCategoryIds.includes(categoryId)) {
                     await pool
@@ -195,6 +195,8 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
         throw error;
     }
 }
+
+
 
 };
 

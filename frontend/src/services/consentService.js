@@ -33,7 +33,20 @@ const consentService = {
       console.error("Error fetching all consent details:", error.response?.data || error.message);
       throw error;
     }
+  },
+
+  async updateUserConsent(consentData) {
+    try {
+      if (!consentData.userId) throw new Error("User ID is required");
+
+      const response = await api.post("/consent-details/update", consentData);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating user consent:", error.response?.data || error.message);
+      throw error;
+    }
   }
+
 
 };
 

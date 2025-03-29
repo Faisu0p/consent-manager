@@ -33,7 +33,29 @@ const myConsentController = {
             console.error("Error fetching consent details:", error);
             res.status(500).json({ success: false, message: "Server error" });
         }
+    },
+
+    // Update User Consent
+    async updateUserConsent(req, res) {
+        try {
+            const { userId, consentGiven, selectedCategories } = req.body;
+
+            if (!userId || !consentGiven) {
+                return res.status(400).json({ success: false, message: "Missing required fields" });
+            }
+
+            // Call model function to update consent data
+            const result = await myConsentModel.updateUserConsent(userId, consentGiven, selectedCategories || []);
+
+            res.status(200).json({ success: true, message: result.message });
+        } catch (error) {
+            console.error("Error updating user consent:", error);
+            res.status(500).json({ success: false, message: "Server error" });
+        }
     }
+
+
+
 };
 
 export default myConsentController;

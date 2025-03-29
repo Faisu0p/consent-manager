@@ -178,23 +178,33 @@ const MyConsent = () => {
         </div>
       </section>
 
+
 <button 
   className="myconsent-portal-save-btn" 
-  onClick={() => {
-    const updatedData = [
-      {
+  onClick={async () => {
+    try {
+      const updatedData = {
         userId: userId,
-        consentGiven: consentGiven,
-        selectedCategories: userData.selectedCategories.map(cat => ({
-          category_id: cat.category_id
-        }))
-      }
-    ];
-    console.log("Updated Consent Data:", JSON.stringify(updatedData, null, 2));
+        consentGiven: consentGiven === "Yes" ? 1 : 0,
+        selectedCategories: consentGiven === "Yes" 
+          ? userData.selectedCategories.map(cat => ({ category_id: cat.category_id })) 
+          : [] // If consent is "No", remove all categories
+      };
+
+      console.log("Updated Consent Data:", JSON.stringify(updatedData, null, 2));
+
+      const response = await consentService.updateUserConsent(updatedData);
+      console.log("Consent Updated Successfully:", response);
+      alert("Consent updated successfully!"); // Show success message
+    } catch (error) {
+      console.error("Error updating consent:", error);
+      alert("Failed to update consent."); // Show error message
+    }
   }}
 >
   Save
 </button>
+
 
 
 
