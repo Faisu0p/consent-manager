@@ -148,7 +148,21 @@ const MyConsent = () => {
                     ))}
                 </ul>
 
-                <button className="myconsent-portal-modify-btn">Modify Consent</button>
+                <label className="myconsent-portal-switch">
+  <input 
+    type="checkbox" 
+    checked={isCategorySelected(category.category_id)} 
+    onChange={() => {
+      const updatedCategories = isCategorySelected(category.category_id)
+        ? userData.selectedCategories.filter((c) => c.category_id !== category.category_id)
+        : [...userData.selectedCategories, { category_id: category.category_id }];
+      setUserData({ ...userData, selectedCategories: updatedCategories });
+      console.log("Updated Selected Categories:", updatedCategories);
+    }} 
+  />
+  <span className="myconsent-portal-slider round"></span>
+</label>
+                
               </div>
             ))
           ) : (
