@@ -11,6 +11,8 @@ const MyConsent = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const userIdFromUrl = queryParams.get("userId");
+
+  const [consentGiven, setConsentGiven] = useState("Yes");
   
   useEffect(() => {
     if (userIdFromUrl) {
@@ -73,6 +75,12 @@ const MyConsent = () => {
     );
   };
 
+  const toggleConsent = () => {
+    const newConsent = consentGiven === "Yes" ? "No" : "Yes";
+    setConsentGiven(newConsent);
+    console.log("Updated Consent Given:", newConsent);
+  };
+
   return (
     <div className="myconsent-portal-container">
 
@@ -98,6 +106,18 @@ const MyConsent = () => {
       <section className={`myconsent-portal-status myconsent-portal-status-${userData.consentGiven.toLowerCase()}`}>
         <h2 className="myconsent-portal-status-title">📊 Overall Consent Status</h2>
         <p className="myconsent-portal-status-value">{userData.consentGiven == "Yes" ? "Accepted ✅" : "Rejected ❌"}</p>
+
+        <label className="myconsent-portal-switch">
+  <input 
+    type="checkbox" 
+    checked={consentGiven === "Yes"} 
+    onChange={toggleConsent} 
+  />
+  <span className="myconsent-portal-slider round"></span>
+</label>
+
+
+
       </section>
 
       {/* Consent Categories */}
