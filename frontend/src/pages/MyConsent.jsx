@@ -78,8 +78,15 @@ const MyConsent = () => {
   const toggleConsent = () => {
     const newConsent = consentGiven === "Yes" ? "No" : "Yes";
     setConsentGiven(newConsent);
+  
+    // If consent is rejected, turn off all category sliders
+    if (newConsent === "No") {
+      setUserData({ ...userData, selectedCategories: [] });
+    }
+  
     console.log("Updated Consent Given:", newConsent);
   };
+  
 
   return (
     <div className="myconsent-portal-container">
@@ -107,7 +114,7 @@ const MyConsent = () => {
         <h2 className="myconsent-portal-status-title">📊 Overall Consent Status</h2>
         <p className="myconsent-portal-status-value">{userData.consentGiven == "Yes" ? "Accepted ✅" : "Rejected ❌"}</p>
 
-        <label className="myconsent-portal-switch">
+<label className="myconsent-portal-switch">
   <input 
     type="checkbox" 
     checked={consentGiven === "Yes"} 
