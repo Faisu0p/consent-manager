@@ -118,7 +118,84 @@ const myConsentModel = {
             `);
 
         return result.recordset;
+    },
+
+
+    // Update User Consent
+async updateUserConsent(userId, consentGiven, selectedCategories) {
+    const pool = await connectDB();
+    if (!pool) throw new Error("Database connection failed");
+
+    const transaction = pool.transaction();
+    await transaction.begin();
+
+    try {
+        // Update consent_given status
+        await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .input("given", sql.VarChar, consentGiven)
+            .query(`
+                UPDATE consent_selected_categories 
+                SET given = @given 
+                WHERE consent_id = @user_id;
+            `);
+
+        // If consent is "No", delete all selected categories
+        if (consentGiven === "No") {
+            await pool
+                .request()
+                .input("user_id", sql.Int, userId)
+                .query(`
+                    DELETE FROM consent_selected_categories WHERE consent_id = @user_id;
+                `);
+        } else {
+            // Fetch current selected categories
+            const result = await pool
+                .request()
+                .input("user_id", sql.Int, userId)
+                .query(`
+                    SELECT category_id FROM consent_selected_categories WHERE consent_id = @user_id;
+                `);
+
+            const existingCategoryIds = result.recordset.map(row => row.category_id);
+            const newCategoryIds = selectedCategories.map(cat => cat.category_id);
+
+            // Find categories to delete
+            const categoriesToDelete = existingCategoryIds.filter(id => !newCategoryIds.includes(id));
+            if (categoriesToDelete.length > 0) {
+                await pool
+                    .request()
+                    .input("user_id", sql.Int, userId)
+                    .query(`
+                        DELETE FROM consent_selected_categories 
+                        WHERE consent_id = @user_id AND category_id IN (${categoriesToDelete.join(",")});
+                    `);
+            }
+
+            // Insert new selected categories
+            for (const categoryId of newCategoryIds) {
+                if (!existingCategoryIds.includes(categoryId)) {
+                    await pool
+                        .request()
+                        .input("user_id", sql.Int, userId)
+                        .input("category_id", sql.Int, categoryId)
+                        .query(`
+                            INSERT INTO consent_selected_categories (consent_id, category_id) 
+                            VALUES (@user_id, @category_id);
+                        `);
+                }
+            }
+        }
+
+        await transaction.commit();
+        return { success: true, message: "Consent updated successfully." };
+    } catch (error) {
+        await transaction.rollback();
+        throw error;
     }
+}
+
 };
 
 export default myConsentModel;
