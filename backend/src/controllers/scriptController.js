@@ -421,14 +421,14 @@ const generateConsentScript = async (req, res) => {
                         <div style="background: white; padding: 25px; border-radius: 10px; 
                                     box-shadow: 0px 4px 15px rgba(0,0,0,0.3); text-align: center; 
                                     width: 350px; font-family: Arial, sans-serif;">
-                            <h3 style="margin-bottom: 15px; color: #333;">Are you logged in?</h3>
+                            <h3 style="margin-bottom: 15px; color: #333;">Please re-authenticate yourself to save your privacy consent.</h3>
                             <button onclick="handleLoginStatus(true)" 
                                 style="background: #007bff; color: white; border: none; padding: 10px 15px; 
                                         border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 10px;
-                                        font-size: 16px;">✔ Yes, I'm logged in</button>
+                                        font-size: 16px;">Save my privacy preference</button>
                             <button onclick="handleLoginStatus(false)" 
                                 style="background: #dc3545; color: white; border: none; padding: 10px 15px; 
-                                        border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;">✖ No, I'm not logged in</button>
+                                        border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;">ignore</button>
                         </div>
                     \`;
 
