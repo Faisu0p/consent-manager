@@ -10,6 +10,11 @@ const ViewConsent = () => {
   // State for search bar and filter dropdown
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [emailSearch, setEmailSearch] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+
 
   // State for selected consent and modal
   const [selectedConsent, setSelectedConsent] = useState(null);
@@ -45,13 +50,21 @@ const ViewConsent = () => {
     setStatusFilter(e.target.value);
   };
 
-  const filteredConsents = consents.filter(row => 
-    (searchTerm === "" || 
-      (row.user_id && row.user_id.toString().includes(searchTerm)) || 
-      (row.template_name && row.template_name.toLowerCase().includes(searchTerm.toLowerCase()))
-    ) &&
-    (statusFilter === "" || row.consent_status === (statusFilter === "accepted"))
-  );
+  const filteredConsents = consents.filter(row => {
+    const consentDate = new Date(row.consent_date); // Assuming 'consent_date' is the date field
+  
+    return (
+      (searchTerm === "" || 
+        (row.user_id && row.user_id.toString().includes(searchTerm)) || 
+        (row.template_name && row.template_name.toLowerCase().includes(searchTerm.toLowerCase()))
+      ) &&
+      (emailSearch === "" || (row.user_email && row.user_email.toLowerCase().includes(emailSearch.toLowerCase()))) &&
+      (statusFilter === "" || row.consent_status === (statusFilter === "accepted")) &&
+      (startDate === "" || consentDate >= new Date(startDate)) &&
+      (endDate === "" || consentDate <= new Date(endDate))
+    );
+  });
+  
 
 
   // Filtering logic for view consents
@@ -140,6 +153,14 @@ const ViewConsent = () => {
       <div className="view-consent-filter">
         <input
           type="text"
+          placeholder="Search by Email"
+          value={emailSearch}
+          onChange={(e) => setEmailSearch(e.target.value)}
+          className="view-consent-search"
+        />
+
+        <input
+          type="text"
           placeholder="Search by User ID or Template Name"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -151,6 +172,21 @@ const ViewConsent = () => {
           <option value="accepted">Accepted</option>
           <option value="rejected">Rejected</option>
         </select>
+
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          className="view-consent-date-filter"
+        />
+
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          className="view-consent-date-filter"
+        />
+
       </div>
 
 
