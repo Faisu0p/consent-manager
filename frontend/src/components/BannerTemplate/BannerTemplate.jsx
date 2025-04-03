@@ -56,13 +56,13 @@ const BannerTemplate = ({ bannerData, setBannerData, activeTab, setActiveTab }) 
 
     return (
         <div className="banner-template-container">
-            <h2 className="banner-template-title">Banner Template Management</h2>
+            <h2 className="banner-template-title">Consent Template Management</h2>
             <div className="banner-template-tabs">
-                <button onClick={() => setActiveTab("templates")} disabled={!selectedLanguage} className={activeTab === "templates" ? "banner-template-active" : ""}>Templates</button>
-                <button onClick={() => setActiveTab("portal")} disabled={!selectedLanguage} className={activeTab === "portal" ? "banner-template-active" : ""}>Portal</button>
-                <button onClick={() => setActiveTab("categories")} disabled={!selectedLanguage} className={activeTab === "categories" ? "banner-template-active" : ""}>Categories</button>
-                <button onClick={() => setActiveTab("subcategories")} disabled={!selectedLanguage} className={activeTab === "subcategories" ? "banner-template-active" : ""}>Subcategories</button>
-                <button onClick={() => setActiveTab("partners")} disabled={!selectedLanguage} className={activeTab === "partners" ? "banner-template-active" : ""}>Partners</button>
+                <button onClick={() => setActiveTab("templates")} disabled={!selectedLanguage} className={activeTab === "templates" ? "banner-template-active" : ""}>Consent Template</button>
+                <button onClick={() => setActiveTab("portal")} disabled={!selectedLanguage} className={activeTab === "portal" ? "banner-template-active" : ""}>Preceding Notice</button>
+                <button onClick={() => setActiveTab("categories")} disabled={!selectedLanguage} className={activeTab === "categories" ? "banner-template-active" : ""}>Lawful Purposes</button>
+                <button onClick={() => setActiveTab("subcategories")} disabled={!selectedLanguage} className={activeTab === "subcategories" ? "banner-template-active" : ""}>Itemised Description</button>
+                <button onClick={() => setActiveTab("partners")} disabled={!selectedLanguage} className={activeTab === "partners" ? "banner-template-active" : ""}>Data Processor Details</button>
             </div>
 
             <div className="banner-template-language-selection">
