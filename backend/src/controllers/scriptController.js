@@ -52,24 +52,32 @@ const getFullBannerTemplateById = async (req, res) => {
 // Register a new consent user and store consent
 const registerAndStoreConsent = async (req, res) => {
     try {
-        const { email, password, given, selectedCategories } = req.body;
+        const { user, email, phone, given, selectedCategories } = req.body;
 
         // Basic input validation
-        if (
-            !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || // Validate email format
-            !password || typeof password !== "string" || password.length < 6 || // Ensure password is valid
-            typeof given !== "boolean" || // Ensure given is a boolean
-            !Array.isArray(selectedCategories) || !selectedCategories.every(id => Number.isInteger(id)) // Validate category IDs
-        ) {
-            return res.status(400).json({ error: "Invalid input data" });
+        if (!user || typeof user !== "string" || user.length < 3) {
+            return res.status(400).json({ error: "Invalid username" });
+        }
+        
+        // Require either email OR phone, not necessarily both
+        if ((!email && !phone) || 
+            (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) || 
+            (phone && !/^\d{10}$/.test(phone))) {
+            return res.status(400).json({ error: "Either valid email or valid phone is required" });
+        }
+        
+        if (typeof given !== "boolean" || 
+            !Array.isArray(selectedCategories) || 
+            !selectedCategories.every(id => Number.isInteger(id))) {
+            return res.status(400).json({ error: "Invalid consent data" });
         }
 
-        // Check if user already exists
-        let user = await consentModel.getConsentUserByEmail(email);
+        // Check if user already exists by email or phone
+        let existingUser = await consentModel.getConsentUserByEmailOrPhone(email, phone);
         let consentUserId;
 
-        if (user) {
-            consentUserId = user.id;
+        if (existingUser) {
+            consentUserId = existingUser.id;
 
             // Check if a consent record already exists for this user
             const existingConsent = await consentModel.getConsentByUserId(consentUserId);
@@ -77,10 +85,8 @@ const registerAndStoreConsent = async (req, res) => {
                 return res.status(409).json({ error: "User consent already exists" });
             }
         } else {
-            // Hash password and create a new user
-            const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
-            consentUserId = await consentModel.createConsentUser(email, hashedPassword);
+            // Create a new user with either email or phone or both
+            consentUserId = await consentModel.createConsentUser(user, email || null, phone || null);
         }
 
         // Insert consent record
@@ -102,7 +108,6 @@ const registerAndStoreConsent = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
 
 
 
@@ -465,16 +470,31 @@ const generateConsentScript = async (req, res) => {
                         <div style="background: white; padding: 25px; border-radius: 10px; 
                                     box-shadow: 0px 4px 15px rgba(0,0,0,0.3); text-align: center; 
                                     width: 350px; font-family: Arial, sans-serif;">
-                            <h3 style="margin-bottom: 15px; color: #333;">Enter Email & Password</h3>
+                            <h3 style="margin-bottom: 15px; color: #333;">Enter your details to save privacy preferences</h3>
+
+                            <input type="text" id="popupUsername" placeholder="Username" 
+                                style="width: 100%; padding: 10px; margin-bottom: 10px; 
+                                    border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+
+                            <p style="margin: 10px 0; font-size: 14px; color: #666;">and</p>
+
                             
                             <input type="email" id="popupEmail" placeholder="Email" 
                                 style="width: 100%; padding: 10px; margin-bottom: 10px; 
                                     border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
-                            
-                            <input type="password" id="popupPassword" placeholder="Password" 
-                                style="width: 100%; padding: 10px; margin-bottom: 15px; 
+                            <input type="text" id="popupEmailOTP" placeholder="Enter OTP" 
+                                style="width: 100%; padding: 10px; margin-bottom: 10px; 
                                     border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                             
+                            <p style="margin: 10px 0; font-size: 14px; color: #666;">or</p>
+
+                            <input type="tel" id="popupPhone" placeholder="Phone" 
+                                style="width: 100%; padding: 10px; margin-bottom: 10px; 
+                                    border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+                            <input type="text" id="popupPhoneOTP" placeholder="Enter OTP" 
+                                style="width: 100%; padding: 10px; margin-bottom: 15px; 
+                                    border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+
                             <button onclick="saveCredentials()" 
                                 style="background: #007bff; color: white; border: none; padding: 10px 15px; 
                                     border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;">
@@ -512,17 +532,39 @@ const generateConsentScript = async (req, res) => {
 
                 
 window.saveCredentials = function() {
-    var email = document.getElementById("popupEmail").value;
-    var password = document.getElementById("popupPassword").value;
 
-    if (!email || !password) {
-        alert("Please enter both email and password.");
+    var user = document.getElementById("popupUsername").value;
+    var email = document.getElementById("popupEmail").value;
+    var emailOTP = document.getElementById("popupEmailOTP").value;
+    var phone = document.getElementById("popupPhone").value;
+    var phoneOTP = document.getElementById("popupPhoneOTP").value;
+
+    // Validate input
+    if (!user) {
+        alert("Please enter a username.");
+        return;
+    }
+    if (email && emailOTP !== "123456") {
+        alert("Invalid Email OTP!");
         return;
     }
 
+    if (phone && phoneOTP !== "123456") {
+        alert("Invalid Phone OTP!");
+        return;
+    }
+
+    if (!(email && emailOTP) && !(phone && phoneOTP)) {
+        alert("Please enter either email with OTP or phone with OTP.");
+        return;
+    }
+
+
     // Save credentials to cookies
-    document.cookie = "userEmail=" + encodeURIComponent(email) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
-    document.cookie = "userPassword=" + encodeURIComponent(password) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+    document.cookie = "user=" + encodeURIComponent(user) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+    if (email) document.cookie = "userEmail=" + encodeURIComponent(email) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+    if (phone) document.cookie = "userPhone=" + encodeURIComponent(phone) + "; path=/; max-age=" + (365 * 24 * 60 * 60);
+
 
     // Retrieve cookies
     var cookies = document.cookie.split("; ").reduce((acc, cookie) => {
@@ -557,9 +599,11 @@ window.saveCredentials = function() {
         }
     }
 
+    // Prepare request payload
     var requestData = {
-        email: email,
-        password: password,
+        user: user,
+        email: email || null,
+        phone: phone || null,
         given: given,
         selectedCategories: selectedCategories
     };

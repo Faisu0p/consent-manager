@@ -20,18 +20,19 @@ const consentModel = {
         }
     },
 
-    // Create a new consent user
-    async createConsentUser(email, hashedPassword) {
+    // Create a new consent user (with username, email, and phone)
+    async createConsentUser(username, email, phone) {
         try {
             const pool = await connectDB();
             if (!pool) throw new Error("Database connection failed");
 
             const result = await pool
                 .request()
+                .input("username", sql.VarChar, username)
                 .input("email", sql.VarChar, email)
-                .input("password", sql.VarChar, hashedPassword) // Assuming password is hashed before inserting
+                .input("phone", sql.VarChar, phone)
                 .query(
-                    "INSERT INTO consent_users (email, password) OUTPUT INSERTED.id VALUES (@email, @password)"
+                    "INSERT INTO consent_users (username, email, phone) OUTPUT INSERTED.id VALUES (@username, @email, @phone)"
                 );
 
             return result.recordset[0].id;
@@ -89,7 +90,48 @@ const consentModel = {
             console.error("Error in createConsentCategories:", error);
             throw error;
         }
+    },
+
+    // Add this function to find a user by either email or phone
+async getConsentUserByEmailOrPhone(email, phone) {
+    try {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool
+            .request()
+            .input("email", sql.VarChar, email || '')
+            .input("phone", sql.VarChar, phone || '')
+            .query(`
+                SELECT id FROM consent_users 
+                WHERE (email = @email AND @email != '') 
+                   OR (phone = @phone AND @phone != '')
+            `);
+
+        return result.recordset.length > 0 ? result.recordset[0] : null;
+    } catch (error) {
+        console.error("Error in getConsentUserByEmailOrPhone:", error);
+        throw error;
     }
+},
+
+// Add this function to check if a consent already exists for a user
+async getConsentByUserId(userId) {
+    try {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool
+            .request()
+            .input("userId", sql.Int, userId)
+            .query("SELECT id FROM consents WHERE consent_user_id = @userId");
+
+        return result.recordset.length > 0 ? result.recordset[0] : null;
+    } catch (error) {
+        console.error("Error in getConsentByUserId:", error);
+        throw error;
+    }
+}
 };
 
 export default consentModel;
