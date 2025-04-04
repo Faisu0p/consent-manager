@@ -138,6 +138,68 @@ html, body {
   opacity: 0.9;
 }
 
+
+
+/* Consent History Table Styles */
+.myconsent-portal-history {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.myconsent-portal-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+.myconsent-portal-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.myconsent-portal-history-table th,
+.myconsent-portal-history-table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.myconsent-portal-history-table th {
+  background-color: rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.myconsent-portal-history-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.myconsent-portal-history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.myconsent-portal-consent-status-yes {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.myconsent-portal-consent-status-no {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+
 /* Greeting Styles */
 .myconsent-portal-greeting {
   margin-bottom: 30px;
@@ -344,5 +406,15 @@ html, body {
   
   .myconsent-portal-subtitle {
     font-size: 1rem;
+  }
+
+  .myconsent-portal-history-table th,
+  .myconsent-portal-history-table td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .myconsent-portal-history-table th {
+    font-size: 0.8rem;
   }
 }
