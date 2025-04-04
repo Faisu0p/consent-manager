@@ -58,11 +58,13 @@ html, body {
   justify-content: flex-start;
   background: transparent;
   color: white;
-  padding: 80px 20px 20px; /* Increased top padding to ensure visibility */
+  padding: 20px; /* Increased top padding to ensure visibility */
   box-sizing: border-box;
   position: relative;
   top: 0;
   left: 0;
+  overflow-y: auto;
+  max-height: 100vh; /* Prevent overflow */
 }
 
 /* Header Styles */
