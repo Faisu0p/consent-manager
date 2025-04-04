@@ -7,8 +7,10 @@ const myConsentController = {
             const userId = req.params.userId;
 
             // Fetching all the data in parallel to improve performance
-            const [email, consentGiven, templateName, categories, subcategories, selectedCategories] = await Promise.all([
+            const [email, username, phoneNumber, consentGiven, templateName, categories, subcategories, selectedCategories] = await Promise.all([
                 myConsentModel.getUserEmail(userId),
+                myConsentModel.getUsername(userId),
+                myConsentModel.getPhoneNumber(userId),
                 myConsentModel.checkConsentGiven(userId),
                 myConsentModel.getTemplateName(userId),
                 myConsentModel.getAllCategoriesForTemplate(userId),
@@ -21,6 +23,8 @@ const myConsentController = {
                 success: true,
                 data: {
                     email,
+                    username,
+                    phoneNumber,
                     consentGiven,
                     templateName,
                     categories,

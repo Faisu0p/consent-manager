@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import consentService from "../services/consentService"; // Default import
-import "../styles/MyConsent.css"; // Styling for the full-page layout
+import consentService from "../services/consentService";
+import "../styles/MyConsent.css";
 
 const MyConsent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState(null); // State for storing API response data
+  const [userData, setUserData] = useState(null);
   
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -28,24 +28,24 @@ const MyConsent = () => {
           // Add a delay of 3 seconds (3000 milliseconds)
           await new Promise(resolve => setTimeout(resolve, 3000));
 
-          const consentDetails = await consentService.getAllConsentDetails(userId); // Using the method from consentService
-          console.log("Consent Details:", consentDetails); // Logging the API response
+          const consentDetails = await consentService.getAllConsentDetails(userId);
+          console.log("Consent Details:", consentDetails);
 
           // Format userData from API response with default empty arrays for categories and subcategories
           const formattedData = {
-            email: consentDetails.email[0]?.email || "Unknown Email", // Assume the first email
-            consentGiven: consentDetails.consentGiven[0]?.consent_given || "Not Specified", // Assume the first consent
-            templateName: consentDetails.templateName[0]?.template_name || "Default Template", // Assume the first template
-            categories: consentDetails.categories || [], // Default empty array if undefined
-            subcategories: consentDetails.subcategories || [], // Default empty array if undefined
-            selectedCategories: consentDetails.selectedCategories || [], // Default empty array for selected categories
+            email: consentDetails.email[0]?.email || "Unknown Email",
+            consentGiven: consentDetails.consentGiven[0]?.consent_given || "Not Specified", 
+            templateName: consentDetails.templateName[0]?.template_name || "Default Template", 
+            categories: consentDetails.categories || [], 
+            subcategories: consentDetails.subcategories || [], 
+            selectedCategories: consentDetails.selectedCategories || [], 
           };
 
-          setUserData(formattedData); // Store the formatted data in state
-          setIsLoading(false); // Set loading to false when data is fetched
+          setUserData(formattedData); 
+          setIsLoading(false); 
         } catch (error) {
           console.error("Error fetching consent details:", error);
-          setIsLoading(false); // Set loading to false in case of error
+          setIsLoading(false); 
         }
       }
     };
@@ -91,15 +91,25 @@ const MyConsent = () => {
   return (
     <div className="myconsent-portal-container">
 
-      {/* Header */}
-      <header className="myconsent-portal-header">
-        <h1 className="myconsent-portal-title">MyConsent Portal</h1>
-        <p className="myconsent-portal-subtitle">Review and manage your consent preferences.</p>
-      </header>
+{/* Header */}
+<header className="myconsent-portal-header">
+  <div className="myconsent-portal-header-content">
+    <img src="https://www.consentmanager.net/en/wp-content/uploads/2020/12/RGB_Consentmanager-Bildmarke.jpg" alt="Logo" className="myconsent-portal-logo" />
+    <div className="myconsent-portal-text">
+      <h1 className="myconsent-portal-title">Consent Lifecycle Status</h1>
+      <p className="myconsent-portal-subtitle">
+        Track and manage your consent history, updates, and preferences. 
+        Stay informed about how your data is being used and make changes as needed.
+      </p>
+    </div>
+  </div>
+</header>
+
+
 
       {/* User Info */}
       <section className="myconsent-portal-user-info">
-        <h2 className="myconsent-portal-section-title">👤 User Information</h2>
+        <h2 className="myconsent-portal-section-title">🔍 Your Details</h2>
         <p className="myconsent-portal-info-item"><strong>User ID:</strong> {userId}</p>
         <p className="myconsent-portal-info-item"><strong>Email:</strong> {userData.email}</p>
       </section>

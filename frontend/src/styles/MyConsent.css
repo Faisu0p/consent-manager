@@ -71,9 +71,30 @@ html, body {
 .myconsent-portal-header {
   width: 100%;
   max-width: 1200px;
-  text-align: center;
+  display: flex;
+  justify-content: center; /* Centers content */
+  align-items: center;
   margin-bottom: 30px;
-  position: static; /* Ensure no absolute positioning */
+}
+
+.myconsent-portal-header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+.myconsent-portal-logo {
+  width: 50px; /* Adjust as needed */
+  height: auto;
+  position: absolute;
+  left: 0;
+}
+
+.myconsent-portal-text {
+  width: 100%;
+  text-align: center;
 }
 
 .myconsent-portal-title {
@@ -88,8 +109,10 @@ html, body {
   font-size: 1.2rem;
   opacity: 0.9;
   max-width: 600px;
-  margin: 0 auto 20px;
+  margin: 0 auto;
 }
+
+
 
 /* User Info Section */
 .myconsent-portal-user-info {

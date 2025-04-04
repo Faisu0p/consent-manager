@@ -19,6 +19,42 @@ const myConsentModel = {
         return result.recordset;
     },
 
+    // Fetch User's Username
+    async getUsername(userId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .query(`
+                SELECT username
+                FROM consent_users
+                WHERE id = @user_id;
+            `);
+
+        return result.recordset;
+    },
+
+    // Fetch User's Phone Number
+    async getPhoneNumber(userId) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        const result = await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .query(`
+                SELECT phone
+                FROM consent_users
+                WHERE id = @user_id;
+            `);
+
+        return result.recordset;
+    },
+
+
+
     // Check If Consent is Given
     async checkConsentGiven(userId) {
         const pool = await connectDB();
