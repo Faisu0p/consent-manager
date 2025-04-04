@@ -34,6 +34,8 @@ const MyConsent = () => {
           // Format userData from API response with default empty arrays for categories and subcategories
           const formattedData = {
             email: consentDetails.email[0]?.email || "Unknown Email",
+            username: consentDetails.username[0]?.username || "Unknown Username",
+            phoneNumber: consentDetails.phoneNumber[0]?.phone_number || "Not Specified",
             consentGiven: consentDetails.consentGiven[0]?.consent_given || "Not Specified", 
             templateName: consentDetails.templateName[0]?.template_name || "Default Template", 
             categories: consentDetails.categories || [], 
@@ -111,7 +113,9 @@ const MyConsent = () => {
       <section className="myconsent-portal-user-info">
         <h2 className="myconsent-portal-section-title">🔍 Your Details</h2>
         <p className="myconsent-portal-info-item"><strong>User ID:</strong> {userId}</p>
+        <p className="myconsent-portal-info-item"><strong>Username:</strong> {userData.username}</p>
         <p className="myconsent-portal-info-item"><strong>Email:</strong> {userData.email}</p>
+        <p className="myconsent-portal-info-item"><strong>PhoneNumber:</strong> {userData.phoneNumber}</p>
       </section>
 
       {/* Greeting */}
