@@ -13,6 +13,8 @@ const MyConsent = () => {
   const userIdFromUrl = queryParams.get("userId");
 
   const [consentGiven, setConsentGiven] = useState("Yes");
+
+  const [showDSROptions, setShowDSROptions] = useState(false);
   
   useEffect(() => {
     if (userIdFromUrl) {
@@ -87,6 +89,26 @@ const MyConsent = () => {
     }
   
     console.log("Updated Consent Given:", newConsent);
+  };
+
+  // Function to handle DSR requests
+  const handleDSRRequest = (type) => {
+
+    if (type === "view") {
+      console.log("Generating request to view PII");
+      alert("Your request to view your PII has been submitted.");
+    } 
+
+    else if (type === "modify") {
+      console.log("Redirecting to modify PII");
+      alert("Please choose the fields you want to modify (functionality coming soon).");
+    } 
+    
+    else if (type === "forget") {
+      console.log("Generating request to be forgotten");
+      alert("Your request to delete your data has been submitted.");
+    }
+
   };
   
 
@@ -252,6 +274,46 @@ const MyConsent = () => {
       >
         Save
       </button>
+
+
+      {/* DSR Request Section */}
+      <section className="myconsent-portal-dsr-request">
+        <h2 className="myconsent-portal-dsr-title">📝 Data Subject Rights (DSR) Request</h2>
+        <p className="myconsent-portal-dsr-description">
+          You can raise a request to view, modify, or delete your personal data.
+        </p>
+
+        <button
+          className="myconsent-portal-dsr-btn"
+          onClick={() => setShowDSROptions(!showDSROptions)}
+        >
+          Create New DSR Request
+        </button>
+
+        {showDSROptions && (
+          <div className="myconsent-portal-dsr-options">
+            <button
+              className="myconsent-portal-dsr-option-btn"
+              onClick={() => handleDSRRequest("view")}
+            >
+              👁️ View My PII
+            </button>
+            <button
+              className="myconsent-portal-dsr-option-btn"
+              onClick={() => handleDSRRequest("modify")}
+            >
+              ✏️ Modify My PII
+            </button>
+            <button
+              className="myconsent-portal-dsr-option-btn"
+              onClick={() => handleDSRRequest("forget")}
+            >
+              🗑️ Forget Me
+            </button>
+          </div>
+        )}
+      </section>
+
 
 
     </div>
