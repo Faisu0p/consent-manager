@@ -4,6 +4,7 @@ import { FiUsers, FiSettings, FiLogOut, FiBarChart2, FiFileText } from "react-ic
 import { MdManageAccounts, MdDashboard } from "react-icons/md";
 import { RiFileShield2Line } from "react-icons/ri";
 import { TbPencilCog } from "react-icons/tb";
+import { FiHeadphones } from "react-icons/fi";
 
 import { logout } from "../services/authService";
 
@@ -29,6 +30,7 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
           <MenuItem icon={<TbPencilCog />} component={<Link to="/modify-banner" />}>Modify Banner</MenuItem>
           <MenuItem icon={<FiBarChart2 />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
           <MenuItem icon={<RiFileShield2Line />} component={<Link to="/view-consents" />}>View Consents</MenuItem>
+          <MenuItem icon={<FiHeadphones />} component={<Link to="/customer-support" />}>Customer Support</MenuItem>
           <MenuItem icon={<FiSettings />} component={<Link to="/settings" />}>Settings</MenuItem>
           <MenuItem icon={<FiLogOut />} onClick={handleLogout}>Logout</MenuItem>
         </Menu>

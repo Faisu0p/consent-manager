@@ -11,7 +11,7 @@ import Settings from "./pages/Settings";
 import ViewConsents from "./pages/ViewConsents";
 import MyConsent from "./pages/MyConsent";
 import ModifyBanner from "./pages/ModifyBanner";
-
+import CustomerSupport from "./pages/CustomerSupport";
 
 
 function App() {
@@ -31,6 +31,7 @@ function App() {
         <Route path="settings" element={<Settings />} />
         <Route path="view-consents" element={<ViewConsents />} />
         <Route path="modify-banner" element={<ModifyBanner />} />
+        <Route path="customer-support" element={<CustomerSupport />} />
       </Route>
 
       <Route path="my-consent" element={<MyConsent />} />
