@@ -383,54 +383,221 @@
 }
 
 
-/* DSR Request Section */
-.myconsent-portal-dsr-request {
-  margin-top: 2rem;
-  padding: 1rem;
-  border-top: 2px solid #ccc;
-}
 
-.myconsent-portal-dsr-title {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+/* DSR Section Styles */
+.myconsent-portal-dsr {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  color: white;
 }
 
 .myconsent-portal-dsr-description {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
 }
 
 .myconsent-portal-dsr-btn {
-  padding: 10px 20px;
-  font-weight: bold;
-  border: none;
-  background-color: #1a73e8;
+  background: linear-gradient(to right, #4a90e2, #357ae8);
   color: white;
-  border-radius: 5px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.myconsent-portal-dsr-btn:hover {
+  background: linear-gradient(to right, #357ae8, #2a5db3);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.myconsent-portal-dsr-form {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .myconsent-portal-dsr-options {
-  margin-top: 1rem;
   display: flex;
-  gap: 1rem;
+  gap: 15px;
+  margin: 15px 0;
   flex-wrap: wrap;
 }
 
-.myconsent-portal-dsr-option-btn {
-  padding: 8px 16px;
-  border: 1px solid #555;
-  border-radius: 4px;
-  background-color: white;
+.myconsent-portal-dsr-option {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.2s ease;
-  color: #333;
+  transition: all 0.3s;
+  flex: 1;
+  min-width: 200px;
+  color: white;
 }
 
-.myconsent-portal-dsr-option-btn:hover {
-  background-color: #f0f0f0;
+.myconsent-portal-dsr-option:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
+.myconsent-portal-dsr-option.active {
+  background: rgba(74, 144, 226, 0.3);
+  border-color: #4a90e2;
+  box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+.myconsent-portal-dsr-details {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.myconsent-portal-pii-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.myconsent-portal-pii-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.myconsent-portal-dsr-submit {
+  background: linear-gradient(to right, #28a745, #20c997);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.myconsent-portal-dsr-submit:hover {
+  background: linear-gradient(to right, #20c997, #198754);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.myconsent-portal-dsr-danger {
+  background: linear-gradient(to right, #dc3545, #c71f37);
+}
+
+.myconsent-portal-dsr-danger:hover {
+  background: linear-gradient(to right, #c71f37, #a71d2a);
+}
+
+.myconsent-portal-dsr-warning {
+  color: #ffc107;
+  font-weight: 500;
+  padding: 10px;
+  background: rgba(255, 193, 7, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+}
+
+.myconsent-portal-request-status {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(40, 167, 69, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #28a745;
+  color: #2ecc71;
+}
+
+.myconsent-portal-dsr-history {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.myconsent-portal-dsr-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.myconsent-portal-dsr-table th,
+.myconsent-portal-dsr-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.myconsent-portal-dsr-table th {
+  background-color: rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.myconsent-portal-dsr-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.myconsent-portal-status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.myconsent-portal-status-badge.pending {
+  background-color: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+}
+
+.myconsent-portal-status-badge.approved {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+}
+
+.myconsent-portal-status-badge.rejected {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+}
+
+.myconsent-portal-status-badge.completed {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+}
+
+@media (max-width: 768px) {
+  .myconsent-portal-dsr-options {
+    flex-direction: column;
+  }
+  
+  .myconsent-portal-pii-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .myconsent-portal-dsr-table th,
+  .myconsent-portal-dsr-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}
 
 
 /* Responsive Adjustments */
