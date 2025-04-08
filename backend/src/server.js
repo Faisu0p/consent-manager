@@ -9,6 +9,7 @@ import privacyRoutes from "./routes/privacyRoutes.js";
 import viewConsentRoutes from "./routes/viewConsentRoutes.js";
 import myConsentRoutes from "./routes/myConsentRoutes.js";
 import modifyBannerTemplateRoute from "./routes/modifyBannerTemplateRoutes.js";
+import dsrRequestRoutes from "./routes/dsrRequestRoutes.js";
 
 const app = express();
 
@@ -38,6 +39,10 @@ app.use("/api/consent-details", myConsentRoutes);
 
 // Routes for modifying banner templates (Admin only)
 app.use("/api/modify-template", modifyBannerTemplateRoute);
+
+// Routes for DSR requests (Data Subject Rights requests)
+app.use("/api/dsr-requests", dsrRequestRoutes); 
+
 
 
 const PORT = config.PORT || 5000;
