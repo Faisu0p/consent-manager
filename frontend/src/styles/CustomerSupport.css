@@ -472,3 +472,40 @@
   cursor: not-allowed;
 }
 
+/* Forget Me Section */
+.cs-forget-me {
+  background-color: #fff0f0;
+  border: 1px solid #f5c6cb;
+  color: #c0392b;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.cs-forget-me h3 {
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #c0392b;
+}
+
+.cs-forget-me p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.cs-forget-me .cs-confirm-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cs-forget-me .cs-confirm-btn:hover {
+  background-color: #c0392b;
+}
+
+
