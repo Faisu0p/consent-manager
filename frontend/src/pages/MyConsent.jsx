@@ -16,15 +16,14 @@ const MyConsent = () => {
   const [consentGiven, setConsentGiven] = useState("Yes");
 
 
-// Add these state variables inside the MyConsent component
-const [showDsrForm, setShowDsrForm] = useState(false);
-const [dsrType, setDsrType] = useState("");
-const [piiData, setPiiData] = useState([]);
-const [dsrRequests, setDsrRequests] = useState([]);
-const [requestStatus, setRequestStatus] = useState("");
-
-const [isSubmitting, setIsSubmitting] = useState(false);
-const [dsrReason, setDsrReason] = useState("");
+  // State for DSR form and requests
+  const [showDsrForm, setShowDsrForm] = useState(false);
+  const [dsrType, setDsrType] = useState("");
+  const [piiData, setPiiData] = useState([]);
+  const [dsrRequests, setDsrRequests] = useState([]);
+  const [requestStatus, setRequestStatus] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [dsrReason, setDsrReason] = useState("");
 
 
 
@@ -71,33 +70,30 @@ const [dsrReason, setDsrReason] = useState("");
 
 
   // Fetch DSR requests for the user
-useEffect(() => {
-  const fetchDsrRequests = async () => {
-    if (userId) {
-      try {
-        // Assuming the backend will filter by user_id
-        const dsrData = await dsrService.getAllDSRRequests();
-        // Filter requests for current user if needed
-        const userRequests = dsrData.filter(request => request.user_id.toString() === userId);
-        
-        // Format the DSR requests for display
-        const formattedRequests = userRequests.map(request => ({
-          id: request.id,
-          type: request.request_type,
-          details: request.reason,
-          status: request.status || "Pending",
-          createdAt: new Date(request.created_at).toLocaleString()
-        }));
-        
-        setDsrRequests(formattedRequests);
-      } catch (error) {
-        console.error("Error fetching DSR requests:", error);
+  useEffect(() => {
+    const fetchDsrRequests = async () => {
+      if (userId) {
+        try {
+          const dsrData = await dsrService.getAllDSRRequests();
+          const userRequests = dsrData.filter(request => request.user_id.toString() === userId);
+          
+          const formattedRequests = userRequests.map(request => ({
+            id: request.id,
+            type: request.request_type,
+            details: request.reason,
+            status: request.status || "Pending",
+            createdAt: new Date(request.created_at).toLocaleString()
+          }));
+          
+          setDsrRequests(formattedRequests);
+        } catch (error) {
+          console.error("Error fetching DSR requests:", error);
+        }
       }
-    }
-  };
+    };
 
-  fetchDsrRequests();
-}, [userId]);
+    fetchDsrRequests();
+  }, [userId]);
 
 
 
@@ -115,7 +111,6 @@ useEffect(() => {
     return <div>Error fetching data</div>;
   }
 
-  // Check if email is a string before calling split
   const emailUsername = typeof userData.email === "string" ? userData.email.split("@")[0] : "Unknown";
 
   const isCategorySelected = (categoryId) => {
@@ -128,7 +123,6 @@ useEffect(() => {
     const newConsent = consentGiven === "Yes" ? "No" : "Yes";
     setConsentGiven(newConsent);
   
-    // If consent is rejected, turn off all category sliders
     if (newConsent === "No") {
       setUserData({ ...userData, selectedCategories: [] });
     }
@@ -138,89 +132,80 @@ useEffect(() => {
 
 
 
-
-  
-
-  // Add these functions inside the MyConsent component
-const handleDsrButtonClick = () => {
-  setShowDsrForm(true);
-  setDsrType("");
-  setRequestStatus("");
-};
-
-
-
-const handleDsrTypeSelect = (type) => {
-  setDsrType(type);
-  setRequestStatus("");
-  setDsrReason(""); // Reset reason when changing types
-  
-  // If type is "Modify PII", set some sample PII data options
-  if (type === "Modify PII") {
-    setPiiData([
-      { id: 1, name: "Passport Number", selected: false },
-      { id: 2, name: "Home Address", selected: false },
-      { id: 3, name: "Phone Number", selected: false },
-      { id: 4, name: "Date of Birth", selected: false },
-      { id: 5, name: "National ID", selected: false }
-    ]);
-  }
-};
-
-
-
-const togglePiiSelection = (id) => {
-  setPiiData(piiData.map(item => 
-    item.id === id ? { ...item, selected: !item.selected } : item
-  ));
-};
-
-const submitDsrRequest = async () => {
-  try {
-    setIsSubmitting(true);
-    
-    // Prepare the reason/details based on DSR type
-    let reason = dsrReason;
-    
-    if (dsrType === "Modify PII" && piiData.some(item => item.selected)) {
-      const selectedPii = piiData.filter(item => item.selected).map(item => item.name);
-      reason = `${reason ? reason + ". " : ""}Requested modification of: ${selectedPii.join(", ")}`;
-    }
-    
-    // Create payload for API
-    const payload = {
-      user_id: parseInt(userId),
-      request_type: dsrType,
-      reason: reason || `Request to ${dsrType}`
-    };
-    
-    // Call the API to create DSR request
-    const response = await dsrService.createDSRRequest(payload);
-    console.log("DSR Request created:", response);
-    
-    // Add the new request to the state
-    const newRequest = {
-      id: response.data.id,
-      type: dsrType,
-      details: reason,
-      status: "Pending",
-      createdAt: new Date().toLocaleString()
-    };
-    
-    setDsrRequests([...dsrRequests, newRequest]);
-    setRequestStatus("Your request has been submitted and is pending review by our team.");
-    
-    // Reset form
-    setShowDsrForm(false);
+  // Function to handle DSR button click
+  const handleDsrButtonClick = () => {
+    setShowDsrForm(true);
     setDsrType("");
+    setRequestStatus("");
+  };
+
+  // Function to handle DSR type selection
+  const handleDsrTypeSelect = (type) => {
+    setDsrType(type);
+    setRequestStatus("");
     setDsrReason("");
-  } catch (error) {
-    console.error("Error submitting DSR request:", error);
-    setRequestStatus("Failed to submit request. Please try again later.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    
+    if (type === "Modify PII") {
+      setPiiData([
+        { id: 1, name: "Passport Number", selected: false },
+        { id: 2, name: "Home Address", selected: false },
+        { id: 3, name: "Phone Number", selected: false },
+        { id: 4, name: "Date of Birth", selected: false },
+        { id: 5, name: "National ID", selected: false }
+      ]);
+    }
+  };
+
+  // Function to toggle PII selection
+  const togglePiiSelection = (id) => {
+    setPiiData(piiData.map(item => 
+      item.id === id ? { ...item, selected: !item.selected } : item
+    ));
+  };
+
+  // Function to submit DSR request
+  const submitDsrRequest = async () => {
+    try {
+      setIsSubmitting(true);
+      
+      let reason = dsrReason;
+      
+      if (dsrType === "Modify PII" && piiData.some(item => item.selected)) {
+        const selectedPii = piiData.filter(item => item.selected).map(item => item.name);
+        reason = `${reason ? reason + ". " : ""}Requested modification of: ${selectedPii.join(", ")}`;
+      }
+      
+      const payload = {
+        user_id: parseInt(userId),
+        request_type: dsrType,
+        reason: reason || `Request to ${dsrType}`
+      };
+      
+      const response = await dsrService.createDSRRequest(payload);
+      console.log("DSR Request created:", response);
+      
+      const newRequest = {
+        id: response.data.id,
+        type: dsrType,
+        details: reason,
+        status: "Pending",
+        createdAt: new Date().toLocaleString()
+      };
+      
+      setDsrRequests([...dsrRequests, newRequest]);
+      setRequestStatus("Your request has been submitted and is pending review by our team.");
+      
+      // Reset form
+      setShowDsrForm(false);
+      setDsrType("");
+      setDsrReason("");
+    } catch (error) {
+      console.error("Error submitting DSR request:", error);
+      setRequestStatus("Failed to submit request. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   
 
   return (
@@ -389,159 +374,155 @@ const submitDsrRequest = async () => {
 
 
 
-{/* DSR Section */}
-<section className="myconsent-portal-dsr">
-  <h2 className="myconsent-portal-section-title">📋 Data Subject Requests (DSR)</h2>
-  <p className="myconsent-portal-dsr-description">
-    Submit requests to view, modify, or delete your personal information under data protection regulations.
-  </p>
-  
-  <button 
-    className="myconsent-portal-dsr-btn" 
-    onClick={handleDsrButtonClick}
-  >
-    Create New DSR Request
-  </button>
-  
-  {showDsrForm && (
-    <div className="myconsent-portal-dsr-form">
-      <h3>Select Request Type</h3>
-      <div className="myconsent-portal-dsr-options">
+      {/* DSR Section */}
+      <section className="myconsent-portal-dsr">
+        <h2 className="myconsent-portal-section-title">📋 Data Subject Requests (DSR)</h2>
+        <p className="myconsent-portal-dsr-description">
+          Submit requests to view, modify, or delete your personal information under data protection regulations.
+        </p>
+        
         <button 
-          className={`myconsent-portal-dsr-option ${dsrType === "View PII" ? "active" : ""}`} 
-          onClick={() => handleDsrTypeSelect("View PII")}
+          className="myconsent-portal-dsr-btn" 
+          onClick={handleDsrButtonClick}
         >
-          View My Personal Information
+          Create New DSR Request
         </button>
-        <button 
-          className={`myconsent-portal-dsr-option ${dsrType === "Modify PII" ? "active" : ""}`} 
-          onClick={() => handleDsrTypeSelect("Modify PII")}
-        >
-          Modify My Personal Information
-        </button>
-        <button 
-          className={`myconsent-portal-dsr-option ${dsrType === "Forget Me" ? "active" : ""}`} 
-          onClick={() => handleDsrTypeSelect("Forget Me")}
-        >
-          Request to be Forgotten
-        </button>
-      </div>
+        
+        {showDsrForm && (
+          <div className="myconsent-portal-dsr-form">
+            <h3>Select Request Type</h3>
+            <div className="myconsent-portal-dsr-options">
+              <button 
+                className={`myconsent-portal-dsr-option ${dsrType === "View PII" ? "active" : ""}`} 
+                onClick={() => handleDsrTypeSelect("View PII")}
+              >
+                View My Personal Information
+              </button>
+              <button 
+                className={`myconsent-portal-dsr-option ${dsrType === "Modify PII" ? "active" : ""}`} 
+                onClick={() => handleDsrTypeSelect("Modify PII")}
+              >
+                Modify My Personal Information
+              </button>
+              <button 
+                className={`myconsent-portal-dsr-option ${dsrType === "Forget Me" ? "active" : ""}`} 
+                onClick={() => handleDsrTypeSelect("Forget Me")}
+              >
+                Request to be Forgotten
+              </button>
+            </div>
 
-{dsrType && (
-  <div className="myconsent-portal-dsr-reason">
-    <h4>Provide reason for your request (optional):</h4>
-    <textarea
-      value={dsrReason}
-      onChange={(e) => setDsrReason(e.target.value)}
-      placeholder="Please describe the reason for your request..."
-      rows={3}
-      className="myconsent-portal-dsr-textarea"
-    />
-  </div>
-)}
-
-
-      
-      {dsrType === "View PII" && (
-        <div className="myconsent-portal-dsr-details">
-          <p>This will generate a request to view all personal information we have about you.</p>
-          <button 
-            className="myconsent-portal-dsr-submit" 
-            onClick={submitDsrRequest}
-            disabled={isSubmitting}
-          >
-  {isSubmitting ? "Submitting..." : "Submit Request"}          
-  </button>
-        </div>
-      )}
-      
-      {dsrType === "Modify PII" && (
-        <div className="myconsent-portal-dsr-details">
-          <p>Select the personal information you would like to modify:</p>
-          <div className="myconsent-portal-pii-options">
-            {piiData.map(item => (
-              <div key={item.id} className="myconsent-portal-pii-option">
-                <input 
-                  type="checkbox" 
-                  id={`pii-${item.id}`} 
-                  checked={item.selected}
-                  onChange={() => togglePiiSelection(item.id)}
+            {dsrType && (
+              <div className="myconsent-portal-dsr-reason">
+                <h4>Provide reason for your request (optional):</h4>
+                <textarea
+                  value={dsrReason}
+                  onChange={(e) => setDsrReason(e.target.value)}
+                  placeholder="Please describe the reason for your request..."
+                  rows={3}
+                  className="myconsent-portal-dsr-textarea"
                 />
-                <label htmlFor={`pii-${item.id}`}>{item.name}</label>
               </div>
-            ))}
+            )}
+            
+            {dsrType === "View PII" && (
+              <div className="myconsent-portal-dsr-details">
+                <p>This will generate a request to view all personal information we have about you.</p>
+                <button 
+                  className="myconsent-portal-dsr-submit" 
+                  onClick={submitDsrRequest}
+                  disabled={isSubmitting}
+                >
+                {isSubmitting ? "Submitting..." : "Submit Request"}          
+                </button>
+              </div>
+            )}
+            
+            {dsrType === "Modify PII" && (
+              <div className="myconsent-portal-dsr-details">
+                <p>Select the personal information you would like to modify:</p>
+                <div className="myconsent-portal-pii-options">
+                  {piiData.map(item => (
+                    <div key={item.id} className="myconsent-portal-pii-option">
+                      <input 
+                        type="checkbox" 
+                        id={`pii-${item.id}`} 
+                        checked={item.selected}
+                        onChange={() => togglePiiSelection(item.id)}
+                      />
+                      <label htmlFor={`pii-${item.id}`}>{item.name}</label>
+                    </div>
+                  ))}
+                </div>
+                <button 
+                  className="myconsent-portal-dsr-submit" 
+                  onClick={submitDsrRequest}
+                  disabled={isSubmitting || !piiData.some(item => item.selected)}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Request"}
+                </button>
+              </div>
+            )}
+            
+            {dsrType === "Forget Me" && (
+              <div className="myconsent-portal-dsr-details">
+                <p className="myconsent-portal-dsr-warning">
+                  Warning: This will initiate the process to delete all your personal information from our systems.
+                  This action cannot be undone.
+                </p>
+                <button 
+                  className="myconsent-portal-dsr-submit myconsent-portal-dsr-danger" 
+                  onClick={submitDsrRequest}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Deletion Request"}
+                </button>
+              </div>
+            )}
           </div>
-          <button 
-  className="myconsent-portal-dsr-submit" 
-  onClick={submitDsrRequest}
-  disabled={isSubmitting || !piiData.some(item => item.selected)}
->
-  {isSubmitting ? "Submitting..." : "Submit Request"}
-</button>
-        </div>
-      )}
-      
-      {dsrType === "Forget Me" && (
-        <div className="myconsent-portal-dsr-details">
-          <p className="myconsent-portal-dsr-warning">
-            Warning: This will initiate the process to delete all your personal information from our systems.
-            This action cannot be undone.
-          </p>
-          <button 
-  className="myconsent-portal-dsr-submit myconsent-portal-dsr-danger" 
-  onClick={submitDsrRequest}
-  disabled={isSubmitting}
->
-  {isSubmitting ? "Submitting..." : "Submit Deletion Request"}
-</button>
-        </div>
-      )}
-    </div>
-  )}
-  
-  {requestStatus && (
-    <div className="myconsent-portal-request-status">
-      <p>{requestStatus}</p>
-    </div>
-  )}
-  
-  {/* List of DSR Requests */}
-  {dsrRequests.length > 0 && (
-    <div className="myconsent-portal-dsr-history">
-      <h3>Your DSR Request History</h3>
-      <div className="myconsent-portal-table-container">
-        <table className="myconsent-portal-dsr-table">
-          <thead>
-            <tr>
-              <th>Request ID</th>
-              <th>Type</th>
-              <th>Details</th>
-              <th>Status</th>
-              <th>Date Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dsrRequests.map(request => (
-              <tr key={request.id}>
-                <td>{request.id}</td>
-                <td>{request.type}</td>
-                <td>{request.details || "-"}</td>
-                <td>
-                  <span className={`myconsent-portal-status-badge ${request.status.toLowerCase()}`}>
-                    {request.status}
-                  </span>
-                </td>
-                <td>{request.createdAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )}
-</section>
-
-
+        )}
+        
+        {requestStatus && (
+          <div className="myconsent-portal-request-status">
+            <p>{requestStatus}</p>
+          </div>
+        )}
+        
+        {/* List of DSR Requests */}
+        {dsrRequests.length > 0 && (
+          <div className="myconsent-portal-dsr-history">
+            <h3>Your DSR Request History</h3>
+            <div className="myconsent-portal-table-container">
+              <table className="myconsent-portal-dsr-table">
+                <thead>
+                  <tr>
+                    <th>Request ID</th>
+                    <th>Type</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                    <th>Date Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dsrRequests.map(request => (
+                    <tr key={request.id}>
+                      <td>{request.id}</td>
+                      <td>{request.type}</td>
+                      <td>{request.details || "-"}</td>
+                      <td>
+                        <span className={`myconsent-portal-status-badge ${request.status.toLowerCase()}`}>
+                          {request.status}
+                        </span>
+                      </td>
+                      <td>{request.createdAt}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </section>
 
     </div>
   );
