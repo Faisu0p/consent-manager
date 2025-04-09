@@ -38,7 +38,7 @@ const CustomerSupport = () => {
           userName: "Michael Chen",
           email: "michael.c@example.com",
           requestType: "Modify PII",
-          status: "In Progress",
+          status: "Pending",
           reason: "Requested modification of: Home Address, Phone Number",
           createdAt: "2025-04-03T09:15:00Z",
           userDetails: {
@@ -86,7 +86,7 @@ const CustomerSupport = () => {
           userName: "Aisha Patel",
           email: "aisha.p@example.com",
           requestType: "Modify PII",
-          status: "Rejected",
+          status: "Completed",
           reason: "Requested modification of: National ID, Date of Birth",
           createdAt: "2025-03-15T13:10:00Z",
           userDetails: {
@@ -209,22 +209,10 @@ const CustomerSupport = () => {
               Pending
             </button>
             <button 
-              className={activeTab === "in progress" ? "active" : ""} 
-              onClick={() => setActiveTab("in progress")}
-            >
-              In Progress
-            </button>
-            <button 
               className={activeTab === "completed" ? "active" : ""} 
               onClick={() => setActiveTab("completed")}
             >
               Completed
-            </button>
-            <button 
-              className={activeTab === "rejected" ? "active" : ""} 
-              onClick={() => setActiveTab("rejected")}
-            >
-              Rejected
             </button>
           </div>
           
