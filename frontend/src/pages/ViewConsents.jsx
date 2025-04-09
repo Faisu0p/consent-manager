@@ -13,6 +13,8 @@ const ViewConsent = () => {
   const [emailSearch, setEmailSearch] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [templateFilter, setTemplateFilter] = useState("");
+  const [templateNames, setTemplateNames] = useState([]);
 
 
 
@@ -32,6 +34,7 @@ const ViewConsent = () => {
         const data = await consentService.getConsents();
         console.log("Fetched Consents:", data); // Log the API response
         setConsents(data);
+        setTemplateNames([...new Set(data.map(item => item.template_name).filter(Boolean))]);
       } catch (error) {
         console.error("Failed to fetch consents:", error);
       }
@@ -56,12 +59,13 @@ const ViewConsent = () => {
     return (
       (searchTerm === "" || 
         (row.user_id && row.user_id.toString().includes(searchTerm)) || 
-        (row.template_name && row.template_name.toLowerCase().includes(searchTerm.toLowerCase()))
+        (row.category_names && row.category_names.toLowerCase().includes(searchTerm.toLowerCase()))
       ) &&
       (emailSearch === "" || (row.user_email && row.user_email.toLowerCase().includes(emailSearch.toLowerCase()))) &&
       (statusFilter === "" || row.consent_status === (statusFilter === "accepted")) &&
       (startDate === "" || consentDate >= new Date(startDate)) &&
-      (endDate === "" || consentDate <= new Date(endDate))
+      (endDate === "" || consentDate <= new Date(endDate)) &&
+      (templateFilter === "" || row.template_name === templateFilter)
     );
   });
   
@@ -151,6 +155,20 @@ const ViewConsent = () => {
 
       {/*Search and filter bar*/}
       <div className="view-consent-filter">
+
+        <select
+          value={templateFilter}
+          onChange={(e) => setTemplateFilter(e.target.value)}
+          className="view-consent-dropdown"
+        >
+          <option value="">All Templates</option>
+          {templateNames.map((name, idx) => (
+            <option key={idx} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+
         <input
           type="text"
           placeholder="Search by Email"
@@ -161,7 +179,7 @@ const ViewConsent = () => {
 
         <input
           type="text"
-          placeholder="Search by User ID or Template Name"
+          placeholder="Search by User ID or Category Name"
           value={searchTerm}
           onChange={handleSearchChange}
           className="view-consent-search"
