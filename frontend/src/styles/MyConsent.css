@@ -583,6 +583,19 @@
   color: #3498db;
 }
 
+.myconsent-portal-dsr-textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.myconsent-portal-dsr-reason {
+  margin: 15px 0;
+}
+
 @media (max-width: 768px) {
   .myconsent-portal-dsr-options {
     flex-direction: column;
