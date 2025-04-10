@@ -10,6 +10,7 @@ import viewConsentRoutes from "./routes/viewConsentRoutes.js";
 import myConsentRoutes from "./routes/myConsentRoutes.js";
 import modifyBannerTemplateRoute from "./routes/modifyBannerTemplateRoutes.js";
 import dsrRequestRoutes from "./routes/dsrRequestRoutes.js";
+import consentUserapiRoutes from "./routes/consentUserapiRoutes.js";
 
 const app = express();
 
@@ -41,7 +42,10 @@ app.use("/api/consent-details", myConsentRoutes);
 app.use("/api/modify-template", modifyBannerTemplateRoute);
 
 // Routes for DSR requests (Data Subject Rights requests)
-app.use("/api/dsr-requests", dsrRequestRoutes); 
+app.use("/api/dsr-requests", dsrRequestRoutes);
+
+// Routes for consent user API
+app.use('/api/consents', consentUserapiRoutes);
 
 
 
