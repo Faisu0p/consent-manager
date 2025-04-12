@@ -82,27 +82,27 @@ const dsrRequestController = {
         }
     },
 
-// Fetch all DSR requests for customer support
-async getAllDSRRequestsForSupport(req, res) {
-    try {
-        const requests = await dsrRequestModel.getAllDSRRequests();  // Use dsrRequestModel here
-    
-        const response = requests.map(request => ({
-            ...request,
-            userDetails: {
-                address: "123 Main St, Anytown",
-                phoneNumber: "+1 (555) 123-4567",
-                passportNumber: "AB1234567",
-                dateOfBirth: "1985-06-15"
-            }
-        }));
-    
-        res.json({ data: response });
-    } catch (error) {
-        console.error("Error fetching all DSR requests for customer support:", error);
-        res.status(500).json({ message: "Internal server error" });
+    // Fetch all DSR requests for customer support
+    async getAllDSRRequestsForSupport(req, res) {
+        try {
+            const requests = await dsrRequestModel.getAllDSRRequests();
+        
+            const response = requests.map(request => ({
+                ...request,
+                userDetails: {
+                    address: "123 Main St, Anytown",
+                    phoneNumber: "+1 (555) 123-4567",
+                    passportNumber: "AB1234567",
+                    dateOfBirth: "1985-06-15"
+                }
+            }));
+        
+            res.json({ data: response });
+        } catch (error) {
+            console.error("Error fetching all DSR requests for customer support:", error);
+            res.status(500).json({ message: "Internal server error" });
+        }
     }
-}
 
 };
 

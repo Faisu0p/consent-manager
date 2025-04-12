@@ -78,27 +78,27 @@ const dsrRequestModel = {
     },
 
     // Get all DSR requests for customer support (with user info and hardcoded details)
-async getAllDSRRequestsForSupport() {
-    const pool = await connectDB();
-    if (!pool) throw new Error("Database connection failed");
+    async getAllDSRRequestsForSupport() {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
 
-    const result = await pool.request().query(`
-        SELECT 
-            dr.id,
-            dr.user_id AS userId,
-            dr.request_type AS requestType,
-            dr.request_status AS status,
-            dr.reason,
-            dr.created_at AS createdAt,
-            cu.username AS userName,
-            cu.email
-        FROM dsr_requests dr
-        JOIN consent_users cu ON dr.user_id = cu.id
-        ORDER BY dr.created_at DESC;
-    `);
+        const result = await pool.request().query(`
+            SELECT 
+                dr.id,
+                dr.user_id AS userId,
+                dr.request_type AS requestType,
+                dr.request_status AS status,
+                dr.reason,
+                dr.created_at AS createdAt,
+                cu.username AS userName,
+                cu.email
+            FROM dsr_requests dr
+            JOIN consent_users cu ON dr.user_id = cu.id
+            ORDER BY dr.created_at DESC;
+        `);
 
-    return result.recordset;
-}
+        return result.recordset;
+    }
 
 };
 
