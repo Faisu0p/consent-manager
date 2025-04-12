@@ -12,4 +12,12 @@ router.get("/getall", dsrRequestController.getAllDSRRequests);
 // Get a specific DSR request by ID
 router.get("/get/:id", dsrRequestController.getDSRRequestById);
 
+// Get DSR request details for customer support by ID (with hardcoded user details)
+router.get("/support/get/:id", dsrRequestController.getDSRRequestForSupportById);
+
+
+// Get all DSR requests for customer support
+router.get("/support/getall", dsrRequestController.getAllDSRRequestsForSupport);
+
+
 export default router;
