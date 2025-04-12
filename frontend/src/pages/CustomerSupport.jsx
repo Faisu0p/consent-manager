@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import dsrService from "../services/dsrService";
 import "../styles/CustomerSupport.css";
 
 const CustomerSupport = () => {
-  // Sample data - replace with actual API call
+
   const [dsrRequests, setDsrRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -13,94 +14,17 @@ const CustomerSupport = () => {
   const [successMessage, setSuccessMessage] = useState("");
   
   useEffect(() => {
-    // Simulating API call to fetch DSR requests
-    setTimeout(() => {
-      const mockData = [
-        {
-          id: "DSR-001",
-          userId: 1001,
-          userName: "Sarah Johnson",
-          email: "sarah.j@example.com",
-          requestType: "View PII",
-          status: "Pending",
-          reason: "I want to know what personal information you have about me.",
-          createdAt: "2025-04-01T14:30:00Z",
-          userDetails: {
-            address: "123 Main St, Anytown",
-            phoneNumber: "+1 (555) 123-4567",
-            passportNumber: "AB1234567",
-            dateOfBirth: "1985-06-15"
-          }
-        },
-        {
-          id: "DSR-002",
-          userId: 1542,
-          userName: "Michael Chen",
-          email: "michael.c@example.com",
-          requestType: "Modify PII",
-          status: "In Progress",
-          reason: "Requested modification of: Home Address, Phone Number",
-          createdAt: "2025-04-03T09:15:00Z",
-          userDetails: {
-            address: "456 Oak Ave, Somewhere",
-            phoneNumber: "+1 (555) 987-6543",
-            passportNumber: "CD7654321",
-            dateOfBirth: "1990-11-22"
-          }
-        },
-        {
-          id: "DSR-003",
-          userId: 2103,
-          userName: "Emma Rodriguez",
-          email: "emma.r@example.com",
-          requestType: "Forget Me",
-          status: "Pending",
-          reason: "I want all my data to be deleted from your systems.",
-          createdAt: "2025-04-05T16:45:00Z",
-          userDetails: {
-            address: "789 Pine St, Elsewhere",
-            phoneNumber: "+1 (555) 456-7890",
-            passportNumber: "EF9876543",
-            dateOfBirth: "1988-03-30"
-          }
-        },
-        {
-          id: "DSR-004",
-          userId: 1875,
-          userName: "John Smith",
-          email: "john.s@example.com",
-          requestType: "View PII",
-          status: "Completed",
-          reason: "GDPR compliance review.",
-          createdAt: "2025-03-28T11:20:00Z",
-          userDetails: {
-            address: "101 Elm St, Nowhere",
-            phoneNumber: "+1 (555) 234-5678",
-            passportNumber: "GH1357924",
-            dateOfBirth: "1979-12-05"
-          }
-        },
-        {
-          id: "DSR-005",
-          userId: 2456,
-          userName: "Aisha Patel",
-          email: "aisha.p@example.com",
-          requestType: "Modify PII",
-          status: "Rejected",
-          reason: "Requested modification of: National ID, Date of Birth",
-          createdAt: "2025-03-15T13:10:00Z",
-          userDetails: {
-            address: "202 Maple Dr, Someplace",
-            phoneNumber: "+1 (555) 876-5432",
-            passportNumber: "IJ2468013",
-            dateOfBirth: "1995-08-17"
-          }
-        }
-      ];
-      
-      setDsrRequests(mockData);
-      setIsLoading(false);
-    }, 1500);
+    setIsLoading(true);
+    dsrService.getAllDSRRequestsForSupport()
+      .then(response => {
+        console.log("API response:", response);
+        setDsrRequests(response.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error("Failed to fetch DSR requests:", error);
+        setIsLoading(false);
+      });
   }, []);
 
   const handleRequestSelection = (request) => {
@@ -118,11 +42,11 @@ const CustomerSupport = () => {
     if (!selectedRequest) return;
     
     const updatedRequests = dsrRequests.map(req => 
-      req.id === selectedRequest.id ? { ...req, status: newStatus } : req
+      req.id === selectedRequest.id ? { ...req, request_status: newStatus } : req
     );
     
     setDsrRequests(updatedRequests);
-    setSelectedRequest({...selectedRequest, status: newStatus});
+    setSelectedRequest({...selectedRequest, request_status: newStatus});
     setSuccessMessage(`Request status updated to ${newStatus}`);
     
     setTimeout(() => {
@@ -151,29 +75,31 @@ const CustomerSupport = () => {
   const handleDeleteUser = () => {
     if (!selectedRequest) return;
     
-    if (window.confirm(`Are you sure you want to delete all data for ${selectedRequest.userName}? This action cannot be undone.`)) {
+    if (window.confirm(`Are you sure you want to delete all data for ${selectedRequest.username}? This action cannot be undone.`)) {
       // Here you would call your API to delete the user
-      console.log("Deleting user:", selectedRequest.userId);
+      console.log("Deleting user:", selectedRequest.user_id);
       
       // Update the request status
-      handleStatusChange("Completed");
-      setSuccessMessage(`User ${selectedRequest.userName} has been removed from the system`);
+      handleStatusChange("completed");
+      setSuccessMessage(`User ${selectedRequest.username} has been removed from the system`);
     }
   };
 
+
   const filteredRequests = dsrRequests.filter(request => {
-    if (activeTab !== "all" && request.status.toLowerCase() !== activeTab) {
+    if (activeTab !== "all" && request.request_status.toLowerCase() !== activeTab) {
       return false;
     }
     
     const searchLower = searchTerm.toLowerCase();
     return (
-      request.id.toLowerCase().includes(searchLower) ||
-      request.userName.toLowerCase().includes(searchLower) ||
-      request.email.toLowerCase().includes(searchLower) ||
-      request.requestType.toLowerCase().includes(searchLower)
+      (request.id.toString().toLowerCase().includes(searchLower)) ||
+      (request.username && request.username.toLowerCase().includes(searchLower)) ||
+      (request.email && request.email.toLowerCase().includes(searchLower)) ||
+      (request.request_type && request.request_type.toLowerCase().includes(searchLower))
     );
   });
+  
 
   return (
     <div className="cs-container">
@@ -245,14 +171,14 @@ const CustomerSupport = () => {
                 >
                   <div className="cs-request-header">
                     <span className="cs-request-id">{request.id}</span>
-                    <span className={`cs-status cs-status-${request.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {request.status}
+                    <span className={`cs-status cs-status-${request.request_status.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {request.request_status}
                     </span>
                   </div>
-                  <h3 className="cs-request-name">{request.userName}</h3>
-                  <p className="cs-request-type">{request.requestType}</p>
+                  <h3 className="cs-request-name">{request.username}</h3>
+                  <p className="cs-request-type">{request.request_type}</p>
                   <p className="cs-request-date">
-                    {new Date(request.createdAt).toLocaleDateString()} at {new Date(request.createdAt).toLocaleTimeString()}
+                    {new Date(request.created_at).toLocaleDateString()} at {new Date(request.created_at).toLocaleTimeString()}
                   </p>
                 </div>
               ))
@@ -286,35 +212,35 @@ const CustomerSupport = () => {
               
               <div className="cs-details-header">
                 <div>
-                  <h2>{selectedRequest.id}: {selectedRequest.requestType}</h2>
-                  <span className={`cs-status cs-status-${selectedRequest.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                    {selectedRequest.status}
+                  <h2>{selectedRequest.id}: {selectedRequest.request_type}</h2>
+                  <span className={`cs-status cs-status-${selectedRequest.request_status.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {selectedRequest.request_status}
                   </span>
                 </div>
                 <div className="cs-actions">
                   <select 
-                    value={selectedRequest.status}
+                    value={selectedRequest.request_status}
                     onChange={(e) => handleStatusChange(e.target.value)}
                     className="cs-status-dropdown"
                   >
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Rejected">Rejected</option>
+                    <option value="pending">Pending</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="rejected">Rejected</option>
                   </select>
                 </div>
               </div>
-              
+
               <div className="cs-details-grid">
                 <div className="cs-user-info">
                   <h3>User Information</h3>
                   <div className="cs-info-item">
                     <label>User ID:</label>
-                    <span>{selectedRequest.userId}</span>
+                    <span>{selectedRequest.user_id}</span>
                   </div>
                   <div className="cs-info-item">
                     <label>Name:</label>
-                    <span>{selectedRequest.userName}</span>
+                    <span>{selectedRequest.username}</span>
                   </div>
                   <div className="cs-info-item">
                     <label>Email:</label>
@@ -322,7 +248,7 @@ const CustomerSupport = () => {
                   </div>
                   <div className="cs-info-item">
                     <label>Request Date:</label>
-                    <span>{new Date(selectedRequest.createdAt).toLocaleString()}</span>
+                    <span>{new Date(selectedRequest.created_at).toLocaleString()}</span>
                   </div>
                 </div>
                 
@@ -330,7 +256,7 @@ const CustomerSupport = () => {
                   <h3>Request Details</h3>
                   <div className="cs-info-item">
                     <label>Request Type:</label>
-                    <span>{selectedRequest.requestType}</span>
+                    <span>{selectedRequest.request_type}</span>
                   </div>
                   <div className="cs-info-item">
                     <label>Reason:</label>
@@ -338,13 +264,13 @@ const CustomerSupport = () => {
                   </div>
                   <div className="cs-info-item">
                     <label>Status:</label>
-                    <span className={`cs-status cs-status-${selectedRequest.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {selectedRequest.status}
+                    <span className={`cs-status cs-status-${selectedRequest.request_status.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {selectedRequest.request_status}
                     </span>
                   </div>
                 </div>
               </div>
-              
+                            
               {selectedRequest.userDetails && (
                 <div className="cs-personal-data">
                   <h3>User's Personal Information</h3>
@@ -354,7 +280,7 @@ const CustomerSupport = () => {
                         <tr>
                           <th>Data Type</th>
                           <th>Value</th>
-                          {selectedRequest.requestType === "Modify PII" && <th>Action</th>}
+                          {selectedRequest.request_type === "Modify PII" && <th>Action</th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -362,7 +288,7 @@ const CustomerSupport = () => {
                           <tr key={key}>
                             <td>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</td>
                             <td>{value}</td>
-                            {selectedRequest.requestType === "Modify PII" && (
+                            {selectedRequest.request_type === "Modify PII" && (
                               <td>
                                 <button className="cs-action-btn cs-edit-btn">Edit</button>
                                 <button className="cs-action-btn cs-delete-btn">Delete</button>
@@ -379,7 +305,7 @@ const CustomerSupport = () => {
               <div className="cs-response-section">
                 <h3>Response</h3>
                 
-                {selectedRequest.requestType === "View PII" && (
+                {selectedRequest.request_type === "View PII" && (
                   <div className="cs-file-upload">
                     <p>Upload user's personal information export:</p>
                     <input 
@@ -394,8 +320,8 @@ const CustomerSupport = () => {
                     )}
                   </div>
                 )}
-                
-                {selectedRequest.requestType === "Forget Me" && (
+
+                {selectedRequest.request_type === "Forget Me" && (
                   <div className="cs-forget-me">
                     <div className="cs-warning">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
