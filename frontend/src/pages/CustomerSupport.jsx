@@ -54,23 +54,49 @@ const CustomerSupport = () => {
     }, 3000);
   };
 
-  const handleSubmitResponse = () => {
+  const handleSubmitResponse = async () => {
     if (!selectedRequest || !responseText) return;
-    
-    // Here you would normally send this to your API
-    console.log("Submitting response for request:", selectedRequest.id);
-    console.log("Response text:", responseText);
-    
+  
+    const requestData = {
+      id: selectedRequest.id,
+      request_status: "Completed",
+      admin_notes: responseText,
+      updated_at: new Date().toISOString(),
+      file: fileToUpload ? fileToUpload.name : null,
+    };
+  
+    console.log("Submitting the following data to backend:");
+    console.table(requestData);
+  
+    const formData = new FormData();
+    formData.append("id", requestData.id);
+    formData.append("request_status", requestData.request_status);
+    formData.append("admin_notes", requestData.admin_notes);
+    formData.append("updated_at", requestData.updated_at);
+  
     if (fileToUpload) {
-      console.log("With file:", fileToUpload.name);
+      formData.append("file", fileToUpload);
     }
-    
-    // Update status to completed
-    handleStatusChange("Completed");
-    setResponseText("");
-    setFileToUpload(null);
-    setSuccessMessage("Response submitted successfully");
+  
+    try {
+      const res = await fetch("/api/submit-response", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (!res.ok) throw new Error("Failed to submit");
+  
+      handleStatusChange("Completed");
+      setResponseText("");
+      setFileToUpload(null);
+      setSuccessMessage("Response submitted successfully");
+    } catch (err) {
+      console.error("Submission error:", err);
+      setSuccessMessage("There was an error submitting your response");
+    }
   };
+  
+  
 
   const handleDeleteUser = () => {
     if (!selectedRequest) return;
