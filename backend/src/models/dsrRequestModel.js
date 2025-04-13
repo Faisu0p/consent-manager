@@ -98,7 +98,29 @@ const dsrRequestModel = {
         `);
 
         return result.recordset;
+    },
+
+    // Update a DSR request with status, admin notes, and updated_at
+    async updateDSRRequestByAdmin({ id, request_status, admin_notes, updated_at }) {
+        const pool = await connectDB();
+        if (!pool) throw new Error("Database connection failed");
+
+        await pool.request()
+            .input("id", sql.Int, id)
+            .input("request_status", sql.VarChar, request_status)
+            .input("admin_notes", sql.NVarChar(sql.MAX), admin_notes)
+            .input("updated_at", sql.DateTime, updated_at)
+            .query(`
+                UPDATE dsr_requests
+                SET request_status = @request_status,
+                    admin_notes = @admin_notes,
+                    updated_at = @updated_at
+                WHERE id = @id;
+            `);
+
+        return { success: true };
     }
+
 
 };
 
