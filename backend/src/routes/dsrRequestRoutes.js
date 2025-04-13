@@ -19,5 +19,8 @@ router.get("/support/get/:id", dsrRequestController.getDSRRequestForSupportById)
 // Get all DSR requests for customer support
 router.get("/support/getall", dsrRequestController.getAllDSRRequestsForSupport);
 
+// Submit admin response for a DSR request (update status, notes, and updated_at)
+router.put("/submit-response", dsrRequestController.submitDSRResponse);
+
 
 export default router;

@@ -102,7 +102,33 @@ const dsrRequestController = {
             console.error("Error fetching all DSR requests for customer support:", error);
             res.status(500).json({ message: "Internal server error" });
         }
+    },
+
+    // Update DSR request with admin response
+    async submitDSRResponse(req, res) {
+        try {
+            const { id, request_status, admin_notes } = req.body;
+
+            if (!id || !request_status || !admin_notes) {
+                return res.status(400).json({ message: "Missing required fields." });
+            }
+
+            const updated_at = new Date();
+
+            await dsrRequestModel.updateDSRRequestByAdmin({
+                id,
+                request_status,
+                admin_notes,
+                updated_at
+            });
+
+            res.status(200).json({ message: "DSR request updated successfully." });
+        } catch (error) {
+            console.error("Error updating DSR request:", error);
+            res.status(500).json({ message: "Internal server error." });
+        }
     }
+
 
 };
 
