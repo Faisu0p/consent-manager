@@ -75,13 +75,16 @@ const MyConsent = () => {
       if (userId) {
         try {
           const dsrData = await dsrService.getAllDSRRequests();
+
+          console.log("DSR Data:", dsrData);
+
           const userRequests = dsrData.filter(request => request.user_id.toString() === userId);
           
           const formattedRequests = userRequests.map(request => ({
             id: request.id,
             type: request.request_type,
             details: request.reason,
-            status: request.status || "Pending",
+            status: request.request_status || "Pending",
             createdAt: new Date(request.created_at).toLocaleString()
           }));
           
