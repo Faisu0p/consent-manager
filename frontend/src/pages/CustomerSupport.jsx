@@ -54,6 +54,10 @@ const CustomerSupport = () => {
     }, 3000);
   };
 
+
+
+
+
   const handleSubmitResponse = async () => {
     if (!selectedRequest || !responseText) return;
   
@@ -79,13 +83,9 @@ const CustomerSupport = () => {
     }
   
     try {
-      const res = await fetch("/api/submit-response", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await dsrService.submitDSRResponse(requestData); // Using the service method
   
-      if (!res.ok) throw new Error("Failed to submit");
-  
+      // Handle response success
       handleStatusChange("Completed");
       setResponseText("");
       setFileToUpload(null);
