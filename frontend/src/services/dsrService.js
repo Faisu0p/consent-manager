@@ -58,7 +58,19 @@ const dsrService = {
         console.error("Error fetching all DSR requests for support:", error.response?.data || error.message);
         throw error;
       }
+    },
+
+    // Submit admin response for a DSR request (update status, notes, and updated_at)
+    async submitDSRResponse(payload) {
+      try {
+        const response = await api.put("/dsr-requests/submit-response", payload);
+        return response.data;
+      } catch (error) {
+        console.error("Error submitting DSR response:", error.response?.data || error.message);
+        throw error;
+      }
     }
+
 };
 
 export default dsrService;
