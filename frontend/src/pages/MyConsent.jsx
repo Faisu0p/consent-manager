@@ -84,6 +84,7 @@ const MyConsent = () => {
             id: request.id,
             type: request.request_type,
             details: request.reason,
+            admin_notes: request.admin_notes || "-",
             status: request.request_status || "Pending",
             createdAt: new Date(request.created_at).toLocaleString()
           }));
@@ -502,6 +503,7 @@ const MyConsent = () => {
                     <th>Request ID</th>
                     <th>Type</th>
                     <th>Details</th>
+                    <th>Admin Notes</th>
                     <th>Status</th>
                     <th>Date Created</th>
                   </tr>
@@ -512,6 +514,7 @@ const MyConsent = () => {
                       <td>{request.id}</td>
                       <td>{request.type}</td>
                       <td>{request.details || "-"}</td>
+                      <td>{request.admin_notes}</td>
                       <td>
                         <span className={`myconsent-portal-status-badge ${request.status.toLowerCase()}`}>
                           {request.status}
