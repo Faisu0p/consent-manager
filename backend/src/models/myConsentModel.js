@@ -166,19 +166,56 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
     await transaction.begin();
 
     try {
+        // Fetch the current selected categories for the user
+        const result = await pool
+            .request()
+            .input("user_id", sql.Int, userId)
+            .query(`
+                SELECT category_id FROM consent_selected_categories WHERE consent_id = @user_id;
+            `);
+
+        const existingCategoryIds = result.recordset.map(row => row.category_id);
+
+        // Save existing selected categories into consent_history before making any changes
+        for (const categoryId of existingCategoryIds) {
+            await pool
+                .request()
+                .input("user_id", sql.Int, userId)
+                .input("category_id", sql.Int, categoryId)
+                .input("action", sql.VarChar, "update")
+                .input("timestamp", sql.DateTime, new Date())
+                .query(`
+                    INSERT INTO consent_history (consent_id, category_id, action, timestamp)
+                    VALUES (@user_id, @category_id, @action, @timestamp);
+                `);
+        }
+
         // ✅ Update `given` status in the `consents` table
         await pool
             .request()
             .input("user_id", sql.Int, userId)
-            .input("given", sql.Bit, consentGiven === "Yes" ? 1 : 0)  // Convert Yes/No to 1/0
+            .input("given", sql.Bit, consentGiven === "Yes" ? 1 : 0)
             .query(`
                 UPDATE consents 
                 SET given = @given 
                 WHERE consent_user_id = @user_id;
             `);
 
-        // ✅ If consent is "No", delete all selected categories
         if (consentGiven === "No") {
+            // ✅ If consent is "No", log and delete selected categories
+            for (const categoryId of existingCategoryIds) {
+                await pool
+                    .request()
+                    .input("user_id", sql.Int, userId)
+                    .input("category_id", sql.Int, categoryId)
+                    .input("action", sql.VarChar, "delete")
+                    .input("timestamp", sql.DateTime, new Date())
+                    .query(`
+                        INSERT INTO consent_history (consent_id, category_id, action, timestamp)
+                        VALUES (@user_id, @category_id, @action, @timestamp);
+                    `);
+            }
+
             await pool
                 .request()
                 .input("user_id", sql.Int, userId)
@@ -186,30 +223,34 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
                     DELETE FROM consent_selected_categories WHERE consent_id = @user_id;
                 `);
         } else {
-            // ✅ Fetch current selected categories
-            const result = await pool
-                .request()
-                .input("user_id", sql.Int, userId)
-                .query(`
-                    SELECT category_id FROM consent_selected_categories WHERE consent_id = @user_id;
-                `);
-
-            const existingCategoryIds = result.recordset.map(row => row.category_id);
+            // ✅ If consent is "Yes", update selected categories
             const newCategoryIds = selectedCategories.map(cat => cat.category_id);
 
-            // ✅ Find categories to delete
+            // Find categories to delete
             const categoriesToDelete = existingCategoryIds.filter(id => !newCategoryIds.includes(id));
-            if (categoriesToDelete.length > 0) {
+            for (const categoryId of categoriesToDelete) {
                 await pool
                     .request()
                     .input("user_id", sql.Int, userId)
+                    .input("category_id", sql.Int, categoryId)
                     .query(`
                         DELETE FROM consent_selected_categories 
-                        WHERE consent_id = @user_id AND category_id IN (${categoriesToDelete.join(",")});
+                        WHERE consent_id = @user_id AND category_id = @category_id;
+                    `);
+
+                await pool
+                    .request()
+                    .input("user_id", sql.Int, userId)
+                    .input("category_id", sql.Int, categoryId)
+                    .input("action", sql.VarChar, "delete")
+                    .input("timestamp", sql.DateTime, new Date())
+                    .query(`
+                        INSERT INTO consent_history (consent_id, category_id, action, timestamp)
+                        VALUES (@user_id, @category_id, @action, @timestamp);
                     `);
             }
 
-            // ✅ Insert new selected categories
+            // Insert new selected categories
             for (const categoryId of newCategoryIds) {
                 if (!existingCategoryIds.includes(categoryId)) {
                     await pool
@@ -219,6 +260,17 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
                         .query(`
                             INSERT INTO consent_selected_categories (consent_id, category_id) 
                             VALUES (@user_id, @category_id);
+                        `);
+
+                    await pool
+                        .request()
+                        .input("user_id", sql.Int, userId)
+                        .input("category_id", sql.Int, categoryId)
+                        .input("action", sql.VarChar, "add")
+                        .input("timestamp", sql.DateTime, new Date())
+                        .query(`
+                            INSERT INTO consent_history (consent_id, category_id, action, timestamp)
+                            VALUES (@user_id, @category_id, @action, @timestamp);
                         `);
                 }
             }
@@ -231,6 +283,7 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
         throw error;
     }
 }
+
 
 
 
