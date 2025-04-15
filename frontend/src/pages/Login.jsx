@@ -50,7 +50,7 @@ const Login = () => {
       <div className="cm-login-illustration">
         <div className="cm-login-logo">
           <Rocket className="cm-login-logo-icon" />
-          <span className="cm-login-logo-text">Consent Manager</span>
+          <span className="cm-login-logo-text">KONSENTO</span>
         </div>
         
         <div className="cm-login-illustration-container">
@@ -71,7 +71,7 @@ const Login = () => {
       <div className="cm-login-form-container">
         <div className="cm-login-form-wrapper">
           <div className="cm-login-header">
-            <h2 className="cm-login-title">Welcome to Consent Manager! 👋</h2>
+            <h2 className="cm-login-title">Welcome to KONSENTO! 👋</h2>
             <p className="cm-login-subtitle">Please sign-in to your account and start the adventure</p>
           </div>
           

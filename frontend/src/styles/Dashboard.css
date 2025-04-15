@@ -29,6 +29,17 @@
   text-align: center;
 }
 
+/* Card Styling */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-status {
+  margin-bottom: 20px;
+}
+
 /* Error Message */
 .dashboard-error {
   color: #d32f2f;

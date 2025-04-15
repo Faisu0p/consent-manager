@@ -39,14 +39,20 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-content">
-        <h1>............................................Welcome to Consent Manager Dashboard...................................</h1>
-        <ConsentOverview />
-        <AnalyticsReports />
-        <RecentActivity />
-        <ComplianceStatus />
-        <QuickActions />
-        {loading && <p className="dashboard-loading">Loading users...</p>}
-        {error && <p className="dashboard-error">{error}</p>}
+        <h1>--------------------------Welcome to the KONSENTO Dashboard------------------------------</h1>
+
+        <div className="dashboard-grid">
+          <ConsentOverview />
+          <AnalyticsReports />
+          <RecentActivity />
+          <ComplianceStatus />
+          {/* <QuickActions /> */}
+        </div>
+
+        <div className="dashboard-status">
+          {loading && <p className="dashboard-loading">Loading users...</p>}
+          {error && <p className="dashboard-error">{error}</p>}
+        </div>
         {!loading && !error && <UserGrid users={users} />}
       </div>
     </div>
