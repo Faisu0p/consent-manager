@@ -86,7 +86,8 @@ const MyConsent = () => {
             details: request.reason,
             admin_notes: request.admin_notes || "-",
             status: request.request_status || "Pending",
-            createdAt: new Date(request.created_at).toLocaleString()
+            createdAt: new Date(request.created_at).toLocaleString(),
+            file_paths: request.file_paths || "-",
           }));
           
           setDsrRequests(formattedRequests);
@@ -529,6 +530,65 @@ const MyConsent = () => {
           </div>
         )}
       </section>
+
+
+      {/* File Display Section */}
+{dsrRequests.filter(request => request.type === "View PII" && request.status.toLowerCase() === "completed").length > 0 && (
+  <section className="myconsent-portal-file-display">
+    <h2 className="myconsent-portal-section-title">📂 Your Personal Information Files</h2>
+    <p className="myconsent-portal-file-description">
+      Below are the files containing your personal information that you requested. Click on "View" to access each file.
+    </p>
+    
+    <div className="myconsent-portal-table-container">
+      <table className="myconsent-portal-file-table">
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>Date Completed</th>
+            <th>Files</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dsrRequests
+            .filter(request => request.type === "View PII" && request.status.toLowerCase() === "completed")
+            .map(request => {
+              // Get file paths if they exist
+              const filePaths = request.file_paths ? request.file_paths.split(',') : [];
+              
+              return (
+                <tr key={`file-${request.id}`}>
+                  <td>{request.id}</td>
+                  <td>{request.createdAt}</td>
+                  <td>
+                    {filePaths.length > 0 ? (
+                      <div className="myconsent-portal-file-list">
+                        {filePaths.map((path, index) => (
+                          <div key={index} className="myconsent-portal-file-item">
+                            <span>File {index + 1}</span>
+                            <a 
+                              href={`/uploads/dsr/${path.split('/').pop()}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="myconsent-portal-view-btn"
+                            >
+                              View
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="myconsent-portal-no-files">No files available</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)}
 
     </div>
   );
