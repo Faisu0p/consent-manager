@@ -6,7 +6,7 @@ const Header = () => {
     <header className="header-component">
       <div className="header-component-logo">
         <Rocket size={32} className="header-component-logo-icon" />
-        <span className="header-component-app-name">Consent Manager</span>
+        <span className="header-component-app-name">KONSENTO</span>
       </div>
 
       <div className="header-component-search">
