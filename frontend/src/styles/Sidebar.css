@@ -4,6 +4,147 @@
   top: 60px;
   left: 0;
   height: calc(100vh - 60px);
+  background-color: #2C3E50;
+  color: white;
+  transition: width 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Expanded Sidebar */
+.sidebar-component:not(.collapsed) {
+  width: 250px;
+}
+
+/* Collapsed Sidebar */
+.sidebar-component.collapsed {
+  width: 80px;
+}
+
+/* Logo Container */
+.logo-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-text {
+  color: #3498DB;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Sidebar Menu */
+.sidebar-component .pro-sidebar {
+  background-color: #2C3E50;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar-component .pro-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-component .pro-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Menu Items */
+.sidebar-component .pro-menu-item {
+  color: #ECF0F1;
+  padding: 14px 20px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-component .pro-menu-item:hover {
+  background-color: #34495E;
+  border-left: 3px solid #3498DB;
+}
+
+.sidebar-component .pro-menu-item.active {
+  background-color: #34495E;
+  border-left: 3px solid #3498DB;
+}
+
+/* Icon styling */
+.sidebar-component .pro-menu-item svg {
+  color: #3498DB;
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+/* Logout item */
+.sidebar-component .logout-item {
+  margin-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+.sidebar-component .logout-item svg {
+  color: #E74C3C;
+}
+
+/* Collapse Button */
+.sidebar-component-toggle-btn {
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  background-color: #3498DB;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.sidebar-component-toggle-btn:hover {
+  background-color: #2980B9;
+  transform: scale(1.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .sidebar-component:not(.collapsed) {
+    width: 220px;
+  }
+  
+  .sidebar-component.collapsed {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .sidebar-component-toggle-btn {
+    z-index: 1100;
+  }
+}
+
+
+
+
+
+
+
+/* Sidebar Container */
+.sidebar-component {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100vh - 60px);
   background-color: #1f2937;
   color: white;
   transition: width 0.3s ease-in-out;
