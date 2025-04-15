@@ -34,9 +34,11 @@ const CustomerSupport = () => {
     setFileToUpload(null);
   };
 
+  // Handle file upload change
   const handleFileChange = (e) => {
-    setFileToUpload(e.target.files[0]);
+    setFileToUpload(Array.from(e.target.files));
   };
+  
 
   const handleStatusChange = (newStatus) => {
     if (!selectedRequest) return;
@@ -57,7 +59,7 @@ const CustomerSupport = () => {
 
 
 
-
+  // Handle submission of response to the user
   const handleSubmitResponse = async () => {
     if (!selectedRequest || !responseText) return;
   
@@ -66,8 +68,7 @@ const CustomerSupport = () => {
       request_status: "Completed",
       admin_notes: responseText,
       updated_at: new Date().toISOString(),
-      file: fileToUpload ? fileToUpload.name : null,
-    };
+      files: fileToUpload && fileToUpload.length > 0 ? `${fileToUpload.length} file(s)` : null,    };
   
     console.log("Submitting the following data to backend:");
     console.table(requestData);
@@ -77,13 +78,16 @@ const CustomerSupport = () => {
     formData.append("request_status", requestData.request_status);
     formData.append("admin_notes", requestData.admin_notes);
     formData.append("updated_at", requestData.updated_at);
-  
-    if (fileToUpload) {
-      formData.append("file", fileToUpload);
+
+    if (fileToUpload && fileToUpload.length > 0) {
+      fileToUpload.forEach((file, index) => {
+        formData.append("files", file);
+      });
     }
+    
   
     try {
-      const res = await dsrService.submitDSRResponse(requestData); // Using the service method
+      const res = await dsrService.submitDSRResponse(formData); // Using the service method
   
       // Handle response success
       handleStatusChange("Completed");
@@ -336,12 +340,18 @@ const CustomerSupport = () => {
                     <p>Upload user's personal information export:</p>
                     <input 
                       type="file"
+                      multiple
                       onChange={handleFileChange}
                       className="cs-file-input"
                     />
-                    {fileToUpload && (
+                    {fileToUpload && fileToUpload.length > 0 && (
                       <div className="cs-file-preview">
-                        <p>File selected: {fileToUpload.name}</p>
+                        <p>Files selected: {fileToUpload.length} file(s)</p>
+                        <ul>
+                          {fileToUpload.map((file, index) => (
+                            <li key={index}>{file.name}</li>
+                          ))}
+                        </ul>
                       </div>
                     )}
                   </div>

@@ -60,16 +60,22 @@ const dsrService = {
       }
     },
 
+
     // Submit admin response for a DSR request (update status, notes, and updated_at)
-    async submitDSRResponse(payload) {
+    async submitDSRResponse(formData) {
       try {
-        const response = await api.put("/dsr-requests/submit-response", payload);
+        const response = await api.post("/dsr-requests/submit-response", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
         return response.data;
       } catch (error) {
         console.error("Error submitting DSR response:", error.response?.data || error.message);
         throw error;
       }
     }
+
 
 };
 

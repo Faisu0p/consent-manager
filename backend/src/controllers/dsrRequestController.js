@@ -104,31 +104,38 @@ const dsrRequestController = {
         }
     },
 
-    // Update DSR request with admin response
+
+    // Update DSR request with admin response + optional file upload
     async submitDSRResponse(req, res) {
         try {
             const { id, request_status, admin_notes } = req.body;
-
+            
             if (!id || !request_status || !admin_notes) {
                 return res.status(400).json({ message: "Missing required fields." });
             }
-
+            
             const updated_at = new Date();
-
+            
+            let file_paths = null;
+            if (req.files && req.files.length > 0) {
+                file_paths = req.files.map(file => file.path).join(',');
+            }
+            
             await dsrRequestModel.updateDSRRequestByAdmin({
                 id,
                 request_status,
                 admin_notes,
-                updated_at
+                updated_at,
+                file_paths,
             });
-
+            
             res.status(200).json({ message: "DSR request updated successfully." });
         } catch (error) {
             console.error("Error updating DSR request:", error);
             res.status(500).json({ message: "Internal server error." });
         }
     }
-
+    
 
 };
 
