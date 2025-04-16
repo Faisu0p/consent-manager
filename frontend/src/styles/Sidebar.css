@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
+  color: #0f172a;
 }
 
 /* Expanded Sidebar */
@@ -43,14 +44,25 @@
 }
 
 .sidebar-component .pro-menu-item {
-  color: #1f2937; 
+  color: #0f172a; /* Darker text color for better visibility against white background */
   padding: 12px 20px;
   transition: background 0.3s ease-in-out;
   font-weight: 500;
 }
 
+/* Menu item link styling */
+.sidebar-component .pro-menu-item a {
+  color: #0f172a; /* Ensure links have the same dark color */
+  text-decoration: none;
+}
+
 .sidebar-component .pro-menu-item:hover {
   background-color: #f3f4f6;
+}
+
+/* Icon styling for better visibility */
+.sidebar-component .pro-menu-item svg {
+  color: #334155; /* Slightly different color for icons */
 }
 
 /* Collapse Button - Fixed position relative to sidebar */
@@ -85,7 +97,7 @@
 .sidebar-version {
   display: block;
   padding: 8px 20px 16px;
-  color: #6b7280;
+  color: #475569; /* Darker gray for better visibility */
   font-size: 0.875rem;
   background-color: #ffffff;
 }
