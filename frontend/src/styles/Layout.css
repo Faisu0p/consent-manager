@@ -9,15 +9,14 @@
 .layout-component-main {
   display: flex;
   flex-grow: 1;
-  margin-top: 60px; /* Offset for fixed header */
+  margin-top: 60px;
 }
 
 /* Content Wrapper */
 .layout-component-content {
   flex-grow: 1;
-  padding: 20px;
   transition: margin-left 0.3s ease;
-  margin-left: 250px; /* Default expanded sidebar */
+  margin-left: 250px;
   overflow-y: auto;
 }
 
