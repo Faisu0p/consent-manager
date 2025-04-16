@@ -16,18 +16,20 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
 
   return (
     <div className={`sidebar-component ${isCollapsed ? "collapsed" : ""}`}>
-      <Sidebar collapsed={isCollapsed}>
-        <Menu>
-          <MenuItem icon={<FiHome size={18} />} component={<Link to="/dashboard" />}>Dashboard</MenuItem>
-          <MenuItem icon={<FiUserCheck size={18} />} component={<Link to="/consents" />}>Consent Management</MenuItem>
-          <MenuItem icon={<FiUsers size={18} />} component={<Link to="/users" />}>Users</MenuItem>
-          <MenuItem icon={<FiClipboard size={18} />} component={<Link to="/audit-logs" />}>Audit Logs</MenuItem>
-          <MenuItem icon={<FiSliders size={18} />} component={<Link to="/customization" />}>Customization</MenuItem>
-          <MenuItem icon={<FiEdit3 size={18} />} component={<Link to="/modify-banner" />}>Modify Banner</MenuItem>
-          <MenuItem icon={<FiBarChart size={18} />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
-          <MenuItem icon={<FiShield size={18} />} component={<Link to="/view-consents" />}>View Consents</MenuItem>
-          <MenuItem icon={<FiHeadphones size={18} />} component={<Link to="/customer-support" />}>Customer Support</MenuItem>
-        </Menu>
+      <Sidebar collapsed={isCollapsed} className="sidebar-wrapper">
+        <div className="sidebar-content">
+          <Menu>
+            <MenuItem icon={<FiHome size={18} />} component={<Link to="/dashboard" />}>Dashboard</MenuItem>
+            <MenuItem icon={<FiUserCheck size={18} />} component={<Link to="/consents" />}>Consent Management</MenuItem>
+            <MenuItem icon={<FiUsers size={18} />} component={<Link to="/users" />}>Users</MenuItem>
+            <MenuItem icon={<FiClipboard size={18} />} component={<Link to="/audit-logs" />}>Audit Logs</MenuItem>
+            <MenuItem icon={<FiSliders size={18} />} component={<Link to="/customization" />}>Customization</MenuItem>
+            <MenuItem icon={<FiEdit3 size={18} />} component={<Link to="/modify-banner" />}>Modify Banner</MenuItem>
+            <MenuItem icon={<FiBarChart size={18} />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
+            <MenuItem icon={<FiShield size={18} />} component={<Link to="/view-consents" />}>View Consents</MenuItem>
+            <MenuItem icon={<FiHeadphones size={18} />} component={<Link to="/customer-support" />}>Customer Support</MenuItem>
+          </Menu>
+        </div>
 
         <div className="sidebar-bottom-section">
           <Menu>

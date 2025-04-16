@@ -4,12 +4,11 @@
   top: 60px;
   left: 0;
   height: calc(100vh - 60px);
-  background-color: #ffffff;
-  color: #1f2937;
   transition: width 0.3s ease-in-out;
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  background-color: #ffffff;
 }
 
 /* Expanded Sidebar */
@@ -22,13 +21,25 @@
   width: 80px;
 }
 
-/* Sidebar Menu */
-.sidebar-component .pro-sidebar {
-  background-color: #ffffff; 
+/* Sidebar Wrapper - Full height container */
+.sidebar-wrapper {
   height: 100%;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+/* Sidebar Content - Main menu area */
+.sidebar-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+
+/* Consistent Menu Styling */
+.sidebar-component .pro-menu {
+  padding: 0;
+  background-color: #ffffff;
 }
 
 .sidebar-component .pro-menu-item {
@@ -42,7 +53,7 @@
   background-color: #f3f4f6;
 }
 
-/* Collapse Button */
+/* Collapse Button - Fixed position relative to sidebar */
 .sidebar-component-toggle-btn {
   position: absolute;
   top: 50%;
@@ -55,27 +66,11 @@
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.3s ease;
+  z-index: 1001;
 }
 
 .sidebar-component-toggle-btn:hover {
   background-color: #4b5563;
-}
-
-/* Sidebar Footer */
-.sidebar-footer {
-  margin-top: auto;
-  padding: 16px 20px;
-  border-top: 1px solid #e5e7eb;
-  font-size: 0.875rem;
-  color: #6b7280;
-  background-color: #f9fafb;
-}
-
-/* Version Text */
-.sidebar-version {
-  display: block;
-  margin-top: 8px;
-  color: #6b7280;
 }
 
 /* Sidebar Bottom Section */
@@ -86,27 +81,21 @@
   background-color: #ffffff;
 }
 
-/* Sidebar Menu for Bottom Section */
-.sidebar-bottom-section .pro-menu-item {
-  color: #1f2937;
-  padding: 12px 20px;
-  transition: background 0.3s ease-in-out;
+/* Version Text */
+.sidebar-version {
+  display: block;
+  padding: 8px 20px 16px;
+  color: #6b7280;
+  font-size: 0.875rem;
+  background-color: #ffffff;
 }
 
-.sidebar-bottom-section .pro-menu-item:hover {
-  background-color: #f3f4f6;
-}
-
-.sidebar-component .pro-sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
+/* Collapsed state adjustments */
 .sidebar-component.collapsed .pro-menu-item {
   text-align: center;
 }
 
 .sidebar-component.collapsed .sidebar-version {
   text-align: center;
+  padding: 8px 5px 16px;
 }
