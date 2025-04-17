@@ -23,6 +23,11 @@ const TemplateLibrary = () => {
 
   return (
     <div className="template-library-container">
+      <div className="template-library-header">
+        <h1>Template Library</h1>
+        <p className="subtitle">Manage your templates, customize banners, and preview configurations — all in one place.</p>
+      </div>
+
       <div className="template-library-tabs">
         <button
           className={`tab-button ${activeTab === "templates" ? "active" : ""}`}
