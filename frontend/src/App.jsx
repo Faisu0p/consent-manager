@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Consent from "./pages/Consent";
+import TemplateLibrary from "./pages/TemplateLibrary";
 import User from "./pages/User";
 import Audit from "./pages/Audit";
 import Customization from "./pages/Customization";
@@ -24,7 +24,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="users" element={<User />} />
-        <Route path="template-library" element={<Consent />} />
+        <Route path="template-library" element={<TemplateLibrary />} />
         <Route path="audit-logs" element={<Audit />} />
         <Route path="customization" element={<Customization />} />
         <Route path="reports" element={<Report />} />
