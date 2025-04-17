@@ -24,7 +24,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="users" element={<User />} />
-        <Route path="consents" element={<Consent />} />
+        <Route path="template-library" element={<Consent />} />
         <Route path="audit-logs" element={<Audit />} />
         <Route path="customization" element={<Customization />} />
         <Route path="reports" element={<Report />} />

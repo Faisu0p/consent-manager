@@ -1,6 +1,6 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link, useNavigate } from "react-router-dom";
-import { FiUsers, FiSettings, FiLogOut, FiBarChart, FiClipboard, FiSliders, FiEdit3, FiShield, FiHome, FiUserCheck, FiHeadphones } from "react-icons/fi";
+import { FiUsers, FiSettings, FiLogOut, FiBarChart, FiClipboard, FiSliders, FiEdit3, FiShield, FiHome, FiUserCheck, FiHeadphones, FiLayers } from "react-icons/fi";
 
 import { logout } from "../services/authService";
 
@@ -20,7 +20,7 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
         <div className="sidebar-content">
           <Menu>
             <MenuItem icon={<FiHome size={18} />} component={<Link to="/dashboard" />}>Dashboard</MenuItem>
-            <MenuItem icon={<FiUserCheck size={18} />} component={<Link to="/consents" />}>Consent Management</MenuItem>
+            <MenuItem icon={<FiLayers size={18} />} component={<Link to="/template-library" />}>Template Library</MenuItem>
             <MenuItem icon={<FiUsers size={18} />} component={<Link to="/users" />}>Users</MenuItem>
             <MenuItem icon={<FiClipboard size={18} />} component={<Link to="/audit-logs" />}>Audit Logs</MenuItem>
             <MenuItem icon={<FiSliders size={18} />} component={<Link to="/customization" />}>Customization</MenuItem>
