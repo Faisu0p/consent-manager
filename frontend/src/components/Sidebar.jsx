@@ -23,8 +23,8 @@ const SidebarComponent = ({ isCollapsed, toggleSidebar }) => {
             <MenuItem icon={<FiLayers size={18} />} component={<Link to="/template-library" />}>Template Library</MenuItem>
             <MenuItem icon={<FiUsers size={18} />} component={<Link to="/users" />}>Users</MenuItem>
             <MenuItem icon={<FiClipboard size={18} />} component={<Link to="/audit-logs" />}>Audit Logs</MenuItem>
-            <MenuItem icon={<FiSliders size={18} />} component={<Link to="/customization" />}>Customization</MenuItem>
-            <MenuItem icon={<FiEdit3 size={18} />} component={<Link to="/modify-banner" />}>Modify Banner</MenuItem>
+            {/* <MenuItem icon={<FiSliders size={18} />} component={<Link to="/customization" />}>Customization</MenuItem> */}
+            {/* <MenuItem icon={<FiEdit3 size={18} />} component={<Link to="/modify-banner" />}>Modify Banner</MenuItem> */}
             <MenuItem icon={<FiBarChart size={18} />} component={<Link to="/reports" />}>Reports & Analytics</MenuItem>
             <MenuItem icon={<FiShield size={18} />} component={<Link to="/view-consents" />}>View Consents</MenuItem>
             <MenuItem icon={<FiHeadphones size={18} />} component={<Link to="/customer-support" />}>Customer Support</MenuItem>
