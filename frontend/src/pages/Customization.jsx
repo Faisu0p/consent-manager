@@ -69,34 +69,40 @@ const Customization = () => {
         }
       };
       
-  
+    return (
+      <div className="customization-container">
+        <div className="customization-main">
+          <BannerTemplate
+            bannerData={bannerData}
+            setBannerData={setBannerData}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
 
-  return (
-    <div className="customization-container">
-      <BannerTemplate bannerData={bannerData} setBannerData={setBannerData} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <BannerPreview bannerData={bannerData} activeTab={activeTab} />
+          {/* Center BannerPreview vertically */}
+          <div className="preview-wrapper">
+            <BannerPreview bannerData={bannerData} activeTab={activeTab} />
+          </div>
+        </div>
 
-      {/* Button to display banner data */}
-      <button onClick={handleDisplayBannerData} className="display-banner-btn">
-        Show Banner Data
-      </button>
-
-
-
-        {/* Button to submit banner data to backend */}
-        <button 
-          onClick={handleSubmit} 
-          className="submit-banner-btn" 
-          disabled={loading}
+    
+        <div className="customization-buttons">
+          <button onClick={handleDisplayBannerData} className="display-banner-btn">
+            Show Banner Data
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="submit-banner-btn"
+            disabled={loading}
           >
-        {loading ? "Submitting..." : "Submit Banner Data"}
-        </button>
-
-        {/* Display API response message */}
+            {loading ? "Submitting..." : "Submit Banner Data"}
+          </button>
+        </div>
+    
         {message && <p className="api-message">{message}</p>}
-
-    </div>
-  );
+      </div>
+    );
+      
 };
 
 export default Customization;
