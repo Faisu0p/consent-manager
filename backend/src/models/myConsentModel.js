@@ -282,7 +282,48 @@ async updateUserConsent(userId, consentGiven, selectedCategories) {
         await transaction.rollback();
         throw error;
     }
+},
+
+
+
+// Fetch Consent History Grouped by Sessions
+async getConsentHistoryGroupedBySession(userId) {
+    const pool = await connectDB();
+    if (!pool) throw new Error("Database connection failed");
+
+    const result = await pool
+        .request()
+        .input("user_id", sql.Int, userId)
+        .query(`
+            WITH history_with_gap AS (
+                SELECT *,
+                       LAG(timestamp) OVER (PARTITION BY consent_id ORDER BY timestamp) AS prev_timestamp
+                FROM consent_history
+                WHERE consent_id = @user_id
+            ),
+            session_grouped AS (
+                SELECT *,
+                       SUM(CASE 
+                               WHEN DATEDIFF(SECOND, prev_timestamp, timestamp) > 30 
+                               OR prev_timestamp IS NULL THEN 1 
+                               ELSE 0 
+                           END) OVER (PARTITION BY consent_id ORDER BY timestamp) AS session_id
+                FROM history_with_gap
+            )
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY session_id) AS "S.No",
+                MIN(timestamp) AS "Date",  -- First timestamp in each session
+                STRING_AGG(CAST(category_id AS VARCHAR), ', ') AS "Category IDs", 
+                STRING_AGG(CAST(action AS VARCHAR), ', ') AS "Actions"  -- Aggregated actions
+            FROM session_grouped
+            GROUP BY consent_id, session_id
+            ORDER BY "S.No";
+        `);
+
+    return result.recordset;
 }
+
+
 
 
 

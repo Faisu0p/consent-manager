@@ -56,7 +56,30 @@ const myConsentController = {
             console.error("Error updating user consent:", error);
             res.status(500).json({ success: false, message: "Server error" });
         }
+    },
+
+    // Get Consent History Grouped by Sessions
+    async getConsentHistoryGrouped(req, res) {
+        try {
+            const userId = req.params.userId;
+    
+            if (!userId) {
+                return res.status(400).json({ success: false, message: "User ID is required" });
+            }
+    
+            const groupedHistory = await myConsentModel.getConsentHistoryGroupedBySession(userId);
+    
+            res.status(200).json({
+                success: true,
+                data: groupedHistory
+            });
+        } catch (error) {
+            console.error("Error fetching grouped consent history:", error);
+            res.status(500).json({ success: false, message: "Server error" });
+        }
     }
+    
+
 
 
 
