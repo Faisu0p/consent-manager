@@ -250,7 +250,7 @@ const MyConsent = () => {
               <tr>
                 <th>S.No</th>
                 <th>Date</th>
-                <th>Overall Consent</th>
+                {/* <th>Overall Consent</th> */}
                 {userData.categories.map(category => (
                   <th key={category.category_id}>{category.category_name}</th>
                 ))}
@@ -261,9 +261,9 @@ const MyConsent = () => {
               <tr>
                 <td>1</td>
                 <td>{new Date().toLocaleDateString()}</td>
-                <td className={`myconsent-portal-consent-status-${userData.consentGiven.toLowerCase()}`}>
+                {/* <td className={`myconsent-portal-consent-status-${userData.consentGiven.toLowerCase()}`}>
                   {userData.consentGiven === "Yes" ? "✅" : "❌"}
-                </td>
+                </td> */}
                 {userData.categories.map(category => (
                   <td key={category.category_id}>
                     {isCategorySelected(category.category_id) ? "✅" : "❌"}
