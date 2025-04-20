@@ -7,6 +7,7 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [showAddUserForm, setShowAddUserForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch users on component mount
   const fetchUsers = async () => {
@@ -36,7 +37,6 @@ const UserManagement = () => {
     return name.split(" ").map(n => n[0]).join("").toUpperCase();
   };
   
-
   // For Status badge
   const getStatusClass = (status) => {
     switch (status) {
@@ -67,7 +67,6 @@ const UserManagement = () => {
     }
   };
   
-
   // Delete user
   const handleDeleteUser = async (userId) => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
@@ -83,11 +82,31 @@ const UserManagement = () => {
     }
   };
 
+  // Filter users based on search term
+  const filteredUsers = searchTerm 
+    ? users.filter(user => 
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.status.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : users;
+
   return (
     <div className="user-management-container">
       <div className="user-management-header">
         <h1>User Management</h1>
         <div className="user-management-header-buttons">
+          <div className="user-management-search-box">
+            <i className="user-management-icon-search"></i>
+            <input
+              type="text"
+              placeholder="Search users..."
+              className="user-management-search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <button className="user-management-btn user-management-btn-export">
             <i className="user-management-icon-export"></i> Export to Excel
           </button>
@@ -114,8 +133,8 @@ const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {users.length > 0 ? (
-              users.map(user => (
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map(user => (
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td className="user-management-user-cell">
@@ -124,7 +143,11 @@ const UserManagement = () => {
                   </td>
                   <td>{user.email}</td>
                   <td>{user.dateCreated}</td>
-                  <td>{user.role}</td>
+                  <td className="user-management-role-cell">
+                    <span className={`user-management-role-badge user-management-role-${user.role.toLowerCase()}`}>
+                      {user.role}
+                    </span>
+                  </td>
                   <td>
                     <span className={`user-management-status-badge ${getStatusClass(user.status)}`}>
                       {user.status}
@@ -146,11 +169,21 @@ const UserManagement = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" style={{ textAlign: 'center', padding: '20px' }}>No users found</td>
+                <td colSpan="7" className="user-management-empty-state">
+                  <div className="user-management-empty-content">
+                    <i className="user-management-icon-search-large"></i>
+                    <p className="user-management-empty-title">No users found</p>
+                    {searchTerm && <p className="user-management-empty-message">Try changing your search term</p>}
+                  </div>
+                </td>
               </tr>
             )}
           </tbody>
         </table>
+      </div>
+      
+      <div className="user-management-footer">
+        <span>Showing {filteredUsers.length} of {users.length} users</span>
       </div>
       
       {showAddUserForm && (

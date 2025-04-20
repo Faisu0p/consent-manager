@@ -7,7 +7,7 @@ import Customization from "./Customization";
 import ModifyBanner from "./ModifyBanner";
 
 const TemplateLibrary = () => {
-  const [activeTab, setActiveTab] = useState("templates");
+  const [activeTab, setActiveTab] = useState("customization");
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -29,22 +29,24 @@ const TemplateLibrary = () => {
         <p className="subtitle">
           Manage your templates, customize banners, and preview configurations — all in one place.
         </p>
+        <p className="subtitle">_________________________________________________________________________________________________________________________________________________________________________________________</p>
       </div>
 
       <div className="template-library-tabs">
+
+      <button
+          className={`tab-button ${activeTab === "customization" ? "active" : ""}`}
+          onClick={() => setActiveTab("customization")}
+          title="Create a new banner by selecting a template"
+        >
+          <FaPlus /> Create Banner
+        </button>
         <button
           className={`tab-button ${activeTab === "templates" ? "active" : ""}`}
           onClick={() => setActiveTab("templates")}
           title="Browse and view all available templates"
         >
           <FaEye /> View Templates
-        </button>
-        <button
-          className={`tab-button ${activeTab === "customization" ? "active" : ""}`}
-          onClick={() => setActiveTab("customization")}
-          title="Create a new banner by selecting a template"
-        >
-          <FaPlus /> Create Banner
         </button>
         <button
           className={`tab-button ${activeTab === "modify" ? "active" : ""}`}
