@@ -45,7 +45,7 @@ app.use("/api/modify-template", modifyBannerTemplateRoute);
 app.use("/api/dsr-requests", dsrRequestRoutes);
 
 // Routes for consent user API
-app.use('/api/consents', consentUserapiRoutes);
+app.use('/api/external', consentUserapiRoutes);
 
 
 
