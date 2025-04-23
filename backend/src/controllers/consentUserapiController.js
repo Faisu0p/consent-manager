@@ -81,7 +81,102 @@ const consentUserController = {
     },
 
 
+//______________Api's for Consent Info______________
 
+// Get consent details by user email
+async getConsentByEmail(req, res) {
+    const { email } = req.params; // fetch email from URL parameters
+
+    if (!email) {
+        return res.status(400).json({ error: "Email parameter is required" });
+    }
+
+    try {
+        const data = await consentUserapiModel.getUserConsentDetailsByEmail(email);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "No consent data found for this email" });
+        }
+
+        res.json({ email, consents: data });
+    } catch (err) {
+        console.error("Error in getConsentByEmail:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+},
+
+
+// Get consent details by user phone number
+async getConsentByPhone(req, res) {
+    const { phone } = req.params; // fetch phone number from URL parameters
+
+    if (!phone) {
+        return res.status(400).json({ error: "Phone number parameter is required" });
+    }
+
+    try {
+        const data = await consentUserapiModel.getUserConsentDetailsByPhone(phone);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "No consent data found for this phone number" });
+        }
+
+        res.json({ phone, consents: data });
+    } catch (err) {
+        console.error("Error in getConsentByPhone:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+},
+
+
+// Get consent details by user ID
+async getConsentById(req, res) {
+    const { id } = req.params; // fetch user ID from URL parameters
+
+    if (!id) {
+        return res.status(400).json({ error: "User ID parameter is required" });
+    }
+
+    try {
+        const data = await consentUserapiModel.getUserConsentDetailsById(id);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "No consent data found for this user ID" });
+        }
+
+        res.json({ id, consents: data });
+    } catch (err) {
+        console.error("Error in getConsentById:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+},
+
+
+// Get consent details by username
+async getConsentByUsername(req, res) {
+    const { username } = req.params; // fetch username from URL parameters
+
+    if (!username) {
+        return res.status(400).json({ error: "Username parameter is required" });
+    }
+
+    try {
+        const data = await consentUserapiModel.getUserConsentDetailsByUsername(username);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "No consent data found for this username" });
+        }
+
+        res.json({ username, consents: data });
+    } catch (err) {
+        console.error("Error in getConsentByUsername:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+},
+
+
+
+    
 
     // ✅ Get users who gave consent
     async getUsersWhoGaveConsent(req, res) {

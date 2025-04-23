@@ -87,6 +87,137 @@ const consentUserapiModel = {
 
 
 
+// ________________________Api for consent Details _____________________________
+// ✅ Get user consent by email
+async getUserConsentDetailsByEmail(email) {
+    const pool = await connectDB();
+    try {
+        const request = pool.request();
+        request.input("email", email);
+
+        const result = await request.query(`
+            -- Fetch user consent details by email
+            SELECT 
+                cu.email, 
+                bt.name AS template_name, 
+                STRING_AGG(cc.name, ', ') AS selected_categories, 
+                c.given AS consent_given, 
+                c.timestamp
+            FROM consent_users cu
+            INNER JOIN consents c ON cu.id = c.consent_user_id
+            LEFT JOIN consent_selected_categories csc ON c.id = csc.consent_id
+            LEFT JOIN consent_categories cc ON csc.category_id = cc.id
+            INNER JOIN banner_templates bt ON cc.template_id = bt.id
+            WHERE cu.email = @email
+            GROUP BY cu.email, bt.name, c.given, c.timestamp;
+        `);
+
+        return result.recordset;
+
+    } catch (err) {
+        console.error("Error fetching user consent details:", err);
+        throw err;
+    }
+},
+
+// Get user consent details by phone number
+async getUserConsentDetailsByPhone(phone) {
+    const pool = await connectDB();
+    try {
+        const request = pool.request();
+        request.input("phone", phone);
+
+        const result = await request.query(`
+            -- Fetch user consent details by phone number
+            SELECT 
+                cu.phone, 
+                bt.name AS template_name, 
+                STRING_AGG(cc.name, ', ') AS selected_categories, 
+                c.given AS consent_given, 
+                c.timestamp
+            FROM consent_users cu
+            INNER JOIN consents c ON cu.id = c.consent_user_id
+            LEFT JOIN consent_selected_categories csc ON c.id = csc.consent_id
+            LEFT JOIN consent_categories cc ON csc.category_id = cc.id
+            INNER JOIN banner_templates bt ON cc.template_id = bt.id
+            WHERE cu.phone = @phone
+            GROUP BY cu.phone, bt.name, c.given, c.timestamp;
+        `);
+
+        return result.recordset;
+
+    } catch (err) {
+        console.error("Error fetching user consent details:", err);
+        throw err;
+    }
+},
+
+
+// Get user consent details by user ID
+async getUserConsentDetailsById(id) {
+    const pool = await connectDB();
+    try {
+        const request = pool.request();
+        request.input("id", id);
+
+        const result = await request.query(`
+            -- Fetch user consent details by user ID
+            SELECT 
+                cu.id, 
+                bt.name AS template_name, 
+                STRING_AGG(cc.name, ', ') AS selected_categories, 
+                c.given AS consent_given, 
+                c.timestamp
+            FROM consent_users cu
+            INNER JOIN consents c ON cu.id = c.consent_user_id
+            LEFT JOIN consent_selected_categories csc ON c.id = csc.consent_id
+            LEFT JOIN consent_categories cc ON csc.category_id = cc.id
+            INNER JOIN banner_templates bt ON cc.template_id = bt.id
+            WHERE cu.id = @id
+            GROUP BY cu.id, bt.name, c.given, c.timestamp;
+        `);
+
+        return result.recordset;
+
+    } catch (err) {
+        console.error("Error fetching user consent details:", err);
+        throw err;
+    }
+},
+
+
+// Get user consent details by username
+async getUserConsentDetailsByUsername(username) {
+    const pool = await connectDB();
+    try {
+        const request = pool.request();
+        request.input("username", username);
+
+        const result = await request.query(`
+            -- Fetch user consent details by username
+            SELECT 
+                cu.username, 
+                bt.name AS template_name, 
+                STRING_AGG(cc.name, ', ') AS selected_categories, 
+                c.given AS consent_given, 
+                c.timestamp
+            FROM consent_users cu
+            INNER JOIN consents c ON cu.id = c.consent_user_id
+            LEFT JOIN consent_selected_categories csc ON c.id = csc.consent_id
+            LEFT JOIN consent_categories cc ON csc.category_id = cc.id
+            INNER JOIN banner_templates bt ON cc.template_id = bt.id
+            WHERE cu.username = @username
+            GROUP BY cu.username, bt.name, c.given, c.timestamp;
+        `);
+
+        return result.recordset;
+
+    } catch (err) {
+        console.error("Error fetching user consent details:", err);
+        throw err;
+    }
+},
+
 
 
 
