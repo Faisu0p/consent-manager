@@ -45,6 +45,18 @@ const consentService = {
       console.error("Error updating user consent:", error.response?.data || error.message);
       throw error;
     }
+  },
+
+  async getConsentHistoryGrouped(userId) {
+    try {
+      if (!userId) throw new Error("User ID is required");
+
+      const response = await api.get(`/consent-details/consent-history/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching grouped consent history:", error.response?.data || error.message);
+      throw error;
+    }
   }
 
 

@@ -15,6 +15,8 @@ const MyConsent = () => {
 
   const [consentGiven, setConsentGiven] = useState("Yes");
 
+  const [consentHistory, setConsentHistory] = useState([]);
+
 
   // State for DSR form and requests
   const [showDsrForm, setShowDsrForm] = useState(false);
@@ -100,6 +102,23 @@ const MyConsent = () => {
     fetchDsrRequests();
   }, [userId]);
 
+
+// 3. Add a new useEffect to fetch consent history
+useEffect(() => {
+  const fetchConsentHistory = async () => {
+    if (userId) {
+      try {
+        const historyData = await consentService.getConsentHistoryGrouped(userId);
+        console.log("Consent History:", historyData);
+        setConsentHistory(historyData);
+      } catch (error) {
+        console.error("Error fetching consent history:", error);
+      }
+    }
+  };
+
+  fetchConsentHistory();
+}, [userId]);
 
 
 
@@ -270,6 +289,39 @@ const MyConsent = () => {
                   </td>
                 ))}
               </tr>
+              
+{/* Historical consent changes */}
+{consentHistory.map((history, index) => {
+  const categoryIds = history["Category IDs"].split(", ").map(id => Number(id));
+  const actions = history["Actions"].split(", ");
+  
+  // Create a map of category actions for this history entry
+  const categoryActionMap = {};
+  categoryIds.forEach((catId, i) => {
+    // For each category, store the latest action (in case of multiple actions on same category)
+    categoryActionMap[catId] = actions[i];
+  });
+  
+  return (
+    <tr key={`history-${index}`}>
+      <td>{Number(history["S.No"]) + 1}</td>
+      <td>{new Date(history["Date"]).toLocaleDateString()}</td>
+      {userData.categories.map(category => {
+        // Check if this category was affected in this history entry
+        const actionForCategory = categoryActionMap[category.category_id];
+        
+        return (
+          <td key={category.category_id}>
+            {actionForCategory === "update" ? "✅" : 
+             actionForCategory === "delete" ? "❌" : 
+             "❌"}
+          </td>
+        );
+      })}
+    </tr>
+  );
+})}
+
             </tbody>
           </table>
         </div>
